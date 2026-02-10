@@ -1,0 +1,184 @@
+---
+import MoLogo from '../components/MoLogo.astro';
+---
+<header id="site-header">
+    <a id="nav-logo-wrapper" href="index.html">
+        <MoLogo MaskId="m-nav"/>
+    </a>
+    <a id="label-name" class="ui-label" href="index.html">Michele Occhi</a>
+    <div id="nav-text-menu" class="ui-label">Menu +</div>
+</header>
+<style>
+    .ui-label {
+    position: fixed;
+    z-index: 10001;
+    font-family: 'JetBrains Mono';
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+    mix-blend-mode: difference;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    line-height: 1;
+}
+ #label-name {
+    top: 45px;
+    left: 35px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor:pointer !important;
+}
+ #label-name.scrolled {
+    transform: translateY(60px);
+}
+ #nav-text-menu {
+    top: 45px;
+    right: 35px;
+    padding: 30px;
+   /* Espande l'area sensibile in ogni direzione */
+    margin: -30px;
+   /* Annulla lo spostamento visivo causato dal padding */
+    cursor: pointer;
+   /* Aggiungi queste due righe per sicurezza */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ #nav-text-menu.sticky-active {
+    color: var(--text-light);
+    mix-blend-mode: normal;
+}
+/* Estensione della label per coprire l'intera pillola */
+ .full-clickable-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+   /* Spostiamo il padding qui per massimizzare l'area */
+}
+
+/* --- LOGOS --- */
+ #nav-logo-wrapper {
+    position: fixed;
+    top: 25px;
+    left: 35px;
+    width: 110px;
+    z-index: 10001;
+    transform: translateY(-150%);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    cursor: pointer !important;
+}
+ #nav-logo-wrapper.slide-in {
+    transform: translateY(0);
+    opacity: 1;
+}
+</style>
+
+<script>
+// @ts-ignore
+const gsap = window.gsap;
+const nLog = document.getElementById('nav-logo-wrapper');
+const labelName = document.getElementById('label-name');
+// Inizializza la funzionalità di scroll per il logo e l'etichetta del nome
+function initScrollNav() {
+    //cerchiamo logonav e etichetta nome quando la funzione parte
+    
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const isScrolled = y > 100;
+
+        // Toggle aggiunge o rimuove in base al secondo parametro (booleano)
+        if (nLog) nLog.classList.toggle('slide-in', isScrolled);
+        if (labelName) labelName.classList.toggle('scrolled', isScrolled);
+    }, { passive: true }); // 'passive' migliora le performance dello scroll
+}
+// Inizializza la funzionalità del menu
+function initMenu() {
+    const menuBtn = document.getElementById('nav-text-menu');
+    // Selezioniamo gli elementi che il menu deve comandare (anche se sono in altri componenti o parti del DOM)
+    const overlay = document.getElementById('menu-overlay');
+
+    // 1. Funzione Toggle principale (Sposta qui la logica originale)
+    const toggleMenu = () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      // toggle della classe 'active' sull'overlay per mostrare/nascondere le macchie e il menu
+      overlay?.classList.toggle('active');
+      if (menuBtn) menuBtn.innerText = isOpen ? 'Close —' : 'Menu +';
+    };
+
+    // 2. Click sul bottone Menu
+    menuBtn?.addEventListener('click', toggleMenu);
+
+    // 3. Chiudi se clicchi fuori dal menu (ma solo se è aperto)
+    overlay?.addEventListener('click', (e) => {
+      const isMenuOpen = document.body.classList.contains('menu-open');
+      if (isMenuOpen) {
+        const target = e.target as HTMLElement; // Per TypeScript, o solo e.target in JS
+        if (!target.closest('.spot') && !target.closest('.menu-links') && !target.closest('#menu-content')) {
+          toggleMenu();
+        }
+      }
+    });
+
+    // 4. Chiudi il menu al click sui link e scrolla
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          
+          toggleMenu();
+
+          // Usiamo GSAP per lo scroll fluido
+          // Assicurati che ScrollToPlugin sia caricato nel tuo progetto
+          if (gsap) {
+              gsap.to(window, { 
+                duration: 1.5, 
+                scrollTo: href, 
+                ease: "power2.inOut", 
+                delay: 0.2 
+              });
+          } else {
+              // Fallback se GSAP non è ancora pronto
+              document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  }
+
+  if (nLog) {
+    nLog.addEventListener('click', (e) => {
+        const href = nLog.getAttribute('href') || '';
+        const targetPath = href.split('/').pop();
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        // If link points to current page (index.html), prevent navigation and scroll to top
+        if (targetPath === currentPath) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // Otherwise, allow normal navigation (initPageTransitions will handle transitions)
+    });
+}
+
+if (labelName) {
+    labelName.addEventListener('click', (e) => {
+        const href = labelName.getAttribute('href') || '';
+        const targetPath = href.split('/').pop();
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        if (targetPath === currentPath) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+}
+
+// Lanciamo l'inizializzazione
+initMenu();
+initScrollNav();
+</script>

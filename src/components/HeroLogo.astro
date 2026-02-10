@@ -1,0 +1,35 @@
+---
+import MoLogo from "../components/MoLogo.astro"
+import ScrollHint from "../components/ScrollHint.astro"
+---
+<section class="hero-container">
+    <div id="hero-logo-wrapper">
+        <MoLogo MaskId="m-hero"/> 
+    </div>
+    <div id="gyro-cta">
+        <div class="phone-icon"></div><span></span>
+    </div>
+    <ScrollHint target="#beyond-section" />
+</section>
+
+<style>
+.hero-container {
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+ #hero-logo-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 480px;
+    max-width: 85vw;
+    z-index: 5;
+    transition: transform 0.9s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.scroll-hint {
+    color: var(dark-text);
+}
+</style>

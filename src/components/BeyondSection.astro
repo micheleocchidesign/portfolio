@@ -1,0 +1,326 @@
+    ---
+    const mySkills = [// STRATEGY
+                { name: "Art Direction", cat: "strategy" },
+                { name: "Creative Leadership", cat: "strategy" },
+                { name: "Brand Strategy", cat: "strategy" },
+                { name: "Creative Strategy", cat: "strategy" },
+                { name: "Brainstorming", cat: "strategy" },
+                { name: "Pitch & Speech", cat: "strategy" },
+                { name: "Coordinamento Team", cat: "strategy" },
+                { name: "Coordinamento Fornitori", cat: "strategy" },
+                { name: "Project Management", cat: "strategy" },
+                
+                // CREATIVE & PRODUCTION
+                { name: "Video Production", cat: "creative" },
+                { name: "Montaggio Video", cat: "creative" },
+                { name: "Motion Graphics", cat: "creative" },
+                { name: "Brand Identity", cat: "creative" },
+                { name: "Graphic Design", cat: "creative" },
+                { name: "Social Media Design", cat: "creative" },
+                { name: "Coordinamento Shooting", cat: "creative" },
+                { name: "Fotoritocco", cat: "creative" },
+                { name: "Amazon A+ & Shop in Shop", cat: "creative" },
+                { name: "Eventi & Concorsi", cat: "creative" },
+                
+                // TECH & ADV
+                { name: "Banner HTML5", cat: "tech" },
+                { name: "AI Workflows", cat: "tech" },
+                { name: "AI Generativa", cat: "tech" },
+                { name: "Landing Pages", cat: "tech" },
+                { name: "Web Design", cat: "tech" },
+                { name: "Meta Ads", cat: "tech" },
+                { name: "Display Ads", cat: "tech" },
+                { name: "Newsletter & DEM", cat: "tech" },
+                { name: "UI/UX", cat: "tech" },
+                
+                // TOOLS
+                { name: "Figma", cat: "tools" },
+                { name: "Photoshop", cat: "tools" },
+                { name: "After Effects", cat: "tools" },
+                { name: "Premiere", cat: "tools" },
+                { name: "Illustrator", cat: "tools" },
+                { name: "InDesign", cat: "tools" },
+                { name: "Canva", cat: "tools" },
+                { name: "Capcut", cat: "tools" },
+                { name: "HTML5/CSS", cat: "tools" }
+    ];
+    ---
+    <section id="beyond-section">
+        <h1 class="headline" id="headline-beyond">
+            <span class="no-wrap">BEYoND</span><br> <span id="dynamic-word">ART DIRECTION</span>
+        </h1>
+        <div class="beyond-description description">
+            Essere <span class="highlight-text">beyond</span> significa non limitarsi alla definizione di una singola disciplina. Sono un Art Director ibrido e fluido, con una visione trasversale e strutturata che unisce competenze creative, tecniche, organizzative e di relazione. Grazie a <span class="highlight-text">oltre 15 anni di esperienza in agenzie creative</span> ho imparato a governare la complessità di progetti integrati, dal brief all'execution, trasformando visioni ambiziose in realtà concrete e coerenti.
+        </div>
+
+        <div class="skills-container">
+            <div class="skills-filters" id="skills-filters">
+                <span class="filter-label">// Filter Skills:</span>
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="strategy">Vision & Strategy</button>
+                <button class="filter-btn" data-filter="creative">Execution & Production</button>
+                <button class="filter-btn" data-filter="tech">Digital & Tech</button>
+                <button class="filter-btn" data-filter="tools">Tools</button>
+            </div>
+            
+            <div class="skills-grid" id="skills-grid">
+                {mySkills.map((skill) => (
+                    <span class="skill-pill" data-cat={skill.cat}>
+                    {skill.name}
+                    </span>
+                ))}
+            </div>
+        </div>
+    </section>
+
+    <style>
+    #beyond-section {
+        position: relative;
+        /* Sopra tutto */
+        z-index: 5;
+        background-color: transparent;
+        padding: 100px 40px;
+    }
+    #beyond-section.is-active {
+        /* Colore solido finale, quando il flooder ha finito */
+        background-color: var(--dark-text);
+    }
+    .bg-solid {
+        background-color: var(--dark-text) !important;
+    }
+    #headline-beyond {
+        color: var(--text-light);
+        
+    }
+
+    .beyond-description {
+        max-width: 800px;
+        margin-top: 45px;
+        font-family: 'JetBrains Mono';
+        font-size: clamp(14px, 1.2vw, 18px);
+        line-height: 1.7;
+        color: var(--text-light);
+    }
+     .highlight-text {
+        color: var(--accent-gold);
+    }
+    /* Container della griglia: deve essere un blocco solido */
+    .skills-container {
+        margin-top: 80px;
+        position: relative;
+    }
+
+    #skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        min-height: 50px;
+        /* Evita il collasso totale */
+    }
+    /* --- SKILLS PILLS --- */
+    :global(.skill-pill) {
+        padding: 10px 22px;
+        border-radius: 50px;
+        background: var(--text-light);
+        color: var(--dark-text);
+        font-family: 'JetBrains Mono';
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        /* Transizione solo per hover, non per il layout */
+        transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
+        will-change: transform, opacity;
+        display: inline-flex;
+        /* Fondamentale */
+        align-items: center;
+        /* Centra il testo verticalmente */
+        justify-content: center;
+        /* Centra il testo orizzontalmente */
+        height: 38px;
+        /* Forza un'altezza fissa IDENTICA per tutte */
+        line-height: 1;
+        /* Impedisce al font di spingere i bordi */
+        box-sizing: border-box;
+        /* Include padding e bordo nel calcolo dell'altezza */
+        vertical-align: middle;
+    }
+    :global(.skill-pill.is-hidden) {
+        display: none;
+    }
+    /* Hover Ocra */
+    :global(.skill-pill:hover) {
+        background: var(--accent-gold);
+        border-color: var(--accent-gold);
+        color: var(--dark-text);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(255, 200, 87, 0.2);
+    }
+    /* --- SKILLS FILTERS --- */
+    .skills-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 50px;
+        border-bottom: 1px solid rgba(247,247,242,0.1);
+        padding-bottom: 20px;
+        align-items: center;
+    }
+    .filter-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--accent-gold);
+        margin-right: 8px;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+    }
+    .filter-btn {
+        background: rgba(247,247,242,0.05);
+        border: 1px solid rgba(247,247,242,0.2);
+        color: var(--text-light);
+        padding: 8px 20px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono';
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        cursor: pointer !important;
+    }
+    .filter-btn.active {
+        background: var(--accent-gold);
+        color: var(--dark-text);
+        font-weight: 700;
+    }
+    </style>
+
+    <script>
+    
+    import { decodeCycle } from '../scripts/wordsdecoder.js';
+    import { initInkReveal } from '../scripts/ink-flooding.js';
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    function initSkillsFilter() {
+        const grid = document.getElementById('skills-grid');
+        if (!grid) return;
+
+        const buttons = document.querySelectorAll<HTMLElement>('.filter-btn');
+        const pills = document.querySelectorAll<HTMLElement>('.skill-pill');
+
+        // Funzione di filtraggio pura
+        function filterSkills(category: string) {
+        pills.forEach(pill => {
+            // Invece di style.display, potresti anche usare una classe .is-hidden
+            const match = category === 'all' || pill.dataset.cat === category;
+            pill.classList.toggle('is-hidden', !match);
+        });
+        }
+
+        // Gestione click bottoni
+        buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterSkills(btn.getAttribute('data-filter') || 'all');
+        });
+        });
+
+        // Filtro iniziale basato sulla larghezza schermo (la tua logica originale)
+        if (window.innerWidth <= 768) {
+        filterSkills('strategy');
+        // Opzionale: attiva anche visivamente il bottone strategy
+        document.querySelector('[data-filter="strategy"]')?.classList.add('active');
+        document.querySelector('[data-filter="all"]')?.classList.remove('active');
+        } else {
+        filterSkills('all');
+        }
+    }
+
+    //funzione di debug per rilevare cambi di altezza improvvisi nei figli del beyond-section, che potrebbero causare salti indesiderati
+    function initHeightDetective() {
+    const parent = document.querySelector('#beyond-section');
+    if (!parent) return;
+
+    // Selezioniamo i sospettati principali
+    const targets = {
+        section: parent,
+        headline: document.getElementById('headline-beyond') as HTMLElement,
+        description: parent.querySelector('.beyond-description') as HTMLElement,
+        filters: document.getElementById('skills-filters') as HTMLElement,
+        grid: document.getElementById('skills-grid') as HTMLElement,
+        container: parent.querySelector('.skills-container') as HTMLElement
+    };
+
+    // Salviamo le altezze iniziali
+    let lastHeights = {};
+    Object.keys(targets).forEach(key => {
+        if (targets[key]) lastHeights[key] = targets[key].offsetHeight;
+    });
+
+    console.log("🕵️ Detective attivo. Altezze iniziali:", lastHeights);
+
+    window.addEventListener('scroll', () => {
+        let changed = false;
+        let report = {};
+
+        Object.keys(targets).forEach(key => {
+            const el = targets[key];
+            if (!el) return;
+
+            const currentH = el.offsetHeight;
+            if (currentH !== lastHeights[key]) {
+                report[key] = {
+                    prima: lastHeights[key],
+                    dopo: currentH,
+                    differenza: currentH - lastHeights[key]
+                };
+                lastHeights[key] = currentH;
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            console.warn("🚨 SALTO RILEVATO NEI FIGLI!");
+            console.table(report); // Crea una bellissima tabella con i colpevoli
+            
+            // Verifichiamo anche se c'è un cambio di parola nel decoder
+            const currentWord = document.getElementById('dynamic-word')?.innerText;
+            console.log(`Parola attuale nel decoder: "${currentWord}"`);
+        }
+    }, { passive: true });
+}
+
+    // Avvialo dopo un piccolo delay per stabilizzare il caricamento iniziale
+    //setTimeout(initHeightDetective, 500);
+    ////// --- CHIAMATA INIZIALIZZAZIONE --- //////
+    initSkillsFilter();
+    //AVVIO DECODER PAROLE
+    const skills = ["ART DIRECTION", "DESIGN", "STRATEGY"];
+    decodeCycle(skills, "#dynamic-word", { interval: 3000, speed: 2 });
+    initInkReveal('#ink-path', '#beyond-section', {
+        start: "top bottom",
+        end: "top top",
+        onLeave: () => {
+            document.querySelector("#beyond-section")?.classList.add("is-active");
+            // Nascondiamo elementi se necessario (come il flooder del logo)
+            const flooder = document.querySelector(".flooder") as HTMLElement;
+            if (flooder) flooder.style.opacity = "0";
+        },
+        onEnterBack: () => {
+            document.querySelector("#beyond-section")?.classList.remove("is-active");
+            const flooder = document.querySelector(".flooder") as HTMLElement;
+            if (flooder) flooder.style.opacity = "1";
+        }
+    });
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+        ScrollTrigger.refresh();
+    }, 1000); // Un secondo intero per essere sicuri
+});
+</script>

@@ -1,0 +1,115 @@
+---
+
+---
+<div class="page-transition-wrapper">
+    <svg class="transition-blob" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice">
+        <circle cx="250" cy="250" r="250" style="opacity: 1; visibility: visible;" />
+    </svg>
+</div>
+
+<style>
+    .page-transition-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   pointer-events: none; /* Non blocca i click sul sito */
+   z-index: 9999; /* Sopra a tutto, tranne forse al cursore custom */
+   overflow: hidden;
+}
+
+.transition-blob {
+   width: 120vmax; /* Più grande dello schermo per coprire gli angoli */
+   height: 120vmax;
+   will-change: transform;
+}
+
+.transition-blob circle {
+   will-change: r, opacity;
+   fill: var(--dark-text);
+}
+</style>
+
+<script>
+import { gsap } from 'gsap';
+
+export function initPageTransitions() {
+    const transitionCircle = document.querySelector('.transition-blob circle');
+    
+    if (!transitionCircle) return;
+
+    // --- ENTRATA ---
+    const isNavigating = sessionStorage.getItem('isNavigating');
+    if (isNavigating === 'true') {
+        sessionStorage.removeItem('isNavigating');
+        
+        gsap.set(transitionCircle, { visibility: "visible", opacity: 1, attr: { r: 250 } });
+        
+        gsap.to(transitionCircle, {
+            attr: { r: 0 },
+            duration: 1.2,
+            ease: "expo.inOut",
+            onComplete: () => { 
+                gsap.set(transitionCircle, { visibility: "hidden", opacity: 0 }); 
+            }
+        });
+    } else {
+        gsap.set(transitionCircle, { attr: { r: 0 }, visibility: "hidden", opacity: 0 });
+    }
+
+    // --- USCITA ---
+    document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as Element;
+    const link = target.closest('a');
+
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+
+    // 1. NUOVA LOGICA ISINTERNAL:
+    // È interno se inizia con / o #, oppure se NON inizia con http
+    const isInternal = href.startsWith('/') || href.startsWith('#') || !href.startsWith('http');
+    
+    // 2. LOGICA ANCORA (Migliorata per evitare conflitti)
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    const targetPath = href.split('#')[0] || currentPath;
+    const isAnchor = href.startsWith('#') || (href.includes('#') && targetPath === currentPath);
+
+    if (isInternal && !isAnchor && !link.hasAttribute('download') && link.target !== '_blank') {
+            e.preventDefault();
+            sessionStorage.setItem('isNavigating', 'true');
+            // LOGO NAV E LABEL NOME SCORRONO SU
+            const nLog = document.getElementById('nav-logo-wrapper');
+            const labelName = document.getElementById('label-name');
+            if (nLog) nLog.classList.remove('slide-in');
+            if (labelName) labelName.classList.remove('scrolled');
+            
+
+            gsap.set(transitionCircle, { visibility: "visible", opacity: 1 });
+            gsap.to(transitionCircle, {
+                attr: { r: 250 },
+                duration: 0.9,
+                ease: "expo.inOut",
+                onComplete: () => {
+                    window.location.href = href;
+                }
+            });
+        } else {
+        }
+    });
+    //GESTIONE BACK BUTTON E CACHE
+    window.addEventListener('pageshow', (event) => {
+        // Se la pagina viene caricata dalla cache del browser (es. tasto indietro)
+        if (event.persisted) {
+            gsap.set(transitionCircle, { attr: { r: 0 }, visibility: "hidden", opacity: 0 });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initPageTransitions);
+</script>

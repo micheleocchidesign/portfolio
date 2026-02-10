@@ -1,0 +1,108 @@
+---
+import ProjectCard from '../works/ProjectCard.astro';
+const projects = [
+  {
+    title: "Omino Bianco: The Perfect Match",
+    category: "Creative Direction, Event Concept, Social Campaign",
+    agency: "Wave Design & Communication",
+    agencyUrl: "https://www.waveteam.it",
+    bgImg: "/img/projects/omino-bianco_the-perfect-match-bg_16-10.png",
+    previewImg: "/img/projects/omino-bianco_the-perfect-match-pv_16-10.png",
+    href: "/works/omino-bianco-the-perfect-match"
+  },
+  {
+    title: "Ricola: Social Strategy",
+    category: "Social Media Strategy, Content Creation, Digital Storytelling",
+    agency: "Wave Design & Communication",
+    agencyUrl: "https://www.waveteam.it",
+    bgImg: "/img/projects/ricola_social-bg_16-10.png",
+    previewImg: "/img/projects/ricola_social-pv_16-10.png",
+    href: "/progetto-ricola"
+  },
+  {
+    title: "Coca-Cola: Face of the City",
+    category: "Social Media Campaign, Motion Design, Creative Strategy",
+    agency: "Wave Design & Communication",
+    agencyUrl: "https://www.waveteam.it",
+    bgImg: "/img/projects/coca-cola_face-of-the-city-bg_16-10.png",
+    previewImg: "/img/projects/coca-cola_face-of-the-city-pv_16-10.png",
+    href: "/works/coca-cola-face-of-the-city"
+},
+{
+    title: "Control: #LoveMadeEasy",
+    category: "Digital Campaign, Social Media Strategy, Contest",
+    agency: "B-Fluid",
+    bgImg: "/img/projects/control_love-made-easy/control_love-made-easy-bg_16-10.png",
+    previewImg: "/img/projects/control_love-made-easy/control_love-made-easy-pv_16-10.png",
+    href: "/works/control-love-made-easy"
+},
+{
+    title: "Mo: Personal Branding",
+    category: "Logo Design, Font Design, Web Design&Development, Motion Graphics",
+    bgImg: "/img/projects/michele-occhi_branding-bg_16-10.png",
+    previewImg: "/img/projects/michele-occhi_branding-pv_16-10.png",
+    href: "/works/mo-personal-branding"
+}
+]; 
+---
+<section class="works-grid" id="works-grid">
+    {projects.map((project) => (
+            <ProjectCard {...project} />
+    ))}
+</section>
+
+<style>
+    /* --- GRIGLIA PRINCIPALE --- */
+    .works-grid {
+        position: relative;
+        z-index: 5;
+        display: grid !important;
+        /* Crea colonne che si adattano da sole: minimo 300px, massimo 1fr */
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 60px 30px; /* Più spazio verticale tra le righe per dare "respiro" */
+        padding: 100px 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+</style>
+<script>
+    import { initInkReveal } from '../../scripts/ink-flooding.js';
+    function initProjectParallax() {
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        projectCards.forEach(card => {
+            const bgImg = card.querySelector('.project-bg img');
+            if (!bgImg) return;
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                
+                // Calcolo posizione relativa del mouse all'interno della card
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+
+                // Spostamento: il valore 25 determina l'intensità del movimento
+                // Usiamo il segno negativo per un effetto di profondità reale
+                const moveX = (x - 0.5) * -25; 
+                const moveY = (y - 0.5) * -25;
+
+                // Applichiamo il movimento e manteniamo lo scale 1.1 per coprire i bordi
+                bgImg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                // Ritorno fluido alla posizione centrale
+                bgImg.style.transform = `scale(1.1) translate(0, 0)`;
+            });
+        });
+    }
+    // --- INIZIALIZZAZIONE --- //
+    // Parallasse rollover progetto
+    initProjectParallax();
+    // Colata inchiostro tra sezioni
+    initInkReveal('#ink-path', '#works-intro', {
+        start: "top top",
+        end: "bottom top",
+    });
+
+</script>

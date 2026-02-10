@@ -1,0 +1,104 @@
+---
+const { 
+  type,          // "image", "video", "youtube"
+  format,        // "square", "horizontal", "vertical" (4:5)
+  variant,       // "short" (autoplay/loop) o "case" (manual play/controls)
+  url,           // URL per immagini o file .mp4
+  youtubeId,     // ID per YouTube
+  link,          // URL opzionale per rendere l'immagine cliccabile
+  title 
+} = Astro.props;
+
+// Logica per gestire i video "short" (tipo GIF) o "case"
+const isShort = variant === "short";
+---
+
+<div class={`module module--${format} ${type === 'youtube' && youtubeId ? 'module--video-embed' : ''}`}>
+    
+    {/* --- CASO 1: IMMAGINI --- */}
+    {type === "image" && (
+        link ? (
+            <a href={link} target="_blank" class="module-link"><img src={url} alt={title} /></a>
+        ) : (
+            <img src={url} alt={title} />
+        )
+    )}
+
+    {/* --- CASO 2: FILE VIDEO (MP4) --- */}
+    {type === "video" && (
+        <video 
+            src={url} 
+            autoplay={isShort} 
+            loop={isShort} 
+            muted={isShort} 
+            controls={!isShort} 
+            playsinline
+            class={format === 'vertical' && url.includes('story') ? 'object-contain' : 'object-cover'}
+        />
+    )}
+
+    {/* --- CASO 3: YOUTUBE (SHORT o CASE) --- */}
+    {type === "youtube" && (
+        <div class="video-container">
+            <iframe 
+                src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                class={format === 'vertical' ? 'iframe-contain' : 'iframe-cover'}
+            ></iframe>
+        </div>
+    )}
+</div>
+
+<style>
+    .module {
+    position: relative;
+    background: #000; /* Nero per i margini dei video story */
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Formati del Container */
+.module--square { aspect-ratio: 1 / 1; }
+.module--horizontal { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+.module--vertical { aspect-ratio: 4 / 5; }
+
+/* Comportamento Media standard */
+.module img, 
+.module video, 
+.module .video-container {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover; /* Riempie sempre lo spazio */
+}
+
+/* Gestione speciale Video STORY (9:16) dentro modulo VERTICALE (4:5) */
+/* Usiamo una classe 'object-contain' per non tagliare il video */
+.module video.object-contain,
+.module .iframe-contain {
+    object-fit: contain !important; 
+    background: var(--text-light); /* Colore di sfondo per evitare bordi neri evidenti */
+}
+
+/* Fix per IFRAME YouTube per essere responsivi */
+.video-container {
+    position: relative;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Immagini con Link */
+.module-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+</style>

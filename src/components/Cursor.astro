@@ -1,0 +1,118 @@
+---
+
+---
+<div id="cursor-container">
+    <div id="custom-cursor">
+        <svg viewBox="0 0 500 465.69"><path d="M440.18,416.13c-59.25,54.74-144.98,53.73-221.98,45.24-36.38-4.01-73.01-9.15-107.35-22.91-34.33-13.76-66.57-36.95-86.47-70.65C5.82,336.36-.83,297.79.08,260.31,2.95,142.22,85.02,31.92,189.74,5.44c44.07-11.14,95.41-4.61,143.77,14.51,60.76,24.02,111.92,71.39,141.42,134.54,8.1,17.33,14.52,35.57,18.9,54.6,16.91,73.35-.95,158.38-53.65,207.04Z"/></svg>
+    </div>
+</div>
+
+<style>
+   #cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+}
+ #custom-cursor {
+    position: fixed;
+   /* o absolute se preferisci, ma fixed è più stabile */
+    top: 0;
+    left: 0;
+    width: 90px;
+   /* Dimensione "reale" per la nitidezza */
+    height: 90px;
+    margin-left: -45px;
+   /* Centramento: -90 / 2 */
+    margin-top: -45px;
+   /* Centramento: -90 / 2 */
+    fill: var(--accent-coral);
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    transition: none !important;
+    overflow: visible;
+   /* Per evitare che lo stretch tagli i bordi */
+    opacity: 0; /* Nascosto al load */
+}
+ #custom-cursor svg{
+    overflow: visible !important;
+    width:100%;
+    height: 100%;
+}
+ #custom-cursor.is-hovering svg path {
+    /* TRASPARENTE CON BORDO SPESSO */
+    fill: transparent;
+    stroke-width: 30px;
+    stroke: var(--accent-coral);
+    transform: scale(3);
+    transform-origin: center;
+    cursor:pointer !important;
+}
+/* --- CURSORE WORKS HP --- */
+#custom-cursor.is-works-link {
+   /*background-color: rgba(148, 84, 84, 0.75);*/
+   
+}
+#custom-cursor.is-works-link svg path{
+   /*display: none; /* Nasconde l'occhio */
+   fill: var(--accent-coral);
+}
+#custom-cursor.is-works-link::after {
+   content: 'visibility'; /* è il testo a cui corrisponde l'icona, google material symbols usa il testo per identificare l'icona da mostrare */
+   font-family: 'Material Symbols Outlined';
+   font-weight: normal;
+   font-style: normal;
+   font-size: 130px; /* Dimensione icona */
+   line-height: 1;
+   color: var(--text-light);
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+/* --- CURSORE EMAIL --- */
+#custom-cursor.is-email {
+   /*background-color: rgba(148, 84, 84, 0.75);*/
+   
+}
+#custom-cursor.is-email svg path{
+   /*display: none; /* Nasconde l'occhio */
+   fill: var(--accent-coral);
+}
+#custom-cursor.is-email::after {
+   content: 'mail';
+   font-family: 'Material Symbols Outlined';
+   font-weight: normal;
+   font-style: normal;
+   font-size: 130px; /* Dimensione icona */
+   line-height: 1;
+   color: var(--text-light);
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+ #custom-cursor.expanding {
+    width: 75px;
+}
+:global(.drop) {
+    position: absolute;
+    width: 12px;
+    height: 12px; /* Dobbiamo aggiungere l'altezza per fare un cerchio */
+    background-color: var(--accent-coral); /* Sostituisce fill */
+    border-radius: 50%; /* Rende il div un cerchio perfetto */
+    opacity: 0.6;
+    pointer-events: none;
+    will-change: transform, opacity; /* Ottimizza le prestazioni dell'animazione */
+}
+@media (pointer: fine) {
+    #cursor-container {
+        display: block;
+    }
+}
+</style>

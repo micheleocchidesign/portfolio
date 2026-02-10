@@ -1,0 +1,186 @@
+---
+
+---
+<section id="contact-section">
+    <div class="contact-main">
+        <p class="contact-intro">
+            Che tu sia un’agenzia, un'azienda o un privato, se&nbsp;hai un'idea, le diamo forma. <br>
+            Se hai dubbi su come posso aiutarti,
+        </p>
+
+        <h2 class="collab-title">
+            <a href="mailto:michele.occhi@gmail.com" class="scrivimi-link">scrivimi!</a>
+        </h2>
+
+        <div class="email-block">
+            <div class="email-wrapper">
+                <a href="mailto:michele.occhi@gmail.com" class="jetbrains email-link">michele.occhi@gmail.com</a>
+                <span class="material-symbols-outlined copy-icon">content_copy</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    #contact-section {
+    background-color: var(--text-light);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   /* Centra il blocco "collaboriamo" */
+    align-items: center;
+    position: relative;
+    padding: 60px;
+    box-sizing: border-box;
+    z-index: 11;
+    color: var(--dark-text);
+}
+ .contact-intro {
+    font-family:"Jetbrains Mono", monospace;
+    text-align: center;
+    margin-inline: auto;
+    color: var(--dark-text);
+    font-size: clamp(16px, 1.5vw, 20px);
+    line-height: 1.6;
+    max-width: 600px;
+   /* Mantiene il testo compatto */
+}
+ .collab-title {
+    font-family: "MoFont", sans-serif;
+    font-size: clamp(50px, 10vw, 130px);
+    text-transform: uppercase;
+    margin:0;
+    margin-bottom: 20px;
+    line-height: 1;
+    color: var(--accent-coral);
+    text-align: center;
+}
+ .scrivimi-link {
+    color: inherit;
+   /* Eredita il colore dal h2 */
+    text-decoration: none;
+   /* Toglie la sottolineatura standard */
+    transition: opacity 0.3s ease;
+    display: inline-block;
+    cursor: pointer !important;
+}
+ .email-block {
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+}
+ .email-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+ .email-wrapper a{
+    cursor:pointer !important;
+}
+ .copy-icon {
+    cursor: pointer;
+    position: relative;
+    font-size: 30px;
+   /* Regola la dimensione per matchare il testo */
+    opacity: 1;
+    transition: all 0.2s ease;
+    user-select: none;
+   /* Impedisce di selezionare l'icona come testo */
+}
+/* Creazione del Tooltip */
+ .copy-icon::after {
+    content: 'Copied!';
+    position: absolute;
+    bottom: 100%;
+   /* Lo posiziona sopra l'icona */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: var(--accent-coral);
+    color: var(--dark-text);
+    padding: 4px 8px;
+    font-family: 'JetBrains Mono', monospace;
+   /* Coerenza col tuo stile */
+    font-size: 10px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+/* Quando l'icona ha successo, mostra il tooltip */
+ .copy-icon.copy-success::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+ .email-link {
+    font-size: 4vw;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+ .email-link:hover {
+    text-decoration: underline;
+}
+</style>
+
+<script>
+    function copyEmail() {
+    const email = "michele.occhi@gmail.com";
+    const icon = document.querySelector('.copy-icon') as HTMLElement;
+    if (!icon) return;
+
+    // Funzione interna per il feedback visivo
+    const showSuccess = () => {
+        icon.innerText = 'check';
+        icon.classList.add('copy-success');
+        setTimeout(() => {
+            icon.innerText = 'content_copy';
+            icon.classList.remove('copy-success');
+        }, 1500);
+    };
+
+    // Tentativo 1: Clipboard API (Moderna)
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email)
+            .then(showSuccess)
+            .catch(() => fallbackCopy(email, showSuccess));
+    } else {
+        // Tentativo 2: Fallback per browser datati o HTTP
+        fallbackCopy(email, showSuccess);
+    }
+}
+
+// Vecchio metodo infallibile (crea un'area di testo invisibile, seleziona e copia)
+type CopyCallback = () => void;
+
+function fallbackCopy(text: string, callback: CopyCallback): void {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Assicuriamoci che non sia visibile e non sposti il layout
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) callback();
+    } catch (err) {
+        console.error('Fallback: Impossibile copiare', err);
+    }
+
+    document.body.removeChild(textArea);
+}
+
+document.querySelector('.copy-icon')?.addEventListener('click', copyEmail);
+</script>

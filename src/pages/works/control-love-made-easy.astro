@@ -1,0 +1,105 @@
+---
+import SingleProjLayout from '../../layouts/SingleProjLayout.astro';
+
+const ominoData = {
+  title: "Control: Love Made Easy",
+  description: "Mentre facevo parte del team creativo di Wave, ho lavorato allo sviluppo della campagna per il lancio delle nuove Idrocaps. Ho elaborato il concept 'The Perfect Match' e ideato l'attività di personalizzazione delle t-shirt, curando personalmente lo scouting dell'illustratrice e definendo le linee guida grafiche e degli allestimenti per l'evento.",
+  
+  client: "Control",
+  agency: "B-Fluid",
+  //agencyUrl: "https://www.b-fluid.it",
+  role: "In-house Sr. Art Director @ B-Fluid",
+  
+  extraInfo: [
+    { label: "Illustrations", value: "Francesco Pittiglio" }
+  ],
+  
+  modules: [
+    // 1. Immagine Orizzontale (Standard)
+    /*{ 
+      type: "image", 
+      format: "horizontal", 
+      url: "https://placehold.co/1920x1080" 
+    },*/
+    
+    // 2. Video Orizzontale URL (Case History - con controlli)
+    /*{ 
+      type: "video", 
+      format: "horizontal", 
+      url: "https://videos.pexels.com/video-files/7802455/7802455-uhd_2732_1440_25fps.mp4",
+      variant: "case"
+    },
+
+    // 3. Video Quadrato URL (Short/Loop - tipo GIF)
+    { 
+      type: "video", 
+      format: "square", 
+      url: "https://videos.pexels.com/video-files/35921812/15239513_1440_1440_30fps.mp4",
+      variant: "short"
+    },
+
+    // 4. Immagine Quadrata (con link ipotetico)
+    { 
+      type: "image", 
+      format: "square", 
+      url: "https://placehold.co/1000x1000",
+      link: "https://www.google.it"
+    },
+
+    // 5. Video Story URL (9:16) dentro modulo Verticale (4:5)
+    { 
+      type: "video", 
+      format: "vertical", 
+      url: "https://videos.pexels.com/video-files/35193865/14909642_1080_1920_30fps.mp4",
+      variant: "short"
+    },
+
+    // 6. Immagine Verticale (4:5)
+    { 
+      type: "image", 
+      format: "vertical", 
+      url: "https://placehold.co/1080x1350" 
+    },
+
+    // 7. Video Orizzontale YouTube (Case History)
+    { 
+      type: "youtube", 
+      format: "horizontal", 
+      youtubeId: "hx_fb2BnKgg",
+      variant: "case"
+    },
+
+    // 8. Video Story YouTube (9:16) dentro modulo Verticale (4:5)
+    { 
+      type: "youtube", 
+      format: "vertical", 
+      youtubeId: "-Z4NTcYuth4",
+      variant: "short"
+    }*/
+
+    // Video Orizzontale YouTube (Case History)
+    { 
+      type: "youtube", 
+      format: "horizontal", 
+      youtubeId: "hx_fb2BnKgg",
+      variant: "case"
+    },
+    // Immagine Quadrata (con link ipotetico)
+    { 
+      type: "image", 
+      format: "square", 
+      url: "/img/projects/control_love-made-easy/control-love-made-easy-bozzetto-1080x1080.jpg",
+    },
+    // Video Quadrato URL (Short/Loop - tipo GIF)
+    { 
+      type: "video", 
+      format: "square", 
+      url: "/img/projects/control_love-made-easy/control-love-made-easy-products.mp4",
+      variant: "short"
+    }
+    
+  ]
+};
+---
+
+<SingleProjLayout {...ominoData} />

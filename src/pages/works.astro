@@ -1,0 +1,31 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageTransition from '../components/PageTransition.astro';
+import Cursor from '../components/Cursor.astro';
+import Navbar from '../components/Navbar.astro';
+import CursorToggle from '../components/CursorToggle.astro';
+import Menu from '../components/Menu.astro';
+import InkFlooding from '../components/InkFlooding.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+import WorksIntro from '../components/works/WorksIntro.astro';
+import WorksGrid from '../components/works/WorksGrid.astro';
+---
+<MainLayout>
+	<PageTransition />	
+    <Cursor />
+    <Navbar />
+    <CursorToggle />
+    <Menu page="works"/>
+    <WorksIntro />
+    <InkFlooding color="var(--text-light)" />
+    <WorksGrid />
+    <ContactSection />
+    <Footer />    
+</MainLayout>
+
+<style>
+    body {
+        background-color: var(--dark-text);
+    }
+</style>

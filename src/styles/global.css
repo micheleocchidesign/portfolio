@@ -1,0 +1,170 @@
+:root {
+    --bg-color: #f7f7f2;
+    --dark-blue: #004f5e;
+    --accent-coral: #f76c5e;
+    --accent-gold: #ffc857;
+    --text-light: #f7f7f2;
+    --dark-text: #2d2926;
+    --light-blue: #6ccff6;
+    --violet: #53599a;
+}
+ * {
+    box-sizing: border-box;
+}
+ body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: 'MoFont', sans-serif;
+    overflow-x: hidden;
+}
+ @font-face {
+    font-family: 'MoFont';
+   /* Il percorso parte da dove si trova index.html */
+    src: url('../fonts/MoFont-ExtraBold.woff2') format('woff2'), url('../fonts/MoFont-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Ripristino Cursore Standard via Toggle */
+ body.use-standard-cursor, body.use-standard-cursor a, body.use-standard-cursor button {
+    cursor: auto !important;
+}
+ body.use-standard-cursor a, body.use-standard-cursor button, body.use-standard-cursor #nav-text-menu {
+    cursor: pointer !important;
+}
+
+/* --- MEDIA QUERY: POINTER FINE (Desktop/Mouse) --- */
+ @media (pointer: fine) {
+    /* Nascondi il cursore solo se NON c'è la classe che ripristina quello standard */
+    html:not(.use-standard-cursor) body {
+        cursor: none !important;
+    }
+
+    /* Opzionale: se vuoi essere ancora più sicuro che tutto sparisca */
+    html:not(.use-standard-cursor) a, 
+    html:not(.use-standard-cursor) button {
+        cursor: none !important;
+    }
+
+    #gyro-cta {
+        display: none;
+    }
+}
+
+/* Quando la classe è attiva, forziamo il cursore standard */
+html.use-standard-cursor {
+    cursor: auto !important;
+}
+
+ .headline {
+    font-size: clamp(35px, 8.2vw, 110px);
+    line-height: 1.05;
+    font-weight: 900;
+}
+ .no-wrap {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+ .headline .no-wrap {
+    font-size: 1.25em;
+   /* Aumenta del 25% rispetto alla dimensione base */
+    display: inline-block;
+    vertical-align: middle;
+}
+ #dynamic-word {
+    color: var(--accent-coral);
+    display: inline-block;
+    min-width: 5ch;
+   /* Aggiungi queste righe: */
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+   /* Per farlo matchare con la pesantezza di BEYOND */
+    letter-spacing: -0.02em;
+}
+
+/* --- WRAPPER ABOUT AMO --- */
+ #about-amo-wrapper{
+    background-color: var(--dark-blue);
+}
+
+/* --- MOBILE GYRO CTA --- */
+ #gyro-cta {
+    position: absolute;
+    bottom: auto;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono';
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dark-text);
+    cursor: pointer;
+    opacity: 0; /* Nascosto al load */
+}
+ #gyro-cta.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+ .phone-icon {
+    width: 20px;
+    height: 34px;
+    border: 1.5px solid var(--dark-text);
+    border-radius: 3px;
+    animation: tilt 2s infinite ease-in-out;
+}
+ @keyframes tilt {
+    0%, 100% {
+        transform: rotate(0deg);
+   }
+    50% {
+        transform: rotate(15deg);
+   }
+}
+
+/* --- UNIFIED MOBILE MEDIA QUERIES (Max Width 768px) --- */
+@media (max-width: 768px) {
+   /* Headline & Typography */
+   .headline {
+       font-size: 10vw;
+       line-height: 1.1;
+   }
+   .headline .no-wrap {
+       font-size: 1.5em;
+       display: inline-block;
+       vertical-align: middle;
+   }
+   .headline br {
+       display: none;
+   }
+
+   /* Dynamic Word Decoding */
+   #dynamic-word {
+       display: block;
+       min-height: 2.3em;
+       font-size: 1.2em;
+       margin-top: 0.2em;
+       line-height: 1.1;
+       text-align: left;
+       word-wrap: break-word;
+       overflow-wrap: break-word;
+   }
+   #dynamic-word br {
+       display: block;
+       content: "";
+       margin-top: 0;
+   }
+   /* Descriptions */ 
+   .description {
+       max-width: 100%;
+       font-size: 1rem;
+   }
+}

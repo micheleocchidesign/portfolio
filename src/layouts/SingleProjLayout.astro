@@ -1,0 +1,315 @@
+---
+import MainLayout from './MainLayout.astro';
+import PageTransition from '../components/PageTransition.astro';
+import Cursor from '../components/Cursor.astro';
+import Navbar from '../components/Navbar.astro';
+import Menu from '../components/Menu.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+
+const { 
+    title, 
+    description, 
+    client,           // Sempre presente
+    role,             // Sempre presente
+    agency,           // Opzionale
+    agencyUrl,        // Opzionale
+    extraInfo = [],   // Array per i campi variabili (Illustrazioni, Foto, ecc.)
+    modules = [] 
+} = Astro.props;
+---
+
+<MainLayout>
+    <PageTransition />  
+    <Cursor />
+    <Navbar />
+    <Menu />
+
+    <main class="project-page">
+        <div class="project-container">
+            <aside class="project-side">
+                <h1 class="project-title">{title}</h1>
+                <p class="project-description">{description}</p>
+                <a href="/works" id="back-works">&lt; WoRKS</a>
+            </aside>
+
+            <section class="project-grid">
+                <div class="project-info-header">
+                    <div class="project-details">
+                        <ul>
+                            {/* 1. Cliente */}
+                            <li><strong>Client</strong> {client}</li>
+
+                            {/* 2. Agenzia (Se c'è) */}
+                            {agency && (
+                                <li><strong>Agency</strong> 
+                                    {agencyUrl ? <a href={agencyUrl} target="_blank">{agency}</a> : agency}
+                                </li>
+                            )}
+
+                            {/* 3. Campi Extra (Illustrazioni, Sviluppo, ecc.) */}
+                            {extraInfo && extraInfo.map((info) => (
+                                <li><strong>{info.label}</strong> {info.value}</li>
+                            ))}
+
+                            {/* 4. Ruolo */}
+                            <li><strong>My Role</strong> {role}</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="project-legal">
+                        Tutti i diritti sono riservati ai rispettivi proprietari.
+                    </p>
+                </div>
+
+                {/* Ciclo dei Moduli */}
+                {modules.map((mod) => (
+                    <div class={`module module--${mod.format} type-${mod.type}`}>
+                        {/* IMMAGINI + LINK */}
+                        {mod.type === "image" && (
+                            mod.link ? 
+                            <a href={mod.link} target="_blank"><img src={mod.url} alt={title} /></a> : 
+                            <img src={mod.url} alt={title} />
+                        )}
+
+                        {/* VIDEO MP4 (Short vs Case) */}
+                        {mod.type === "video" && (
+                            <video 
+                                src={mod.url} 
+                                autoplay={mod.variant === 'short'} 
+                                loop={mod.variant === 'short'} 
+                                muted={mod.variant === 'short'} 
+                                controls={mod.variant === 'case'} 
+                                playsinline 
+                            />
+                        )}
+
+                        {/* YOUTUBE (Short vs Case) */}
+                        {mod.type === "youtube" && (
+                            <div class="iframe-container">
+                                <iframe 
+                                    src={`https://www.youtube.com/embed/${mod.youtubeId}?rel=0&modestbranding=1&autoplay=${mod.variant === 'short' ? '1' : '0'}&mute=${mod.variant === 'short' ? '1' : '0'}&loop=${mod.variant === 'short' ? '1' : '0'}&playlist=${mod.youtubeId}`} 
+                                    allow="autoplay; encrypted-media; fullscreen" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </section>
+        </div>
+    </main>
+
+    <ContactSection />
+    <Footer />    
+</MainLayout>
+
+<style>
+    /* --- STRUTTURA LOGICA --- */
+.project-page {
+    display: block;
+    width: 100%;
+}
+
+.project-container {
+    background-color: var(--dark-text);
+    color: var(--text-light);
+    display: flex;
+    align-items: flex-start;
+    gap: 80px;
+    padding: 140px 40px 80px 40px;
+    /* Importante per evitare calcoli errati sull'altezza finale */
+    box-sizing: border-box; 
+    position: relative;
+}
+
+.project-side {
+    color: var(--text-light);
+    width: 380px;
+    /* Evita che trasformazioni CSS esterne interferiscano con quelle di GSAP */
+    will-change: transform;
+    min-height: min-content;
+    
+}
+
+#back-works {
+    position: relative;
+    display: inline-block;
+    font-family: 'MoFont', sans-serif;
+    font-size: 60px;
+    text-decoration: none;
+    opacity: 1;
+    margin-bottom: 20px;
+    color: var(--accent-coral);
+}
+
+.project-title {
+    font-family: "Inter", sans-serif;
+    font-size: clamp(24px, 3.2vw, 36px);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    color: var(--text-light);
+}
+
+/* --- TAGS --- */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 20px;
+    color: var(--dark-text);
+    opacity: 0.7;
+}
+
+/* --- DESCRIZIONE PROGETTO --- */
+.project-description {
+    font-family: 'JetBrains Mono', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+}
+
+/* --- INFO HEADER (GRID TOP) --- */
+.project-info-header {
+    grid-column: 1 / -1; 
+    display: grid;
+    /* Definiamo le 2 colonne principali della griglia */
+    grid-template-columns: 1fr 1fr; 
+    gap: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.project-details {
+    /* Occupa entrambe le colonne per permettere alla sua 
+       griglia interna (ul) di distribuirsi */
+    grid-column: 1 / -1; 
+}
+
+.project-details ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    /* Qui i credits si dividono sulle due colonne */
+    grid-template-columns: 1fr 1fr; 
+    gap: 24px;
+}
+
+.project-details li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+}
+
+.project-details li strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 1;
+    font-weight: normal;
+    margin-bottom: 4px;
+    color: var(--accent-gold);
+
+}
+
+.project-details a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(0,0,0,0.2);
+}
+
+/* La nota legale attraversa tutto */
+.project-legal {
+    grid-column: 1 / -1; /* CROSS-COLUMN: va da inizio colonna 1 a fine colonna 2 */
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    opacity: 0.4;
+    max-width: 100%; /* Può estendersi su tutta la larghezza */
+}
+
+.project-grid {
+    flex: 1; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+/* --- GESTIONE DEI MODULI --- */
+.module { 
+    background: #262320; /* Sfondo nero per i margini dei video story */
+    overflow: hidden; 
+    position: relative;
+    border-radius: 4px;
+}
+
+/* Fix Immagini e Video: devono riempire il modulo */
+.module img, 
+.module video { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /* Riempie tutto il modulo */
+    display: block; 
+}
+
+/* Se il modulo è VERTICAL e contiene un video STORY, non tagliarlo */
+.module--vertical video,
+.module--vertical .iframe-container iframe {
+    object-fit: contain; /* Mostra tutto il video 9:16 con margini laterali */
+}
+
+/* Formati */
+.module--square { aspect-ratio: 1/1; }
+.module--vertical { grid-row: span 2; aspect-ratio: 4/5; }
+.module--horizontal { grid-column: 1 / -1; aspect-ratio: 16/9; }
+
+/* --- SPECIFICHE YOUTUBE --- */
+.iframe-container {
+    position: relative;
+    width: 100%;
+    height: 100%; /* Rispettiamo l'aspect-ratio del genitore .module */
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Centrare video verticali YouTube in moduli 4:5 */
+.module--vertical .iframe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.module--vertical .iframe-container iframe {
+    aspect-ratio: 9/16;
+    width: auto;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+</style>
+

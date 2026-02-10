@@ -1,0 +1,172 @@
+---
+// Riceviamo i dati come "props"
+const { title, category, agency, agencyUrl, bgImg, previewImg, href } = Astro.props;
+---
+
+<div class="project-card">
+    <a href={href} class="project-link-overlay"></a>
+    <div class="project-asset">
+        <div class="project-bg">
+            <img src={bgImg} alt={title} loading="lazy">
+        </div>
+        <div class="project-preview">
+            <img src={previewImg} alt={title} loading="lazy">
+        </div>
+    </div>
+    
+    <div class="project-info">
+        <h3 class="project-title">{title}</h3>
+        <span class="project-category">{category}</span>
+        {agency && (
+            <span class="project-agency">
+                Agency: 
+                {agencyUrl ? (
+                    <a href={agencyUrl} target="_blank" rel="noopener">{agency}</a>
+                ) : (
+                    <span>{agency}</span>
+                )}
+            </span>
+        )}
+    </div>
+</div>
+<style>
+    /* --- CARD PROGETTO --- */
+.project-card {
+   display: flex;
+   flex-direction: column;
+   color: var(--text-color);
+   width: 100%;
+   position: relative;
+}
+
+/* 1. Il contenitore DEVE essere relativo e avere dimensioni */
+.project-asset {
+   position: relative;
+   width: 100%;
+   /*aspect-ratio: 4 / 5; */
+   aspect-ratio: 16 / 10;
+   overflow: hidden;
+   background-color: #FCFCFA;
+   border-radius: 4px;
+}
+
+/* 2. I due div interni DEVONO essere assoluti per sovrapporsi */
+.project-bg, 
+.project-preview {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0;
+}
+
+/* 3. Le immagini DEVONO riempire i div e non spingere via nulla */
+.project-bg img, 
+.project-preview img {
+   position: absolute; /* Fondamentale per non occupare spazio nel flusso */
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block;
+}
+
+.project-bg img{
+   transform: scale(1.1); /* Diamo margine di manovra al movimento */
+   transition: transform 0.2s ease-out; /* Rende il movimento fluido */
+}
+
+/* 4. Logica dei livelli */
+.project-preview {
+   z-index: 1; /* Sempre visibile all'inizio */
+}
+
+.project-bg {
+   z-index: 2; /* Sta sopra, ma è nascosta dal clip-path */
+   clip-path: circle(0% at 50% 50%);
+   -webkit-clip-path: circle(0% at 50% 50%);
+   transition: clip-path .8s cubic-bezier(0.165, 0.84, 0.44, 1);
+   }
+
+/* Al rollover, la project-bg si espande e rivela il contenuto */
+.project-card:hover .project-bg {
+   clip-path: circle(100% at 50% 50%);
+   -webkit-clip-path: circle(100% at 50% 50%);
+}
+
+/* Mantieni lo scale per il parallasse su entrambe */
+.project-bg img, 
+.project-preview img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block;
+   transform: scale(1.1); 
+   transition: transform 0.2s ease-out;
+   pointer-events: none;
+}
+
+/* --- TESTI PROGETTO --- */
+.project-info {
+   margin-top: 25px;
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+}
+
+.project-title {
+   font-family: 'Inter', sans-serif;
+   font-size: clamp(16px, 1.8vw, 24px);
+   font-weight: 800;
+   color: var(--dark-text);
+   margin: 0;
+   line-height: 1.1;
+   text-transform: uppercase;
+}
+
+.project-category {
+   font-family: 'JetBrains Mono', monospace;
+   font-size: 12px;
+   line-height: 1.4em;
+   color: var(--dark-text);
+   opacity: 0.6;
+}
+
+.project-agency {
+   font-family: 'JetBrains Mono', monospace;
+   font-size: 12px;
+   color: var(--dark-text);
+   opacity: 1;
+   position: relative;
+   z-index: 20;
+   pointer-events: none;
+}
+
+.project-agency a {
+   pointer-events: auto;
+   color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(0,0,0,0.2);
+    cursor: pointer !important;
+}
+
+.project-agency a:hover {
+   color: var(--accent-coral);
+   border-color: var(--accent-coral);
+   opacity: 1 !important;
+}
+
+.project-link-overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 10;
+   cursor: pointer !important;
+}
+</style>

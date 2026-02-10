@@ -1,0 +1,37 @@
+---
+// Definiamo cosa può cambiare tra index e works, settando dei predefiniti
+const { 
+  containerId = "ink-transition-container", //l'id del suo container
+  color = "var(--dark-text)", //colore macchia per css
+} = Astro.props;
+---
+<div class="flooder" id={containerId}>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path id="ink-path" d="M0,0 L120,0 L120,0 C80,0 70,0 50,0 C30,0 15,0 -20,0 Z"></path>
+    </svg>
+</div>
+
+
+<style define:vars={{ color }}>
+    /* CSS Unificato: le parti comuni le scriviamo una volta sola */
+    .flooder {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index:4;
+    }
+
+    path{
+        fill: var(--color);
+    }
+    
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+</style>

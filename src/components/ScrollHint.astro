@@ -1,0 +1,85 @@
+---
+// Riceviamo l'ID della sezione di destinazione del click (es. "#beyond-section")
+const { target } = Astro.props;
+---
+
+<div class="scroll-hint">
+  <span class="material-symbols-outlined">
+    <a href={target} class="internal-scroll-link">arrow_cool_down</a>
+  </span>
+</div>
+
+<style>
+ /* --- SCROLL HINT ARROW --- */
+.scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    animation: scrollBounce 2s infinite;
+}
+/* Applica il cursore manina a tutto il blocco e ai suoi figli */
+.scroll-hint, 
+.scroll-hint * {
+    cursor: pointer !important;
+}
+
+.internal-scroll-link {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    /* Opzionale: rende l'area cliccabile un po' più grande */
+    padding: 10px; 
+}
+
+.scroll-hint .material-symbols-outlined {
+    font-size: 36px;
+    font-variation-settings: 'wght' 200;
+}
+
+.material-symbols-outlined a{
+    text-decoration: none;
+    color: inherit;
+}
+
+@keyframes scrollBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+  gsap.registerPlugin(ScrollToPlugin);
+
+  function initScrollHints() {
+    const scrollLinks = document.querySelectorAll('.internal-scroll-link');
+    
+    scrollLinks.forEach(link => {
+      // Rimuoviamo eventuali listener precedenti per evitare duplicati (utile con Astro)
+      link.removeEventListener('click', handleScroll);
+      link.addEventListener('click', handleScroll);
+    });
+  }
+
+  function handleScroll(e) {
+    e.preventDefault();
+    const href = e.currentTarget.getAttribute('href');
+    
+    if (href && href.startsWith('#')) {
+      gsap.to(window, { 
+        duration: 1.5, 
+        scrollTo: { y: href, autoKill: true }, 
+        ease: "power3.inOut" 
+      });
+    }
+  }
+
+  // Inizializzazione per Astro
+  initScrollHints();
+  document.addEventListener('astro:page-load', initScrollHints);
+</script>

@@ -1,0 +1,190 @@
+---
+import MeMoToggle from '../components/MeMoToggle.astro';
+
+---
+<section id="about-section">
+        <div class="about-container">
+            <div class="about-content-left">
+                <h2 class="headline about-headline">
+                    <span class="about-label">ABOUT</span>
+                    <MeMoToggle color="var(--accent-coral)" />
+                </h2>
+                <div class="about-description description">
+                        Nato e cresciuto a Bormio, ora a Milano, domani chissà. Mille passioni. Mente creativa e mani che si sporcano. Chiacchierone. Vorrei un piccolo laboratorio e una casa tutta mia in campagna.<br/>Ultima passione: linocut (ma non ho ancora iniziato).
+                </div>
+            </div>    
+            <div class="about-content-right">
+                <div class="photo-container">
+                    <svg viewBox="0 0 400 450" class="blob-mask">
+                        <defs>
+                            <clipPath id="blob-clip">
+                                <path class="morph-path" d="M332.51,90.43c70,100,100,200,20,280s-200,100-280,40S-27.49,190.43,42.51,70.43C112.51-29.57,252.51-9.57,332.51,90.43Z" />
+                            </clipPath>
+                        </defs>
+                        <image x="0" y="0" width="100%" height="100%" 
+                               preserveAspectRatio="xMidYMid slice" 
+                               xlink:href="img/michele-occhi-portrait.webp?raw=true" 
+                               clip-path="url(#blob-clip)" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+         #about-section {
+    background-color: transparent;
+    color: var(--accent-coral);
+   /* Usiamo lo stesso padding laterale della sezione superiore */
+    padding: 100px 40px 0px 40px;
+   /*min-height: 100vh;
+   */
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 6;
+    min-height: 100vh;
+    width: 100%;
+}
+ .about-container {
+    display: grid;
+   /* Rimuoviamo il max-width enorme o lo impostiamo uguale a quello di Beyond */
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    margin: 0;
+   /* Rimuove il centraggio automatico che crea i margini ampi */
+    max-width: none;
+   /* Lasciamo che sia il padding di #about-section a decidere i margini */
+}
+ .about-content-left {
+   /* Assicuriamoci che non ci sia padding interno che sposta il testo */
+    padding: 0;
+}
+/* Titolo: ABOUT (Inter) e ME/MÔ (MoFont) */
+ #about-section .headline {
+    color: var(--accent-gold);
+    margin-bottom: 30px;
+    font-family: 'Inter', sans-serif;
+   /* Default per il titolo */
+    text-shadow: none;
+    line-height: 0.9;
+    margin-left: -4px;
+   /* Compensazione ottica per l'allineamento della 'A' */
+    margin-top: 0;
+}
+ .about-headline {
+    display: flex;
+    align-items: baseline;
+    color: var(--accent-gold);
+}
+
+/* Manteniamo la label ABOUT pulita */
+ .about-label {
+    font-family: 'Inter', sans-serif;
+   /* Assicurati che non abbia margini che spostano il toggle */
+    margin: 0;
+}
+/* Rimuoviamo le classi vecchie che non servono più */
+ .about-description {
+    display: inline-block;
+    color: var(--text-light);
+    max-width: 600px;
+    margin-top: 45px;
+    font-family: 'JetBrains Mono';
+    font-size: clamp(14px, 1.2vw, 18px);
+    line-height: 1.7;
+}
+/* Colonna destra per la foto */
+ .about-content-right {
+    display: grid;
+    justify-items: end;
+   /* Spinge il contenuto (la foto) verso la fine della cella */
+   align-items: center;
+}
+ .photo-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+ .blob-mask {
+    width: 100%;
+    height: auto;
+}
+ .morph-path {
+    transform-origin: center;
+}
+
+@media (max-width: 768px) {
+    .about-container {
+       grid-template-columns: 1fr;
+       gap: 40px;
+   }
+   .about-headline {
+       display: flex;
+       flex-direction: column;
+       align-items: flex-start;
+       font-size: 14vw !important;
+       line-height: 1;
+   }
+      #me-mo-toggle {
+       display: block;
+       width: 35vw;
+       max-width: 300px;
+       margin-top: 10px;
+       margin-left: -2px;
+       margin-bottom: 10px;
+   }
+   #me-mo-toggle svg {
+       width: 100%;
+       height: auto;
+   }
+}
+    </style>
+
+    <script>
+    import { gsap } from "gsap";
+    // 3. MORPHING FOTO (Loop Infinito)
+    const photoBlob = document.querySelector(".morph-path");
+
+    if (photoBlob) {
+        const photoTl = gsap.timeline({
+            repeat: -1,
+            yoyo: true,
+            defaults: {
+                duration: 5,
+                ease: "sine.inOut"
+            }
+        });
+
+        photoTl.to(photoBlob, {
+            rotate: 20,
+            scale: 0.95
+        });
+    }
+    // TOGGLE FOTO PROFILO
+    const profileImg = document.querySelector('.photo-container image') as HTMLElement;
+
+    if (profileImg) {
+        // 1. Definiamo la lista delle immagini in ordine
+        const images = [
+            "img/michele-occhi-portrait.webp?raw=true",
+            "img/michele-occhi-portrait_young.webp?raw=true",
+        ];
+
+        // 2. Teniamo traccia di quale immagine è attiva
+        let currentIndex = 0;
+
+        profileImg.style.cursor = 'pointer';
+
+        profileImg.addEventListener('click', () => {
+            // 3. Incrementiamo l'indice
+            // L'operatore modulo (%) resetta l'indice a 0 quando raggiunge la fine dell'array
+            currentIndex = (currentIndex + 1) % images.length;
+
+            // 4. Applichiamo la nuova immagine
+            profileImg.setAttribute('xlink:href', images[currentIndex]);
+            
+        });
+    }
+    </script>
