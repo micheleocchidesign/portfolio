@@ -28,7 +28,7 @@ let tPX = mX, tPY = mY; // Target per pupille
 
 // --- Riferimenti DOM per cursore sticky ---
 let menuBtn = document.getElementById('nav-text-menu');
-
+const cursor = document.getElementById('custom-cursor');
 
 // Riferimenti agli occhi (Hero e Nav)
 let hp, np;
@@ -47,7 +47,7 @@ const getEyeParts = (wrapper) => {
 let xSet, ySet, scaleXTo, scaleYTo, rotationTo;
 
 export function initCursorLogic() {
-    const cursor = document.getElementById('custom-cursor');
+    //const cursor = document.getElementById('custom-cursor');
     container = document.getElementById('cursor-container');
     
     // Rimuoviamo il "return" bloccante per mobile.
@@ -97,45 +97,56 @@ export function initCursorLogic() {
         document.addEventListener('mouseout', (e) => {
             cursor.classList.remove('is-hovering', 'is-works-link', 'is-email');
         });
+        // --- //MODIFICA CURSORE SE HOVER SU VIDEO O IFRAME (YouTube) ---
+        const videoModules = document.querySelectorAll('.type-youtube, .module video[controls]');        console.log("Moduli YouTube trovati:", videoModules.length); // Deve essere > 0
+        videoModules.forEach((mod, index) => {
+            mod.addEventListener('mouseenter', () => {
+                if (cursor) cursor.style.display = "none";
+            });
+
+            mod.addEventListener('mouseleave', () => {
+                console.log(`MOUSE LEAVE dal modulo ${index}`);
+                if (cursor) cursor.style.display = "block";
+            });
+        });
     }
 
     // Il mousemove lo lasciamo, tanto su mobile non triggera o viene ignorato se gyroActive
     document.addEventListener('mousemove', (e) => {
         if (gyroState.active) return;
+            mX = e.clientX;
+            mY = e.clientY;
+            window.realMX = e.clientX;
+            window.realMY = e.clientY;
+            tPX = e.clientX;
+            tPY = e.clientY;
 
-mX = e.clientX;
-mY = e.clientY;
-window.realMX = e.clientX;
-window.realMY = e.clientY;
-tPX = e.clientX;
-tPY = e.clientY;
+            // Calcolo della distanza dal pulsante menu SOLO se esiste.
+            // Se il pulsante non è presente, evitiamo l'eccezione e manteniamo
+            // lo stato non-sticky così che `resetIdleTimer()` venga sempre eseguito.
 
-// Calcolo della distanza dal pulsante menu SOLO se esiste.
-// Se il pulsante non è presente, evitiamo l'eccezione e manteniamo
-// lo stato non-sticky così che `resetIdleTimer()` venga sempre eseguito.
-
-if (menuBtn) {
-    const btnRect = menuBtn.getBoundingClientRect();
-    const dist = Math.hypot(mX - (btnRect.left + btnRect.width / 2), mY - (btnRect.top + btnRect.height / 2));
-    // Soglia dello sticky
-    if (dist < 60 && !document.body.classList.contains('use-standard-cursor')) { 
-        isSticky = true;
-        stickyScale = 2.5; // Qui decidi quanto si deve ingrandire (es. 2.5 volte)
-        menuBtn.classList.add('sticky-active');
-        // Il target del cursore diventa il centro esatto del bottone
-        mX = btnRect.left + btnRect.width / 2;
-        mY = btnRect.top + btnRect.height / 2;
-    } else {
-        isSticky = false;
-        stickyScale = 1; // Torna alla dimensione normale
-        menuBtn.classList.remove('sticky-active');
-    }
-} else {
-    isSticky = false;
-    stickyScale = 1;
-}
-resetIdleTimer();
-});
+            if (menuBtn) {
+                const btnRect = menuBtn.getBoundingClientRect();
+                const dist = Math.hypot(mX - (btnRect.left + btnRect.width / 2), mY - (btnRect.top + btnRect.height / 2));
+                // Soglia dello sticky
+                if (dist < 60 && !document.body.classList.contains('use-standard-cursor')) { 
+                    isSticky = true;
+                    stickyScale = 2.5; // Qui decidi quanto si deve ingrandire (es. 2.5 volte)
+                    menuBtn.classList.add('sticky-active');
+                    // Il target del cursore diventa il centro esatto del bottone
+                    mX = btnRect.left + btnRect.width / 2;
+                    mY = btnRect.top + btnRect.height / 2;
+                } else {
+                    isSticky = false;
+                    stickyScale = 1; // Torna alla dimensione normale
+                    menuBtn.classList.remove('sticky-active');
+                }
+            } else {
+                isSticky = false;
+                stickyScale = 1;
+            }
+            resetIdleTimer();
+        });
     // Avvia il ciclo di update
     update();
 }

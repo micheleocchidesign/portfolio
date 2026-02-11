@@ -36,16 +36,25 @@
 }
 
 /* --- MEDIA QUERY: POINTER FINE (Desktop/Mouse) --- */
- @media (pointer: fine) {
-    /* Nascondi il cursore solo se NON c'è la classe che ripristina quello standard */
+    @media (pointer: fine) {
+    /* 1. Nascondi il cursore ovunque di base */
     html:not(.use-standard-cursor) body {
         cursor: none !important;
     }
 
-    /* Opzionale: se vuoi essere ancora più sicuro che tutto sparisca */
-    html:not(.use-standard-cursor) a, 
-    html:not(.use-standard-cursor) button {
+    /* 2. NASCONDI la manina sui link speciali (così vedi solo l'icona custom) */
+    html:not(.use-standard-cursor) .scrivimi-link, 
+    html:not(.use-standard-cursor) .email-link, 
+    html:not(.use-standard-cursor) .big-works-link, 
+    html:not(.use-standard-cursor) #nav-text-menu {
         cursor: none !important;
+    }
+
+    /* 3. MOSTRA la manina solo sui link standard o bottoni generici */
+    /* Questo sovrascrive il "cursor: none" generale solo per questi elementi */
+    html:not(.use-standard-cursor) a:not(.scrivimi-link):not(.email-link):not(.big-works-link), 
+    html:not(.use-standard-cursor) button:not(#nav-text-menu) {
+        cursor: pointer !important;
     }
 
     #gyro-cta {

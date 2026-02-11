@@ -2,6 +2,15 @@
 const { page } = Astro.props;
 ---
 <div id="menu-overlay">
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0">
+        <defs>
+            <filter id="gooey-filter">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 40 -15" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
     <div class="ink-container">
         <div class="spot s1"></div>
         <div class="spot s2"></div>
@@ -44,7 +53,8 @@ const { page } = Astro.props;
 .spot {
     position: absolute;
     border-radius: 50%;
-    background: var(--dark-text);
+    /*background: var(--dark-text);*/
+    background-color: #292523; /* un po' più scuro di dark text per vedersi anche su sez darktext */
     transform: scale(0);
     transition: transform 1.2s cubic-bezier(0.6, 0, 0.4, 1), 
                 top 0.5s, left 0.5s, right 0.5s, bottom 0.5s; /* Per transizioni fluide tra resize */
@@ -58,15 +68,19 @@ const { page } = Astro.props;
     transform: scale(1.6);
 }
 
+.s1 { transition-delay: 0.2s;  }
+.s2 { transition-delay: 0s; }
+.s3 { transition-delay: 0.1s; }
+
 /* --- SPECIFICHE DESKTOP PER ESPANDERSI DA IN ALTO A SINISTRA MA SENZA RIEMPIRE TUTTO --- */
  @media (min-width: 1024px) {
    /* 1. Stato INIZIALE: Le macchie sono piccole e vicine all'angolo alto-destra */
     .s1 {
         left: auto;
         bottom: auto;
-        top: -40px;
+        top: -10px;
        /* Partono dall'alto */
-        right: -40px;
+        right: -10px;
        /* Partono da destra */
         transform: scale(0);
    }
@@ -82,9 +96,9 @@ const { page } = Astro.props;
     .s3 {
         left: auto;
         bottom: auto;
-        top: 0px;
+        top: -10px;
        /* Partono dall'alto */
-        right: 5px;
+        right: -10px;
        /* Partono da destra */
         transform: scale(0);
    }
@@ -98,8 +112,8 @@ const { page } = Astro.props;
         height: 280px;
    }
     .s3 {
-        width: 350px;
-        height: 300px;
+        width: 420px;
+        height: 350px;
    }
    /* 2. Stato ACTIVE: Crescono e si spostano verso la metà destra dello schermo */
     #menu-overlay.active .spot.s1 {
