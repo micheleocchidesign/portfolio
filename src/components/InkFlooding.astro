@@ -6,9 +6,9 @@ const {
 } = Astro.props;
 ---
 <div class="flooder" id={containerId}>
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path id="ink-path" d="M0,0 L120,0 L120,0 C80,0 70,0 50,0 C30,0 15,0 -20,0 Z"></path>
-    </svg>
+    <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
+    <path id="ink-path" d="M0,0 L1000,0 L1000,0 C750,0 750,0 500,0 C250,0 250,0 0,0 Z"></path>
+</svg>
 </div>
 
 
@@ -40,4 +40,12 @@ const {
         height: 100%;
         display: block;
     }
+    .flooder svg {
+    /* Impedisce al browser di ricalcolare l'anti-aliasing dei bordi 
+       troppo spesso durante il movimento */
+    shape-rendering: optimizeSpeed; 
+    will-change: transform;
+    /* Forza l'uso della GPU senza distorcere l'SVG */
+    transform: translateZ(0);
+}
 </style>
