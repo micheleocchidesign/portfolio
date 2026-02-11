@@ -110,9 +110,18 @@
     pointer-events: none;
     will-change: transform, opacity; /* Ottimizza le prestazioni dell'animazione */
 }
+/* --- MEDIA QUERIES --- */
+/* --- per dispositivi con puntatore fine (es. mouse) mostriamo il cursore personalizzato --- */
 @media (pointer: fine) {
     #cursor-container {
         display: block;
+    }
+}
+/* --- per dispositivi touch nascondiamo il cursore personalizzato --- */
+@media (max-width: 1024px) or (pointer: coarse) {
+    #cursor-container, 
+    #custom-cursor{ /* Aggiungi qui la classe del tuo checkbox/toggle */
+        display: none !important;
     }
 }
 </style>

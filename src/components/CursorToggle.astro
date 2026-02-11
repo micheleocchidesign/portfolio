@@ -152,6 +152,13 @@
  .switch input:checked + .slider::before {
     left: calc(100% - 10.5px - var(--switch-offset));
 }
+
+/* --- per dispositivi touch nascondiamo il toggle del cursore --- */
+@media (max-width: 1024px) or (pointer: coarse) {
+    #cursor-ui-vertical{ 
+        display: none !important;
+    }
+}
 </style>
 <script>
   function initToggle() {
@@ -201,5 +208,4 @@
 
   // Inizializzazione per Astro (funziona anche con View Transitions)
   initToggle();
-
 </script>

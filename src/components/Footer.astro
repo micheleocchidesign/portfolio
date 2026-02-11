@@ -3,11 +3,12 @@
 ---
 <footer id="main-footer">
     <div class="footer-group left">
-        <a href="https://instagram.com" target="_blank" class="footer-link">Instagram</a>
+        <span>P.IVA 14570940966</span>
+       <!--  <a href="https://instagram.com" target="_blank" class="footer-link">Instagram</a> -->
     </div>
     <div class="footer-group center">
         <span>&copy; 2026 Michele Occhi</span>
-        <span>P.IVA 14570940966</span>
+        <!-- <span>P.IVA 14570940966</span> -->
     </div>
     <div class="footer-group right">
         <a href="#" class="footer-link">Privacy Policy</a>
@@ -56,5 +57,31 @@
  .insta-link {
     text-decoration: none;
     color: inherit;
+}
+@media (max-width: 768px) {
+    #main-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .footer-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-group.center {
+        order: 3; /* Mette il copyright in fondo */
+    }
+    
+    .footer-group.left {
+        order: 1;
+    }
+
+    .footer-group.right {
+        order: 2;
+    }
 }
 </style>
