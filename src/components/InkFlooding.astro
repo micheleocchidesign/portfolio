@@ -22,10 +22,16 @@ const {
         height: 100vh;
         pointer-events: none;
         z-index:4;
+        /* --- FIX PERFORMANCE --- */
+        will-change: transform; 
+        transform: translateZ(0); 
+        backface-visibility: hidden;
+        perspective: 1000;
     }
 
     path{
         fill: var(--color);
+        will-change: d;
     }
     
 
