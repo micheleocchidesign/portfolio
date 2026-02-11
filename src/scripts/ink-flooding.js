@@ -13,8 +13,8 @@ export function initInkReveal(pathSelector, triggerSelector, customOptions = {})
     // invece di fare un "massacro" globale con .getAll()
     ScrollTrigger.getById(pathSelector)?.kill();
 
-    const INITIAL_PATH = "M0,0 L1000,0 L1000,0 C750,0 750,0 500,0 C250,0 250,0 0,0 Z";
-    const FINAL_PATH = "M-200,0 L1200,0 L1200,1050 C800,1300 700,900 500,1200 C300,1400 150,900 -200,1050 Z";
+    const INITIAL_PATH = "M0,0 L1000,0 L1000,0 C750,0 250,0 0,0 Z";
+    const FINAL_PATH = "M0,0 L1000,0 L1000,1100 C750,1300 250,800 0,1100 Z";
     gsap.set(path, { attr: { d: INITIAL_PATH } });
 
     return gsap.to(path, {
