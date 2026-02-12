@@ -14,7 +14,6 @@ export function initInkReveal(pathSelector, triggerSelector, customOptions = {})
     const FINAL_PATH = "M0,0 L1000,0 L1000,900 C800,1200 700,800 500,1100 C300,1300 200,800 0,1000 Z";
 
     // Estraiamo useMorph dalle opzioni, di default è false
-    // Se useMorph è true, useremo il morphing del path, poco fluido su ios e safari
     const useMorph = customOptions.useMorph || false;
 
     if (useMorph) {
@@ -35,27 +34,31 @@ export function initInkReveal(pathSelector, triggerSelector, customOptions = {})
     } else {
         // --- PRODUZIONE: SCALE (Universale e fluido) ---
         path.setAttribute('d', FINAL_PATH);
-        gsap.set(container, { transformOrigin: "center top" });
+        
+        // Prepariamo lo stato iniziale in modo pulito
+        gsap.set(container, { 
+            transformOrigin: "center top", 
+            scaleY: 0,
+            y: 0 // Mantieni y:0 come nella versione funzionante
+        });
 
-        return gsap.fromTo(container, 
-            { scaleY: 0 }, 
-            {
-                scaleY: 1,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: trigger,
-                    start: customOptions.start || "top bottom",
-                    end: customOptions.end || "top top",
-                    scrub: true,
-                    onLeave: () => {
-                        // Eseguiamo i tuoi callback passati da BeyondSection
-                        customOptions.onLeave?.();
-                        // Forza scala 1 alla fine per evitare glitch grafici
-                        gsap.set(container, { scaleY: 1 });
-                    },
-                    onEnterBack: () => customOptions.onEnterBack?.(),
+        return gsap.to(container, {
+            scaleY: 1,
+            y: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: trigger,
+                start: customOptions.start || "top bottom",
+                end: customOptions.end || "top top",
+                scrub: true,
+                // Usiamo una gestione dei callback più robusta
+                onLeave: () => {
+                    if (customOptions.onLeave) customOptions.onLeave();
+                },
+                onEnterBack: () => {
+                    if (customOptions.onEnterBack) customOptions.onEnterBack();
                 }
             }
-        );
+        });
     }
 }

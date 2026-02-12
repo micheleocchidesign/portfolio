@@ -311,5 +311,40 @@ const {
     left: 50%;
     transform: translateX(-50%);
 }
+
+/* --- media query per mobile, tutto su una colonna --- */
+@media (max-width: 1024px) {
+    .project-container {
+        flex-direction: column; /* Il side scende sopra la griglia */
+        gap: 40px;
+        padding: 100px 20px 40px 20px;
+    }
+
+    .project-side {
+        width: 100%; /* Prende tutta la larghezza */
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr; /* Una sola colonna per i moduli */
+        width: 100%;
+    }
+
+    /* Forza i moduli orizzontali e l'header a stare nel flusso */
+    .project-info-header,
+    .module--horizontal,
+    .project-details,
+    .project-details ul {
+        grid-column: 1 / -1; 
+        grid-template-columns: 1fr; /* Anche i dettagli (Client, Role) si incolonnano */
+    }
+    
+    .module--vertical {
+        aspect-ratio: 1 / 1.2; /* Leggermente meno alto su mobile per non occupare troppo scroll */
+    }
+
+    #back-works {
+        font-size: 40px; /* Ridimensioniamo il font MoFont su mobile */
+    }
+}
 </style>
 

@@ -20,6 +20,16 @@ import ScrollHint from "../ScrollHint.astro";
     padding: 100px 40px;
     background-color: var(--dark-text);
     height: 100vh;
+    /* AGGIUNGI QUESTI TRE: */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    /* MODIFICA IL PADDING: */
+    padding: 0 20px; /* Rimuovi i 100px in alto che sbilanciano il centro */
+}
+
+#works-title {
+    transform: translateY(-5vh);
 }
 
 #works-selected {
@@ -36,9 +46,15 @@ import ScrollHint from "../ScrollHint.astro";
     display: none;
 }
 
-.huge-works{
-    font-size: clamp(150px, 30vw, 250px) !important;
+.huge-works {
+    /* Valore minimo ridotto a 60px per i telefoni piccoli 
+       Valore ideale 22vw per scalare proporzionalmente 
+       Valore massimo 250px per i desktop giganti */
+    font-size: clamp(70px, 22vw, 250px) !important; 
     color: var(--text-light);
+    //line-height: 0.8; /* Stringiamo l'interlinea per un look più bold */
+    display: block;   /* Assicura che si comporti come un blocco */
+    word-break: break-all; /* Sicurezza estrema per non rompere il layout */
 }
 
 #works-intro :global(.scroll-hint) {
@@ -63,7 +79,7 @@ import ScrollHint from "../ScrollHint.astro";
 }
 
 #works-ink-path {
-    fill: var(--text-light); /* Panna */
+    fill: var(--text-light);
 }
 </style>
 <script>

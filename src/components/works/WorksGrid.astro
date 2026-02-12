@@ -52,17 +52,27 @@ const projects = [
 </section>
 
 <style>
-    /* --- GRIGLIA PRINCIPALE --- */
+    /* --- GRIGLIA PRINCIPALE MOBILE FIRST --- */
     .works-grid {
         position: relative;
         z-index: 5;
         display: grid !important;
-        /* Crea colonne che si adattano da sole: minimo 300px, massimo 1fr */
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 60px 30px; /* Più spazio verticale tra le righe per dare "respiro" */
-        padding: 100px 40px;
+        /* Cambiamo 350px con 1fr per il mobile, 
+        o un valore più basso come 280px per evitare l'overflow */
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
+        gap: 60px 30px;
+        padding: 80px 20px; /* Ridotto il padding laterale da 40px a 20px */
         max-width: 1400px;
         margin: 0 auto;
+        
+        /* Assicuriamoci che non ci siano scroll orizzontali indesiderati */
+        overflow: hidden; 
+    }
+    /* Ripristiniamo il padding generoso solo per desktop */
+    @media (min-width: 768px) {
+        .works-grid {
+            padding: 100px 40px;
+        }
     }
 </style>
 <script>
