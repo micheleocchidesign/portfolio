@@ -1,59 +1,30 @@
 ---
-// Definiamo cosa può cambiare tra index e works, settando dei predefiniti
 const { 
-  containerId = "ink-transition-container", //l'id del suo container
-  color = "var(--dark-text)", //colore macchia per css
+  containerId = "ink-transition-container", 
+  color = "var(--dark-text)", 
 } = Astro.props;
 ---
 <div class="flooder" id={containerId}>
-    <svg viewBox="0 0 1000 1200" preserveAspectRatio="none">
-    <path id="ink-path" d="M0,0 L1000,0 L1000,0 C750,0 750,0 500,0 C250,0 250,0 0,0 Z"></path>
-</svg>
+    <div class="ink-rect"></div>
 </div>
 
-
 <style define:vars={{ color }}>
-    /* CSS Unificato: le parti comuni le scriviamo una volta sola */
     .flooder {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 130%;
-        pointer-events: none;
-        z-index:4;
-        /* --- FIX PERFORMANCE --- */
-        will-change: transform; 
-        transform: translateZ(0); 
-        backface-visibility: hidden;
-        perspective: 1000;
-        overflow: visible !important;
-    }
-
-    path{
-        fill: var(--color);
-        will-change: d;
-    }
-    
-
-    svg {
-        width: 100%;
-        height: 100%;
-        display: block;
-        overflow: visible !important;
-    }
-    .flooder svg {
-    /* Impedisce al browser di ricalcolare l'anti-aliasing dei bordi 
-       troppo spesso durante il movimento */
-    shape-rendering: optimizeSpeed; 
-    will-change: transform;
-    /* Forza l'uso della GPU senza distorcere l'SVG */
-    transform: translateZ(0);
+    position: fixed; /* O absolute, ma deve avere altezza */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* OBBLIGATORIO: definisce l'area massima */
+    height: 100dvh;
+    z-index: 999;
+    pointer-events: none;
 }
-@media (max-width: 1024px) {
-    .flooder {
-        /* Assicuriamoci che parta da sopra se siamo su mobile */
-        transform: translateY(-100%);
-    }
+
+    .ink-rect {
+    width: 100%;
+    height: 100%; /* Prende i 100vh del padre */
+    background-color: var(--color, #000);
+    display: block !important; /* Forza la presenza */
+    transform-origin: top center;
 }
 </style>
