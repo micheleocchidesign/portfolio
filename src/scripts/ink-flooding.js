@@ -33,7 +33,7 @@ export function initInkReveal(pathSelector, triggerSelector, customOptions = {})
             trigger: trigger,
             start: customOptions.start || "top bottom", 
             end: customOptions.end || "top top",
-            scrub: 0.5, // Ridotto a 0.5 per una risposta più pronta su iOS
+            scrub: 1, // Ridotto a 0.5 per una risposta più pronta su iOS
             invalidateOnRefresh: true,
             onEnter: () => customOptions.onEnter?.(),
             onLeave: () => customOptions.onLeave?.(),
