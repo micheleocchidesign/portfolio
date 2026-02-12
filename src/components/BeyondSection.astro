@@ -304,7 +304,9 @@
     //AVVIO DECODER PAROLE
     const skills = ["ART DIRECTION", "DESIGN", "STRATEGY"];
     decodeCycle(skills, "#dynamic-word", { interval: 3000, speed: 2 });
+    // --- AVVIO INK FLOODING: se passo un terzo parametro  ---
     initInkReveal('#ink-path', '#beyond-section', {
+        //useMorph: true, // attiva il morphing del path || ATTENZIONE: su iOS e Safari è molto poco fluido
         start: "top bottom",
         end: "top top",
         onLeave: () => {

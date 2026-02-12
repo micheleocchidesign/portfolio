@@ -48,6 +48,14 @@ const { target } = Astro.props;
     40% { transform: translateX(-50%) translateY(-10px); }
     60% { transform: translateX(-50%) translateY(-5px); }
 }
+
+@media (max-width: 768px) {
+    .scroll-hint {
+        /* Se il contenitore padre è alto quanto la sezione, 
+           assicuriamoci che rimanga sopra la barra di Chrome */
+        bottom: 15dvh; 
+    }
+}
 </style>
 
 <script>
