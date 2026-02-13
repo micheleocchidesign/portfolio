@@ -75,25 +75,6 @@ document.querySelectorAll('.internal-link').forEach(link => {
         });
     }
 
-    /* --- REVEAL INCHIOSTRO WORKS --- */
-    /*function initWorksInkReveal() {
-        const inkPathWorks = document.getElementById('works-ink-path');
-        if (!inkPathWorks) return;
-
-        const INITIAL_PATH = "M0,0 L100,0 L100,0 C75,0 75,0 50,0 C25,0 25,0 0,0 Z";
-        const FINAL_PATH = "M-20,0 L120,0 L120,105 C80,130 70,90 50,120 C30,140 15,90 -20,105 Z";
-
-        gsap.to(inkPathWorks, {
-            scrollTrigger: {
-                trigger: "#works-intro",
-                start: "top top",      // Inizia subito
-                end: "bottom top",     // Finisce quando la intro nera è sparita
-                scrub: 1,
-            },
-            attr: { d: FINAL_PATH },
-            ease: "none"
-        });
-    }*/
     function setupAll() {
         // support both possible IDs (legacy: 'skill-filters', current markup: 'skills-filters')
         if (document.querySelector('.project-side')) initProjectSticky();

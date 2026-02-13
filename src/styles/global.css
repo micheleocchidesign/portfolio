@@ -45,8 +45,7 @@
     /* 2. NASCONDI la manina sui link speciali (così vedi solo l'icona custom) */
     html:not(.use-standard-cursor) .scrivimi-link, 
     html:not(.use-standard-cursor) .email-link, 
-    html:not(.use-standard-cursor) .big-works-link, 
-    html:not(.use-standard-cursor) #nav-text-menu {
+    html:not(.use-standard-cursor) .big-works-link{
         cursor: none !important;
     }
 
@@ -58,7 +57,7 @@
     }
 
     #gyro-cta {
-        display: none;
+       display: none !important;
     }
 }
 

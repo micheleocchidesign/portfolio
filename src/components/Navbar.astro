@@ -1,13 +1,16 @@
 ---
 import MoLogo from '../components/MoLogo.astro';
+// Navbar.astro
+const { disableLogoScroll = false } = Astro.props;
 ---
-<header id="site-header">
-    <a id="nav-logo-wrapper" href="index.html">
+<header id="site-header" data-disable={disableLogoScroll.toString()}>
+    <a id="nav-logo-wrapper" href="/index.html">
         <MoLogo MaskId="m-nav"/>
     </a>
-    <a id="label-name" class="ui-label" href="index.html">Michele Occhi</a>
+    <a id="label-name" class="ui-label" href="/index.html">Michele Occhi</a>
     <div id="nav-text-menu" class="ui-label">Menu +</div>
 </header>
+
 <style>
     .ui-label {
     position: fixed;
@@ -85,8 +88,12 @@ const nLog = document.getElementById('nav-logo-wrapper');
 const labelName = document.getElementById('label-name');
 // Inizializza la funzionalità di scroll per il logo e l'etichetta del nome
 function initScrollNav() {
+    const header = document.getElementById('site-header');
+    // Se l'attributo impostato nel tag header è "true", non aggiungiamo l'evento di scroll
+    if (header?.dataset.disable === "true") {
+        return; 
+    }
     //cerchiamo logonav e etichetta nome quando la funzione parte
-    
     window.addEventListener('scroll', () => {
         const y = window.scrollY;
         const isScrolled = y > 100;

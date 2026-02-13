@@ -4,9 +4,11 @@ const { target } = Astro.props;
 ---
 
 <div class="scroll-hint">
-  <span class="material-symbols-outlined">
-    <a href={target} class="internal-scroll-link">arrow_cool_down</a>
-  </span>
+  <a href={target} class="internal-scroll-link">
+    <span class="hint-text">KEEEEEEP</span>
+    <span class="material-symbols-outlined">arrow_cool_down</span>
+    <span class="hint-text">SCROLLIN'</span>
+  </a>
 </div>
 
 <style>
@@ -18,7 +20,9 @@ const { target } = Astro.props;
     transform: translateX(-50%);
     z-index: 10;
     animation: scrollBounce 2s infinite;
+    white-space: nowrap; /* Impedisce al testo di andare a capo */
 }
+
 /* Applica il cursore manina a tutto il blocco e ai suoi figli */
 .scroll-hint, 
 .scroll-hint * {
@@ -26,16 +30,28 @@ const { target } = Astro.props;
 }
 
 .internal-scroll-link {
-    display: inline-block;
+    display: flex;
+    align-items: center; /* Allinea verticalmente testo e icona */
+    gap: 12px;           /* Spazio tra testo e freccia */
     text-decoration: none;
     color: inherit;
-    /* Opzionale: rende l'area cliccabile un po' più grande */
-    padding: 10px; 
+    cursor: pointer !important;
 }
 
+.hint-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* --- ICONA --- */
 .scroll-hint .material-symbols-outlined {
-    font-size: 36px;
+    font-size: 28px; /* Ridotta leggermente per bilanciare il testo */
     font-variation-settings: 'wght' 200;
+    line-height: 1;
+    display: block;
 }
 
 .material-symbols-outlined a{
