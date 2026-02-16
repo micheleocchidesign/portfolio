@@ -15,11 +15,17 @@ const {
 const getPath = (path) => {
     if (!path) return "";
     
-    // Uniamo base + path e usiamo una Regex per trasformare // in /
-    // Ma attenzione: non dobbiamo rompere il :// dei link esterni!
-    const fullPath = `${base}/${path}`.replace(/\/+/g, '/');
-    
-    return fullPath;
+    // 1. Se è un URL completo (GitHub assets), non toccarlo
+    if (path.startsWith('http')) return path;
+
+    // 2. Puliamo il base: assicuriamoci che NON finisca con /
+    const cleanBase = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+    // 3. Puliamo il path: assicuriamoci che INIZI con /
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
+    // 4. Uniamo: Risultato garantito /mo/img/...
+    return `${cleanBase}${cleanPath}`;
 };
 
 const finalSrc = getPath(url);

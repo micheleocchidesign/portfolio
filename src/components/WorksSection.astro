@@ -1,228 +1,263 @@
 ---
 const base = import.meta.env.BASE_URL;
 ---
-<section id="works-section">
-    <div class="works-wrapper">
-        
-        <a href={`${base}works/`} class="big-works-link">
-            <div class="works-ticker-container">
-                <span id="ticker-scopri">
-                    SCOPRI I MIEI LAVORI · SCOPRI I MIEI LAVORI · SCOPRI I MIEI LAVORI
-                </span>
-            </div>
-            
-            <div class="works-monumental-container">
-                <span id="huge-works">WoRKS WoRKS</span>
-            </div>
-        </a>
 
-        <div class="blob-gallery">
-            <div class="blob-item b1"></div>
-            <div class="blob-item b2"></div>
-            <div class="blob-item b3"></div>
-            <div class="blob-item b4"></div>
-            <div class="blob-item b5"></div>
+<section id="works-section">
+    <div class="desktop-only-wrapper">
+        <div class="works-wrapper">
+            <a href={`${base}works/`} class="big-works-link">
+                <div class="works-ticker-container">
+                    <span id="ticker-scopri">
+                        SCOPRI I MIEI LAVORI · SCOPRI I MIEI LAVORI · SCOPRI I MIEI LAVORI
+                    </span>
+                </div>
+                <div class="works-monumental-container">
+                    <span id="huge-works">WoRKS WoRKS</span>
+                </div>
+            </a>
+
+            <div class="blob-gallery">
+                <div class="blob-item b1"></div>
+                <div class="blob-item b2"></div>
+                <div class="blob-item b3"></div>
+                <div class="blob-item b4"></div>
+                <div class="blob-item b5"></div>
+            </div>
         </div>
-        
     </div>
+
+    <div class="mobile-only-section">
+    <a href={`${base}works/`} class="mobile-content-link">
+        <span class="m-ticker">SCOPRI I MIEI LAVORI</span>
+        <span class="m-huge from-left">WoRKS</span>
+        <span class="m-huge from-right">WoRKS</span>
+        <span class="m-huge from-left">WoRKS</span>
+    </a>
+
+    <div class="blob-gallery-mobile">
+        <div class="blob-m bm1"></div>
+        <div class="blob-m bm2"></div>
+        <div class="blob-m bm3"></div>
+    </div>
+</div>
 </section>
+
 <svg style="width:0; height:0; position:absolute;" aria-hidden="true">
-      <defs>
+    <defs>
         <clipPath id="shape1" clipPathUnits="objectBoundingBox">
-          <path d="M0.698,0.311 C0.778,0.383,0.880,0.442,0.904,0.525 C0.929,0.608,0.877,0.716,0.797,0.772 C0.716,0.828,0.608,0.831,0.499,0.833 C0.389,0.835,0.277,0.835,0.230,0.779 C0.182,0.723,0.199,0.612,0.214,0.516 C0.230,0.420,0.245,0.341,0.293,0.269 C0.341,0.196,0.420,0.132,0.490,0.143 C0.559,0.153,0.618,0.239,0.698,0.311 Z"></path>
+            <path d="M0.698,0.311 C0.778,0.383,0.880,0.442,0.904,0.525 C0.929,0.608,0.877,0.716,0.797,0.772 C0.716,0.828,0.608,0.831,0.499,0.833 C0.389,0.835,0.277,0.835,0.230,0.779 C0.182,0.723,0.199,0.612,0.214,0.516 C0.230,0.420,0.245,0.341,0.293,0.269 C0.341,0.196,0.420,0.132,0.490,0.143 C0.559,0.153,0.618,0.239,0.698,0.311 Z"></path>
         </clipPath>
-    
         <clipPath id="shape2" clipPathUnits="objectBoundingBox">
-          <path d="M0.701,0.28 C0.752,0.35,0.778,0.425,0.77,0.492 C0.761,0.558,0.718,0.616,0.667,0.659 C0.616,0.701,0.558,0.727,0.487,0.741 C0.415,0.754,0.331,0.754,0.276,0.712 C0.221,0.67,0.196,0.585,0.185,0.489 C0.174,0.394,0.177,0.287,0.232,0.217 C0.287,0.147,0.394,0.113,0.484,0.129 C0.575,0.145,0.65,0.21,0.701,0.28 Z"></path>
+            <path d="M0.701,0.28 C0.752,0.35,0.778,0.425,0.77,0.492 C0.761,0.558,0.718,0.616,0.667,0.659 C0.616,0.701,0.558,0.727,0.487,0.741 C0.415,0.754,0.331,0.754,0.276,0.712 C0.221,0.67,0.196,0.585,0.185,0.489 C0.174,0.394,0.177,0.287,0.232,0.217 C0.287,0.147,0.394,0.113,0.484,0.129 C0.575,0.145,0.65,0.21,0.701,0.28 Z"></path>
         </clipPath>
-    
         <clipPath id="shape3" clipPathUnits="objectBoundingBox">
-          <path d="M0.714,0.299 C0.791,0.363,0.875,0.431,0.895,0.52 C0.914,0.608,0.868,0.715,0.792,0.794 C0.715,0.874,0.608,0.925,0.507,0.918 C0.407,0.911,0.313,0.846,0.251,0.767 C0.188,0.687,0.157,0.594,0.16,0.504 C0.164,0.414,0.202,0.327,0.265,0.264 C0.327,0.2,0.414,0.16,0.491,0.169 C0.569,0.178,0.638,0.236,0.714,0.299 Z"></path>
+            <path d="M0.714,0.299 C0.791,0.363,0.875,0.431,0.895,0.52 C0.914,0.608,0.868,0.715,0.792,0.794 C0.715,0.874,0.608,0.925,0.507,0.918 C0.407,0.911,0.313,0.846,0.251,0.767 C0.188,0.687,0.157,0.594,0.16,0.504 C0.164,0.414,0.202,0.327,0.265,0.264 C0.327,0.2,0.414,0.16,0.491,0.169 C0.569,0.178,0.638,0.236,0.714,0.299 Z"></path>
         </clipPath>
-      </defs>
-    </svg>
+    </defs>
+</svg>
 
 <style>
-    .pin-spacer {
-        min-height: 100vh !important;
+    /* --- LOGICA DI VISIBILITÀ --- */
+    @media (min-width: 769px) {
+        .mobile-only-section { display: none; }
+        .desktop-only-wrapper { display: block; }
     }
-    #works-section {
-    height: 100vh !important;
-    min-height: 100vh !important;
-    max-height: 100vh !important;
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--text-light);
-    position: relative;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0; /* Assicurati che non ci sia padding che ruba spazio ai 100vh */
-}
 
-.works-wrapper {
-    display: flex;
-    position: relative;
-    height: 100%; /* Usa 100% per ereditare i 100vh del padre */
-    align-items: center;
-    flex-wrap: nowrap; 
-    width: max-content; 
-    will-change: transform;
-}
- #ticker-scopri {
-    font-family: 'Inter', sans-serif;
-    font-size: 10vh !important;
-   /* Molto più piccolo, funge da ticker */
-    font-weight: 900;
-    line-height: 1;
-    opacity: 1;
-    text-decoration: underline;
-}
- #huge-works {
-    font-family: 'Mofont', sans-serif;
-    font-size: 50vh !important;
-   /* Monumentale */
-    line-height: 1;
-    display: block;
-}
- .big-works-link {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    white-space: nowrap;
-    text-decoration: none;
-    z-index: 10;
-   /* Sopra i blob */
-    color: var(--dark-text);
-    padding: 0 10vw;
-    cursor: pointer !important;
-    flex-shrink: 0;
-}
- .big-works-link:hover .text-inter, .big-works-link:hover .text-mofont {
-    text-decoration: underline;
-}
-/* --- GALLERY DEI BLOB (Il "Fondale") --- */
- .blob-gallery {
-    position: absolute;
-    top: 0;
-    left: 0;
-   /* Importante: deve coprire l'intera larghezza del wrapper */
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
- .blob-item {
-    position: absolute;
-    width: 450px;
-    height: 450px;
-    overflow: hidden;
-    will-change: transform;
-    transition: clip-path 0.4s ease;
-}
-/* Distribuzione spaziale (percentuali basate sulla larghezza totale) */
- .b1 {
-    top: 5%;
-    left: 5%;
-    background-color: var(--accent-gold);
-    clip-path: url(#shape1);
-    -webkit-clip-path: url(#shape1);
-}
- .b2 {
-    top: 45%;
-    left: 25%;
-    background-color: var(--dark-blue);
-    clip-path: url(#shape2);
-    -webkit-clip-path: url(#shape2);
-}
- .b3 {
-    top: 8%;
-    left: 45%;
-    background-color: var(--accent-coral);
-    clip-path: url(#shape3);
-    -webkit-clip-path: url(#shape3);
-}
- .b4 {
-    top: 35%;
-    left: 70%;
-    background-color: var(--light-blue);
-    clip-path: url(#shape1);
-    transform: rotate(90deg);
-}
- .b5 {
-    top: 2%;
-    left: 85%;
-    background-color: var(--violet);
-    clip-path: url(#shape2);
-    transform: rotate(-45deg);
-}
+    @media (max-width: 768px) {
+        .desktop-only-wrapper { display: none !important; }
+        .mobile-only-section { display:block; position: relative; overflow: hidden; }
+    }
+
+    /* --- STILI DESKTOP (Il tuo CSS originale) --- */
+    #works-section {
+        width: 100%;
+        overflow: hidden;
+        background-color: var(--text-light);
+        position: relative;
+        z-index: 5;
+    }
+    .desktop-only-wrapper #works-section { height: 100vh !important; display: flex; align-items: center; }
+    .works-wrapper { display: flex; position: relative; height: 100vh; align-items: center; flex-wrap: nowrap; width: max-content; will-change: transform; }
+    #ticker-scopri { font-family: 'Inter', sans-serif; font-size: 10vh !important; font-weight: 900; line-height: 1; text-decoration: underline; }
+    #huge-works { font-family: 'Mofont', sans-serif; font-size: 50vh !important; line-height: 1; display: block; }
+    .big-works-link { position: relative; display: flex; flex-direction: column; align-items: center; white-space: nowrap; text-decoration: none; z-index: 10; color: var(--dark-text); padding: 0 10vw; cursor: pointer !important; flex-shrink: 0; }
+    
+    .blob-gallery { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+    .blob-item { position: absolute; width: 450px; height: 450px; overflow: hidden; will-change: transform; transition: clip-path 0.4s ease; }
+    .b1 { top: 5%; left: 5%; background-color: var(--accent-gold); clip-path: url(#shape1); }
+    .b2 { top: 45%; left: 25%; background-color: var(--dark-blue); clip-path: url(#shape2); }
+    .b3 { top: 8%; left: 45%; background-color: var(--accent-coral); clip-path: url(#shape3); }
+    .b4 { top: 35%; left: 70%; background-color: var(--light-blue); clip-path: url(#shape1); transform: rotate(90deg); }
+    .b5 { top: 2%; left: 85%; background-color: var(--violet); clip-path: url(#shape2); transform: rotate(-45deg); }
+
+    /* --- STILI MOBILE (Statici) --- */
+    .mobile-only-section {
+        padding: 100px 20px;
+        background-color: var(--text-light);
+    }
+    .mobile-content-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--dark-text);
+        gap: 15px;
+    }
+    .m-ticker {
+        font-family: 'Inter', sans-serif;
+        font-size: 4vh;
+        font-weight: 900;
+        text-decoration: underline;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .m-huge {
+        font-family: 'Mofont', sans-serif;
+        font-size: 15vh;
+        line-height: 0.85;
+        display: block;
+        will-change: transform;
+    }
+    .blob-gallery-mobile {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 1; /* Sotto al testo */
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .blob-m {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Posizioni statiche di partenza per Mobile */
+    .bm1 { top: -10%; left: -10%; background-color: var(--accent-gold); clip-path: url(#shape1); }
+    .bm2 { top: 30%; right: -10%; background-color: var(--dark-blue); clip-path: url(#shape2); }
+    .bm3 { top: 45%; left: 10%; background-color: var(--accent-coral); clip-path: url(#shape3); }
+
+    /* Assicurati che il link mobile stia sopra i blob */
+    .mobile-content-link {
+        position: relative;
+        z-index: 10;
+    }
 </style>
 
 <script>
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-    // Registriamo il plugin localmente
     gsap.registerPlugin(ScrollTrigger);
 
     function initWorksSection() {
-    const section = document.querySelector("#works-section");
-    const wrapper = document.querySelector(".works-wrapper");
-    const ticker = document.querySelector("#ticker-scopri");
-    const blobs = gsap.utils.toArray<HTMLElement>(".blob-item");
+        // MATCHMEDIA assicura che il codice GSAP giri SOLO su Desktop
+        let mm = gsap.matchMedia();
 
-    if (!section || !wrapper) return;
+        //LOGICA DESKTOP
+        mm.add("(min-width: 769px)", () => {
+            const section = document.querySelector("#works-section");
+            const wrapper = document.querySelector(".works-wrapper");
+            const ticker = document.querySelector("#ticker-scopri");
+            const blobs = gsap.utils.toArray<HTMLElement>(".blob-item");
 
-    // 1. Ticker sempre attivo (indipendente dallo scroll)
-    if (ticker) {
-        gsap.to(ticker, {
-            xPercent: -33.33, // Se il testo è ripetuto 3 volte
-            duration: 10,
-            repeat: -1,
-            ease: "none"
+            if (!section || !wrapper) return;
+
+            // 1. Ticker Desktop
+            if (ticker) {
+                gsap.to(ticker, {
+                    xPercent: -33.33,
+                    duration: 10,
+                    repeat: -1,
+                    ease: "none"
+                });
+            }
+
+            // 2. Scroll Orizzontale Desktop
+            const mainTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: () => `+=${wrapper.scrollWidth}`,
+                    pin: true,
+                    pinSpacing: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            mainTl.to(wrapper, {
+                x: () => -(wrapper.scrollWidth - window.innerWidth),
+                ease: "none"
+            }, 0);
+
+            blobs.forEach((blob, i) => {
+                mainTl.to(blob, {
+                    x: (i + 1) * 100,
+                    ease: "none"
+                }, 0);
+            });
+        });
+        // --- MOBILE (768px-) ---
+        mm.add("(max-width: 768px)", () => {
+            const mobileSection = document.querySelector(".mobile-only-section");
+            const mobileBlobs = gsap.utils.toArray(".blob-m");
+            
+            // 1. Animazione Parole che vanno verso il centro
+            const leftWords = gsap.utils.toArray(".from-left");
+            const rightWords = gsap.utils.toArray(".from-right");
+
+            leftWords.forEach((word) => {
+                gsap.fromTo(word, 
+                    { xPercent: -40, }, // Parte da sinistra e invisibile
+                    { 
+                        xPercent: 0, 
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: word,
+                            start: "top bottom+=20%", // Inizia poco prima di entrare in vista
+                            end: "top center",       // Finisce quando arriva al centro schermo
+                            scrub: 1
+                        }
+                    }
+                );
+            });
+
+            rightWords.forEach((word) => {
+                gsap.fromTo(word, 
+                    { xPercent: 40, }, // Parte da destra e invisibile
+                    { 
+                        xPercent: 0, 
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: word,
+                            start: "top bottom+=20%",
+                            end: "top center",
+                            scrub: 1
+                        }
+                    }
+                );
+            });
+
+            // 2. Parallasse Blob Mobile (rimane quello di prima)
+            mobileBlobs.forEach((blob, i) => {
+                gsap.to(blob, {
+                    y: (i + 1) * 80,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: mobileSection,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    }
+                });
+            });
         });
     }
 
-    // 2. TIMELINE UNICA per Scroll Orizzontale + Parallasse
-    // Creiamo una timeline che gestisce il PIN
-    const mainTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: () => `+=${wrapper.scrollWidth}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-            refreshPriority: 1,
-            anticipatePin: 1 // Riduce il saltello all'aggancio
-        }
-    });
-
-    // Aggiungiamo lo spostamento del wrapper alla timeline
-    mainTl.to(wrapper, {
-        x: () => -(wrapper.scrollWidth - window.innerWidth),
-        ease: "none"
-    }, 0); // Parte al tempo 0 della timeline
-
-    // Aggiungiamo il parallasse dei blob alla STESSA timeline
-    blobs.forEach((blob, i) => {
-        mainTl.to(blob, {
-            x: (i + 1) * 100, // Movimento relativo allo scroll orizzontale
-            ease: "none"
-        }, 0); // Anche questo parte al tempo 0 e dura quanto lo scroll
-    });
-}
-
-    // Esecuzione al caricamento
-    // Usiamo 'load' per essere sicuri che i font (Mofont) e le dimensioni siano pronti
-    
     window.addEventListener('load', () => {
         setTimeout(() => {
             ScrollTrigger.refresh();
-            initWorksSection()
+            initWorksSection();
         }, 100); 
     });
 </script>

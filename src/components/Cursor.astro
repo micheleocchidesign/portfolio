@@ -118,9 +118,17 @@
     }
 }
 /* --- per dispositivi touch nascondiamo il cursore personalizzato --- */
-@media (max-width: 1024px) or (pointer: coarse) {
+/* --- MOSTRA solo se c'è un mouse (puntatore fine) --- */
+@media (pointer: fine) {
+    #cursor-container {
+        display: block;
+    }
+}
+
+/* --- NASCONDI solo se è veramente un dispositivo touch --- */
+@media (pointer: coarse) {
     #cursor-container, 
-    #custom-cursor{ /* Aggiungi qui la classe del tuo checkbox/toggle */
+    #custom-cursor {
         display: none !important;
     }
 }
