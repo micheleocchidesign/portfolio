@@ -1,16 +1,25 @@
 ---
+// Prendiamo il BASE_URL (es: "/mo/") e togliamo lo slash finale
+// Risultato: "/mo"
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 // Riceviamo i dati come "props"
 const { title, category, agency, agencyUrl, bgImg, previewImg, href } = Astro.props;
+// Funzione interna per essere sicuri che ogni path sia pulito
+// Se il path ha già lo slash (come i tuoi dati), non ne aggiunge un altro
+const getPath = (path) => {
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return base + cleanPath;
+};
 ---
 
 <div class="project-card">
-    <a href={href} class="project-link-overlay"></a>
+    <a href={base + href} class="project-link-overlay"></a>
     <div class="project-asset">
         <div class="project-bg">
-            <img src={bgImg} alt={title} loading="lazy">
+            <img src={getPath(bgImg)} alt={title} loading="lazy">
         </div>
         <div class="project-preview">
-            <img src={previewImg} alt={title} loading="lazy">
+            <img src={getPath(previewImg)} alt={title} loading="lazy">
         </div>
     </div>
     

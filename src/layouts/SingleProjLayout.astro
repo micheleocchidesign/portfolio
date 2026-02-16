@@ -6,6 +6,8 @@ import Navbar from '../components/Navbar.astro';
 import Menu from '../components/Menu.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
+import ProjectModule from '../components/single-work/ProjectModule.astro'; // Controlla che il path sia giusto
+const base = import.meta.env.BASE_URL;
 
 const { 
     title, 
@@ -30,7 +32,7 @@ const {
             <aside class="project-side">
                 <h1 class="project-title">{title}</h1>
                 <p class="project-description">{description}</p>
-                <a href="/works" id="back-works">&lt; WoRKS</a>
+                <a href={`${base}works/`} id="back-works">&lt; WoRKS</a>
             </aside>
 
             <section class="project-grid">
@@ -64,37 +66,7 @@ const {
 
                 {/* Ciclo dei Moduli */}
                 {modules.map((mod) => (
-                    <div class={`module module--${mod.format} type-${mod.type}`}>
-                        {/* IMMAGINI + LINK */}
-                        {mod.type === "image" && (
-                            mod.link ? 
-                            <a href={mod.link} target="_blank"><img src={mod.url} alt={title} /></a> : 
-                            <img src={mod.url} alt={title} />
-                        )}
-
-                        {/* VIDEO MP4 (Short vs Case) */}
-                        {mod.type === "video" && (
-                            <video 
-                                src={mod.url} 
-                                autoplay={mod.variant === 'short'} 
-                                loop={mod.variant === 'short'} 
-                                muted={mod.variant === 'short'} 
-                                controls={mod.variant === 'case'} 
-                                playsinline 
-                            />
-                        )}
-
-                        {/* YOUTUBE (Short vs Case) */}
-                        {mod.type === "youtube" && (
-                            <div class="iframe-container">
-                                <iframe 
-                                    src={`https://www.youtube.com/embed/${mod.youtubeId}?rel=0&modestbranding=1&autoplay=${mod.variant === 'short' ? '1' : '0'}&mute=${mod.variant === 'short' ? '1' : '0'}&loop=${mod.variant === 'short' ? '1' : '0'}&playlist=${mod.youtubeId}`} 
-                                    allow="autoplay; encrypted-media; fullscreen" 
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        )}
-                    </div>
+                    <ProjectModule {...mod} title={title} />
                 ))}
             </section>
         </div>

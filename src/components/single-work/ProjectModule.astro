@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL;
 const { 
   type,          
   format,        
@@ -6,9 +7,23 @@ const {
   url,           
   youtubeId,     
   link,          
-  title 
+  title,
+  showControls = false // Impostiamo un default (es. false per i tuoi video story/loop)
 } = Astro.props;
 
+// 2. Funzione che pulisce i doppi slash
+const getPath = (path) => {
+    if (!path) return "";
+    
+    // Uniamo base + path e usiamo una Regex per trasformare // in /
+    // Ma attenzione: non dobbiamo rompere il :// dei link esterni!
+    const fullPath = `${base}/${path}`.replace(/\/+/g, '/');
+    
+    return fullPath;
+};
+
+const finalSrc = getPath(url);
+const ytControls = showControls ? '1' : '0';
 const isShort = variant === "short";
 
 // Definiamo la classe dell'iframe in base al formato
@@ -17,15 +32,13 @@ const iframeClass =
     format === 'square' ? 'iframe-square' : 
     'iframe-cover';
 ---
-
 <div class={`module module--${format} type-${type} ${youtubeId ? 'module--video-embed' : ''}`}>
-    
     {/* --- CASO 1: IMMAGINI --- */}
     {type === "image" && (
         link ? (
-            <a href={link} target="_blank" class="module-link"><img src={url} alt={title} /></a>
+            <a href={link} target="_blank" class="module-link"><img src={finalSrc} alt={title} loading="lazy" /></a>
         ) : (
-            <img src={url} alt={title} />
+            <img src={finalSrc} alt={title} loading="lazy"/>
         )
     )}
 
@@ -46,7 +59,7 @@ const iframeClass =
     {type === "youtube" && (
         <div class="video-container">
             <iframe 
-                src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
+                src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&controls=${ytControls}${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen
                 class={iframeClass}

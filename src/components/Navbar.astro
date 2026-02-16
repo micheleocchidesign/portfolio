@@ -1,13 +1,14 @@
 ---
 import MoLogo from '../components/MoLogo.astro';
+const base = import.meta.env.BASE_URL;
 // Navbar.astro
 const { disableLogoScroll = false } = Astro.props;
 ---
 <header id="site-header" data-disable={disableLogoScroll.toString()}>
-    <a id="nav-logo-wrapper" href="/index.html">
+    <a id="nav-logo-wrapper" href={`${base}/`}>
         <MoLogo MaskId="m-nav"/>
     </a>
-    <a id="label-name" class="ui-label" href="/index.html">Michele Occhi</a>
+    <a id="label-name" class="ui-label" href={`${base}/`}>Michele Occhi</a>
     <div id="nav-text-menu" class="ui-label">Menu +</div>
 </header>
 
