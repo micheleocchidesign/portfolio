@@ -2,17 +2,12 @@
 import SingleProjLayout from '../../layouts/SingleProjLayout.astro';
 
 const projData = {
-  title: "Omino Bianco: The Perfect Match",
-  description: "Mentre facevo parte del team creativo di Wave, ho lavorato allo sviluppo della campagna per il lancio delle nuove Idrocaps. Ho elaborato il concept 'The Perfect Match' e ideato l'attività di personalizzazione delle t-shirt, curando personalmente lo scouting dell'illustratrice e definendo le linee guida grafiche e degli allestimenti per l'evento.",
+  title: "Mo: Personal Branding",
+  description: "Il progetto più difficile che abbia mai realizzato, per il cliente peggiore che abbia mai avuto! Un milione di rework e mi sembra di non essere neanche a metà. Però ho fatto tutto tutto tutto, dalla creatività alla messa online. Megasoddisfazione work in progress! Ah, ho creato MoFont, potete scaricarlo e usarlo come volete!",
   
-  client: "Omino Bianco",
-  agency: "Wave Design&Communication",
-  agencyUrl: "https://www.waveteam.it",
-  role: "In-house Sr. Art Director @ Wave",
-  
-  extraInfo: [
-    { label: "Illustrations", value: "Carla Indipendente" }
-  ],
+  client: "Myself!",
+  agency: "Myself!",
+  role: "Art director, designer, dev, bla bla bla",
   
   modules: [
     /*
@@ -85,34 +80,25 @@ const projData = {
       variant: "short" 
     }  
     */
-    
-    // Video Orizzontale YouTube (Case History)
     { 
-      type: "youtube", 
+      type: "image", 
       format: "horizontal", 
-      youtubeId: "dHAYhkE9VZg",
-      variant: "case",
-      showControls: true,
+      url: "/img/projects/mo-personal-branding/2026-02-16_MOC_main-img-personal-branding_v01.jpg",
     },
+    // Video Quadrato URL (Short/Loop - tipo GIF)
     { 
-      type: "image", 
-      format: "vertical", 
-      url: "/img/projects/omino-bianco_the-perfect-match/omino-bianco-the-perfect-match_stand_1080x1350.webp",
-    },
-    // Immagine Quadrata (con link ipotetico)
-    { 
-      type: "image", 
+      type: "video", 
       format: "square", 
-      url: "/img/projects/omino-bianco_the-perfect-match/omino-bianco-the-perfect-match_tshirt-design_1080x1080.webp",
+      url: "https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/2026-02-16_MOC_animazione-logo-palette_v01.mp4",
+      variant: "short"
     },
-    //Video Quadrato YouTube (Short/Loop)
+    // Video Quadrato URL (Short/Loop - tipo GIF)
     { 
-      type: "youtube", 
+      type: "video", 
       format: "square", 
-      youtubeId: "w0EcDPwlchA", 
-      variant: "short",
-      showControls: false,
-    }
+      url: "https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/2026-02-16_MOC_presentazione-mofont_v01.mp4",
+      variant: "short"
+    },
   ]
 };
 ---
