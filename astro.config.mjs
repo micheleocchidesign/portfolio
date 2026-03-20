@@ -4,10 +4,10 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   // L'indirizzo del tuo sito su GitHub Pages
-  site: 'https://ilmaichi.github.io/',
+  site: 'https://micheleocchidesign.github.io/',
   
   // Il nome della tua repository (fondamentale per i percorsi)
-  base: '/mo',
+  base: '/portfolio',
   
   // Forza l'aggiunta dello slash finale per evitare errori 404
   trailingSlash: 'always',
