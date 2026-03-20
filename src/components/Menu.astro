@@ -1,0 +1,119 @@
+---
+const { page } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<div id="menu-overlay">
+    <div class="blob-wrapper">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="blob-svg">
+            <path d="M53.1,-73.2C68.8,-61.7,81.6,-46.2,85.7,-28.9C89.9,-11.6,85.5,7.4,78.9,25C72.2,42.6,63.4,58.8,49.9,65.3C36.4,71.7,18.2,68.3,0.5,67.7C-17.3,67,-34.6,69.2,-48.7,63C-62.8,56.8,-73.8,42.2,-80.9,25.2C-87.9,8.2,-91.1,-11.2,-82.5,-23.5C-73.9,-35.7,-53.6,-40.8,-37.9,-52.2C-22.2,-63.7,-11.1,-81.5,3.8,-86.7C18.7,-92,37.4,-84.6,53.1,-73.2Z" transform="translate(100 100)" />
+        </svg>
+    </div>
+    <div id="menu-content">
+        {page !== "home" && <a href={`${base}/`} class="menu-link">HoME</a>}
+        <a href={page === "home" ? "#beyond-section" : "/#beyond-section"} class="menu-link">SKILLS</a>
+        <a href={page === "home" ? "#about-section" : "/#about-section"} class="menu-link">ABoUT</a>
+        {page !== "works" && <a href={`${base}works/`} class="menu-link">WoRKS</a>}
+        <a href="#contact-section" class="menu-link">CoNTACT</a>
+    </div>
+</div>
+
+<style>
+ #menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+ #menu-overlay.active {
+    pointer-events: all;
+}
+
+ .blob-wrapper {
+    position: absolute;
+    /* DESKTOP: Ancorato al tasto Menu */
+    top: 45px;
+    right: 35px;
+    width: 0;
+    height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.blob-svg {
+    /* Dimensione per coprire tutto partendo dall'angolo */
+    width: 100vmax; 
+    height: 100vmax;
+    fill: #292523;
+    flex-shrink: 0;
+    transform-origin: center center;
+    transform: scale(0, 0) rotate(0deg) translate(0);
+    transition: transform .8s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
+}
+
+#menu-overlay.active .blob-svg {
+    transform: scale(1.2, 1.4) rotate(-40deg) translate(-20vw);
+}
+
+#menu-content {
+    position: relative;
+    z-index: 2001;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+    margin-left: auto;
+    margin-right: 15%;
+}
+
+#menu-overlay.active #menu-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.4s;
+}
+
+/* --- MOBILE LOGIC --- */
+@media (max-width: 768px) {
+    .blob-wrapper {
+        /* Spostiamo il "chiodo" esattamente al centro dello schermo */
+        top: 50%;
+        right: 50%;
+        /* Centriamo il punto 0x0 rispetto al viewport */
+        transform: translate(50%, -50%); 
+    }
+    
+    .blob-svg {
+        /* Su mobile basta meno raggio per coprire tutto dal centro */
+        width: 250vmax;
+        height: 250vmax;
+    }
+    #menu-content{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+ .menu-link {
+    display: block;
+    font-size: clamp(40px, 8vw, 90px);
+    font-weight: 900;
+    color: var(--text-light);
+    text-decoration: none;
+    margin: 15px 0;
+    transition: color 0.3s;
+}
+ .menu-link:hover {
+    color: var(--accent-coral);
+    cursor:pointer !important;
+}
+</style>

@@ -1,0 +1,40 @@
+---
+const { 
+  containerId = "ink-transition-container",
+  color = "var(--dark-text)",
+} = Astro.props;
+---
+<div class="flooder" id={containerId}>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path id="ink-path" d="M0,0 L100,0 L100,0 C75,0 75,0 50,0 C25,0 25,0 0,0 Z"></path>
+    </svg>
+</div>
+
+<style define:vars={{ color }}>
+    .flooder {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 4;
+        /* Riduciamo all'essenziale per Safari */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        overflow: visible;
+    }
+
+    path {
+        fill: var(--color);
+        /* Rimosso will-change: d perché MorphSVG gestisce il rendering internamente */
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        /* Evita che Safari ricalcoli i bordi inutilmente */
+        shape-rendering: geometricPrecision;
+    }
+</style>

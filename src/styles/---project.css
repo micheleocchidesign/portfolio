@@ -1,0 +1,180 @@
+/* --- STRUTTURA LOGICA --- */
+.project-page {
+    display: block;
+    width: 100%;
+}
+
+.project-container {
+    background-color: var(--dark-text);
+    color: var(--text-light);
+    display: flex;
+    align-items: flex-start;
+    gap: 80px;
+    padding: 140px 40px 80px 40px;
+    /* Importante per evitare calcoli errati sull'altezza finale */
+    box-sizing: border-box; 
+    position: relative;
+}
+
+.project-side {
+    color: var(--text-light);
+    width: 380px;
+    /* Evita che trasformazioni CSS esterne interferiscano con quelle di GSAP */
+    will-change: transform;
+    min-height: min-content;
+    
+}
+
+#back-works {
+    position: relative;
+    display: inline-block;
+    font-family: 'MoFont', sans-serif;
+    font-size: 60px;
+    text-decoration: none;
+    opacity: 1;
+    margin-bottom: 20px;
+    color: var(--accent-coral);
+}
+
+.project-title {
+    font-family: "Inter", sans-serif;
+    font-size: clamp(24px, 3.2vw, 36px);
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    color: var(--accent-gold);
+}
+
+/* --- TAGS --- */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 20px;
+    color: var(--dark-text);
+    opacity: 0.7;
+}
+
+/* --- DESCRIZIONE PROGETTO --- */
+.project-description {
+    font-family: 'JetBrains Mono', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+}
+
+/* --- INFO HEADER (GRID TOP) --- */
+.project-info-header {
+    grid-column: 1 / -1; 
+    display: grid;
+    /* Definiamo le 2 colonne principali della griglia */
+    grid-template-columns: 1fr 1fr; 
+    gap: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.project-details {
+    /* Occupa entrambe le colonne per permettere alla sua 
+       griglia interna (ul) di distribuirsi */
+    grid-column: 1 / -1; 
+}
+
+.project-details ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    /* Qui i credits si dividono sulle due colonne */
+    grid-template-columns: 1fr 1fr; 
+    gap: 24px;
+}
+
+.project-details li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+}
+
+.project-details li strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 1;
+    font-weight: normal;
+    margin-bottom: 4px;
+    color: var(--accent-gold);
+
+}
+
+.project-details a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(0,0,0,0.2);
+}
+
+/* La nota legale attraversa tutto */
+.project-legal {
+    grid-column: 1 / -1; /* CROSS-COLUMN: va da inizio colonna 1 a fine colonna 2 */
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    opacity: 0.4;
+    max-width: 100%; /* Può estendersi su tutta la larghezza */
+}
+
+.project-grid {
+    flex: 1; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+/* --- GESTIONE DEI MODULI --- */
+.module { background: #fff; border-radius: 0px; overflow: hidden; }
+.module img, .module video, .module iframe { width: 100%; height: auto; display:block; }
+.module--square { aspect-ratio: 1/1; }
+.module--vertical { grid-row: span 2; aspect-ratio: 3/4; }
+.module--horizontal { grid-column: 1 / -1; aspect-ratio: 16/9; }
+.module--video { grid-column: 1 / -1; }
+.module--embed { grid-column: 1 / -1; }
+
+/* --- CONTATTAMI SCURO --- */
+#contact-section{
+    color: var(--text-light);
+    background-color: var(--dark-text);
+}
+
+.contact-intro{
+    color: var(--text-light);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .project-container { 
+        flex-direction: column; 
+        padding: 100px 20px 60px 20px;
+    }
+    .project-side { 
+        width: 100%; 
+    }
+    .project-grid { 
+        grid-template-columns: 1fr; /* Colonna singola su mobile */
+    }
+}

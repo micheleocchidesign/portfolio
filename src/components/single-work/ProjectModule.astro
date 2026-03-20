@@ -1,0 +1,151 @@
+---
+const base = import.meta.env.BASE_URL;
+const { 
+  type,          
+  format,        
+  variant,       
+  url,           
+  youtubeId,     
+  link,          
+  title,
+  showControls = false // Impostiamo un default (es. false per i tuoi video story/loop)
+} = Astro.props;
+
+// 2. Funzione che pulisce i doppi slash
+const getPath = (path) => {
+    if (!path) return "";
+    
+    // 1. Se è un URL completo (GitHub assets), non toccarlo
+    if (path.startsWith('http')) return path;
+
+    // 2. Puliamo il base: assicuriamoci che NON finisca con /
+    const cleanBase = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+    // 3. Puliamo il path: assicuriamoci che INIZI con /
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+
+    // 4. Uniamo: Risultato garantito /mo/img/...
+    return `${cleanBase}${cleanPath}`;
+};
+
+const finalSrc = getPath(url);
+const ytControls = showControls ? '1' : '0';
+const isShort = variant === "short";
+
+// Definiamo la classe dell'iframe in base al formato
+const iframeClass = 
+    format === 'vertical' ? 'iframe-contain' : 
+    format === 'square' ? 'iframe-square' : 
+    'iframe-cover';
+---
+<div class={`module module--${format} type-${type} ${youtubeId ? 'module--video-embed' : ''}`}>
+    {/* --- CASO 1: IMMAGINI --- */}
+    {type === "image" && (
+        link ? (
+            <a href={link} target="_blank" class="module-link"><img src={finalSrc} alt={title} loading="lazy" /></a>
+        ) : (
+            <img src={finalSrc} alt={title} loading="lazy"/>
+        )
+    )}
+
+    {/* --- CASO 2: FILE VIDEO (MP4) --- */}
+    {type === "video" && (
+        <video 
+            src={url} 
+            autoplay={isShort} 
+            loop={isShort} 
+            muted={isShort} 
+            controls={!isShort} 
+            playsinline
+            class={format === 'vertical' ? 'object-contain' : 'object-cover'}
+        />
+    )}
+
+    {/* --- CASO 3: YOUTUBE --- */}
+    {type === "youtube" && (
+        <div class="video-container">
+            <iframe 
+                src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&controls=${ytControls}${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                class={iframeClass}
+            ></iframe>
+        </div>
+    )}
+</div>
+
+<style>
+    .module {
+    position: relative;
+    background: #000; /* Nero per i margini dei video story */
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Formati del Container */
+.module--square { aspect-ratio: 1 / 1; }
+.module--horizontal { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+.module--vertical { aspect-ratio: 4 / 5; }
+
+/* Comportamento Media standard */
+.module img, 
+.module video, 
+.module .video-container {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover; /* Riempie sempre lo spazio */
+}
+
+/* Gestione speciale Video STORY (9:16) dentro modulo VERTICALE (4:5) */
+/* Usiamo una classe 'object-contain' per non tagliare il video */
+.module video.object-contain,
+.module .iframe-contain {
+    object-fit: contain !important; 
+    background: var(--text-light); /* Colore di sfondo per evitare bordi neri evidenti */
+}
+
+/* Fix per IFRAME YouTube per essere responsivi */
+.video-container {
+    position: relative;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Immagini con Link */
+.module-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* YouTube Quadrato (1:1) */
+.module--square .video-container iframe.iframe-square {
+    object-fit: cover; /* Riempie il quadrato */
+    width: 100%;
+    height: 100%;
+}
+
+/* YouTube Story (9:16) dentro modulo Verticale (4:5) */
+.module--vertical .video-container iframe.iframe-contain {
+    object-fit: contain !important;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 9 / 16;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Assicuriamoci che i moduli video con controlli mostrino il cursore standard 
+   (Riprendendo il debugging di prima) */
+.type-youtube, .type-video {
+    cursor: auto !important;
+}
+</style>

@@ -1,0 +1,144 @@
+---
+
+---
+<section id="amo-section">
+    <div class="amo-container">
+        <p id="amo-text">Amo </p>
+        <svg id="heart-svg" viewBox="0 0 1000 1000" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%); z-index: -1; width: 50%; opacity: 0.1; overflow: visible;">
+            <path id="heart-path" fill="none" stroke="#ffffff" stroke-width="10" d="M891.1,33.51C790.13-31.97,662.62,6.63,573.16,82.96c-19.67,15.16-41.68,31.6-64.33,37.51 c-52.58,13.41-91.39-27.48-140.28-48.69c-54.9-25.02-118.21-31.73-176.1-16.17C90.22,82.01,12.93,181.09,1.91,287.78 c-7.61,71.45,8.57,134.06,46.93,200.69c86.46,156.3,340.19,371.62,421.44,412.36c27.04,15.87,43.86,11.79,71.07-7.5 c127.92-93.06,402.36-343.77,444.54-508.7c32.6-124.04,10.98-280.3-94.23-350.76L891.1,33.51z" />
+        </svg>
+    </div>
+</section>
+
+<style>
+#amo-section {
+    text-transform: uppercase;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-color: transparent;
+    z-index: 10;
+    display: flex;
+   /* Cambiamo da center a flex-start */
+    align-items: flex-start;
+    justify-content: left;
+   /* Aggiungiamo un padding per posizionare il testo dove vogliamo che inizi */
+    padding-left: 40px;
+    padding-top: 160px;
+}
+ .amo-container {
+    width: 90%;
+    max-width: 1200px;
+    z-index: 1000;
+}
+ #amo-text {
+    font-family: "Inter", sans-serif;
+    font-size: clamp(35px, 5vw, 100px);
+    font-weight: 900;
+    color: var(--text-light) !important;
+    line-height: 1.2;
+    margin: 0;
+   /* Manteniamo l'allineamento del testo a sinistra o centro come preferisci */
+    text-align: left;
+}
+/* Colore per le parole che si aggiungono */
+ .added-word {
+    display: inline-block;
+   /* Necessario per il transform */
+    white-space: pre;
+   /* Mantiene gli spazi corretti tra le parole */
+    will-change: opacity, transform;
+}
+ .amo-special{
+    font-family: "MoFont", sans-serif;
+}
+</style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+
+    // Registrazione di tutti i plugin (ora tutti free!)
+    gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+    function initAmoSection() {
+        const amoSection = document.querySelector('#amo-section');
+        const amoTarget = document.querySelector('#amo-text');
+        const heartPath = document.querySelector('#heart-path');
+        
+        if (!amoSection || !amoTarget) return;
+
+        const parole = [
+            " l'arrampicata, ", "il mare, ", "la terra, ", "costruire, ", 
+            "imparare, ", "appassionarmi, ", "Marta, ", "Gaia."
+        ];
+
+        // 1. GENERAZIONE DINAMICA
+        const interpolatore = gsap.utils.interpolate("#ffc857", "#f76c5e");
+        
+        // Pulizia pre-init
+        amoTarget.querySelectorAll('.added-word').forEach(s => s.remove());
+
+        parole.forEach((testo, i) => {
+            const span = document.createElement('span');
+            span.textContent = testo;
+            span.classList.add('added-word');
+            
+            // Applichiamo la classe speciale per il font Mofont
+            if (testo.includes("Marta") || testo.includes("Gaia")) {
+                span.classList.add('amo-special');
+            }
+            
+            span.style.color = interpolatore(i / (parole.length - 1));
+            gsap.set(span, { opacity: 0, y: 15, display: "inline-block" });
+            amoTarget.appendChild(span);
+        });
+
+        // 2. SETUP CUORE
+        if (heartPath) {
+            gsap.set(heartPath, { drawSVG: "0%" });
+        }
+
+        // 3. TIMELINE UNICA (Sincronizzazione perfetta)
+        const numParole = amoTarget.querySelectorAll('.added-word').length;
+        const durataTotale = 10;
+        const durataSingolaParola = 2; // quanto tempo impiega una parola a fare fade-in
+
+        // Lo stagger deve essere il tempo rimanente diviso per il numero di intervalli
+        const staggerCalcolato = (durataTotale - durataSingolaParola) / (numParole - 1);
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: amoSection,
+                start: "top top",
+                end: "+=2000",
+                pin: true,
+                scrub: 1,
+                refreshPriority: 0,
+                invalidateOnRefresh: true,
+                
+            }
+        });
+
+        tl.to(amoSection, { backgroundColor: "#2d2926", duration: durataTotale }, 0)
+          .to(".added-word", { 
+              opacity: 1, 
+              y: 0, 
+              stagger: staggerCalcolato, // Aumentato per dare più tempo a ogni parola
+              duration: durataSingolaParola 
+          }, 0)
+          .to(heartPath, { 
+              drawSVG: "100%", 
+              duration: durataTotale*0.8,
+              ease: "power1.inOut" 
+          }, 0.5); // Il cuore inizia quasi subito
+    }
+
+    // Init al caricamento
+    window.addEventListener('load', () => {
+        initAmoSection();
+        ScrollTrigger.refresh();
+    });
+</script>
