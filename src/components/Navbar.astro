@@ -1,14 +1,22 @@
 ---
 import MoLogo from '../components/MoLogo.astro';
+
+// Astro gestisce già la base. Se sei su GitHub sarà "/portfolio", 
+// se sei in locale sarà "".
 const base = import.meta.env.BASE_URL;
-// Navbar.astro
+
+// Creiamo il link alla home pulito. 
+// Se base finisce già con "/", non aggiungiamo nulla.
+const homeLink = base.endsWith('/') ? base : `${base}/`;
+
 const { disableLogoScroll = false } = Astro.props;
 ---
+
 <header id="site-header" data-disable={disableLogoScroll.toString()}>
-    <a id="nav-logo-wrapper" href={`${base}/`}>
+    <a id="nav-logo-wrapper" href={homeLink}>
         <MoLogo MaskId="m-nav"/>
     </a>
-    <a id="label-name" class="ui-label" href={`${base}/`}>Michele Occhi</a>
+    <a id="label-name" class="ui-label" href={homeLink}>Michele Occhi</a>
     <div id="nav-text-menu" class="ui-label">Menu +</div>
 </header>
 
