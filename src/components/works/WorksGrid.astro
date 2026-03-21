@@ -87,7 +87,7 @@ const projects = [
                 // Spostamento: il valore 25 determina l'intensità del movimento
                 // Usiamo il segno negativo per un effetto di profondità reale
                 const moveX = (x - 0.5) * -25; 
-                const moveY = (y - 0.2) * -25;
+                const moveY = (y - 0.5) * -25;
 
                 // Applichiamo il movimento e manteniamo lo scale 1.1 per coprire i bordi
                 bgImg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
