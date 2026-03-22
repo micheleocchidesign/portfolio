@@ -10,7 +10,7 @@ export default defineConfig({
   base: '/portfolio',
   
   // Forza l'aggiunta dello slash finale per evitare errori 404
-  trailingSlash: 'always',
+  //trailingSlash: 'always',
   
   build: {
     // Organizza le pagine in sottocartelle (es. /works/index.html)

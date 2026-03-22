@@ -15,7 +15,12 @@ const getSmartLink = (path) => {
 ---
 
 <div class="project-card">
-    <a href={getSmartLink(href)} class="project-link-overlay"></a>
+    <a 
+        href={getSmartLink(href)} 
+        class="project-link-overlay"
+        target={href.startsWith('http') ? "_blank" : "_self"}
+        rel={href.startsWith('http') ? "noopener noreferrer" : ""}
+    ></a>
     
     <div class="project-asset">
         <div class="project-bg">

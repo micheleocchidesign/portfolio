@@ -9,12 +9,15 @@ const base = import.meta.env.BASE_URL;
         </svg>
     </div>
     <div id="menu-content">
-        {page !== "home" && <a href={`${base}/`} class="menu-link">HoME</a>}
-        <a href={page === "home" ? "#beyond-section" : "/#beyond-section"} class="menu-link">SKILLS</a>
-        <a href={page === "home" ? "#about-section" : "/#about-section"} class="menu-link">ABoUT</a>
-        {page !== "works" && <a href={`${base}works/`} class="menu-link">WoRKS</a>}
-        <a href="#contact-section" class="menu-link">CoNTACT</a>
-    </div>
+    {page !== "home" && <a href={base === "" ? "/" : base} class="menu-link">HoME</a>}
+    
+    <a href={page === "home" ? "#beyond-section" : `${base}/#beyond-section`} class="menu-link">SKILLS</a>
+    <a href={page === "home" ? "#about-section" : `${base}/#about-section`} class="menu-link">ABoUT</a>
+    
+    {page !== "works" && <a href={`${base}/works/`} class="menu-link">WoRKS</a>}
+    
+    <a href={page === "home" ? "#contact-section" : `${base}/#contact-section`} class="menu-link">CoNTACT</a>
+</div>
 </div>
 
 <style>
