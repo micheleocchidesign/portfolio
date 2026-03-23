@@ -13,7 +13,6 @@ import AboutSection from '../components/AboutSection.astro';
 import AmoSection from '../components/AmoSection.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
-import { gsap } from "gsap";
 ---
 <MainLayout>
 	<PageTransition />	
@@ -34,6 +33,7 @@ import { gsap } from "gsap";
     <Footer />    
 </MainLayout>
 <script>
+    import { gsap } from "gsap";
     window.addEventListener('load', () => {
     if (window.location.hash) {
         const target = window.location.hash;
