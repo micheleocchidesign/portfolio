@@ -1,12 +1,13 @@
 ---
 // Riceviamo l'ID della sezione di destinazione del click (es. "#beyond-section")
 const { target } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <div class="scroll-hint">
   <a href={target} class="internal-scroll-link">
     <span class="hint-text">KEEEEEEP</span>
-    <img src="/icons/arrow_cool_down.svg" class="icon-scroll" alt="" aria-hidden="true" />
+    <img src={`${base}/icons/arrow_cool_down.svg`} class="icon-scroll" alt="" aria-hidden="true" />
     <span class="hint-text">SCROLLIN'</span>
   </a>
 </div>
