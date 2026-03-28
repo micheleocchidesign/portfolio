@@ -2,11 +2,11 @@
 import { Image } from 'astro:assets';
 
 const { 
-  moduleType,          // Dal CMS
-  type: manualType,    // Per eventuali test manuali
+  moduleType,          
+  type: manualType,    
   format,        
   variant,       
-  url,           
+  url,           // Questo ora può essere un OGGETTO (Immagine src) o STRINGA (Video/Public)
   youtubeId,     
   link,          
   title,
@@ -14,26 +14,34 @@ const {
 } = Astro.props;
 
 // 1. NORMALIZZAZIONE TIPO
-// Usiamo moduleType (CMS) o type (manuale)
 const type = moduleType || manualType;
 
-// 2. LOGICA PERCORSO ROBUSTA
-const getPath = (path) => {
-    // Se è un oggetto (immagine ottimizzata Astro), non toccarlo
+// 2. LOGICA PERCORSO AGGIORNATA
+// Se url è un oggetto, Astro ha già fatto tutto (ottimizzazione + percorso).
+// Se è una stringa, dobbiamo aggiungere il base path (per i video in public).
+const isOptimizedImage = typeof url === 'object';
+
+const getStaticPath = (path) => {
+    // Se è un oggetto o un link esterno, non toccarlo
     if (typeof path === 'object' || !path || path.startsWith('http')) return path;
     
     const rawBase = import.meta.env.BASE_URL;
     const cleanBase = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    
+    // Rimuoviamo eventuali prefissi "/src" che potrebbero arrivare dal CMS
+    // perché i file statici devono stare in /public
+    const cleanPath = path.replace(/^\/?src\//, '/').startsWith('/') ? path : `/${path}`;
 
-    return `${cleanBase}${cleanPath}`;
+    return `${cleanBase}${cleanPath}`.replace(/\/+/g, '/');
 };
 
-const finalSrc = getPath(url);
+// Se è un'immagine ottimizzata, usiamo 'url' così com'è. 
+// Se è un video o altro, usiamo il path statico con il base URL.
+const finalSrc = isOptimizedImage ? url : getStaticPath(url);
+
 const ytControls = showControls ? '1' : '0';
 const isShort = variant === "short";
 
-// Classi CSS condizionali per YouTube
 const iframeClass = 
     format === 'vertical' ? 'iframe-contain' : 
     format === 'square' ? 'iframe-square' : 
@@ -47,14 +55,14 @@ const iframeClass =
         link ? (
             <a href={link} target="_blank" class="module-link">
                 {typeof finalSrc === 'object' ? (
-                    <Image src={finalSrc} alt={title || ""} />
+                    <Image src={finalSrc} alt={title || ""} width={1600} height={1200} />
                 ) : (
                     <img src={finalSrc} alt={title} loading="lazy" />
                 )}
             </a>
         ) : (
             typeof finalSrc === 'object' ? (
-                <Image src={finalSrc} alt={title || ""} />
+                <Image src={finalSrc} alt={title || ""} width={1600} height={1200} />
             ) : (
                 <img src={finalSrc} alt={title} loading="lazy"/>
             )
