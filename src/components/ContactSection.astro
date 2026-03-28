@@ -1,5 +1,6 @@
 ---
-
+import copyIcon from '/public/icons/content_copy.svg?url';
+import checkIcon from '/public/icons/check.svg?url';
 ---
 <section id="contact-section">
     <div class="contact-main">
@@ -14,8 +15,12 @@
 
         <div class="email-block">
             <div class="email-wrapper">
-                <a href="mailto:hello@micheleocchi.com" class="jetbrains email-link">hello@micheleocchi.com</a>
-                <span class="material-symbols-outlined copy-icon">content_copy</span>
+                <a href="mailto:hello@micheleocchi.com" class="email-link">hello@micheleocchi.com</a>
+                
+                <button class="copy-btn" id="copy-btn" aria-label="Copy email">
+                    <img src={copyIcon} class="icon-copy" alt="" />
+                    <img src={checkIcon} class="icon-check" alt="" />
+                </button>
             </div>
         </div>
     </div>
@@ -79,44 +84,77 @@
  .email-wrapper a{
     cursor:pointer !important;
 }
- .copy-icon {
-    cursor: pointer;
-    position: relative;
-    font-size: 30px;
-   /* Regola la dimensione per matchare il testo */
-    opacity: 1;
-    transition: all 0.2s ease;
-    user-select: none;
-   /* Impedisce di selezionare l'icona come testo */
-}
-/* Creazione del Tooltip */
- .copy-icon::after {
-    content: 'Copied!';
+
+.copy-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .copy-btn img {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .icon-check { opacity: 0; transform: scale(0.5); }
+
+    /* Quando il genitore ha la classe success, cambiano le immagini */
+    .copy-btn.copy-success .icon-copy { opacity: 0; transform: scale(0.5); }
+    .copy-btn.copy-success .icon-check { opacity: 1; transform: scale(1); }
+
+    .copy-btn::after {
+    content: 'Copiato!';
     position: absolute;
-    bottom: 100%;
-   /* Lo posiziona sopra l'icona */
+    bottom: 120%; /* Lo posiziona sopra il bottone */
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     background-color: var(--accent-coral);
-    color: var(--dark-text);
-    padding: 4px 8px;
+    color: var(--text-light); /* Testo chiaro su fondo corallo */
+    padding: 5px 10px;
     font-family: 'JetBrains Mono', monospace;
-   /* Coerenza col tuo stile */
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     border-radius: 4px;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    z-index: 10;
 }
-/* Quando l'icona ha successo, mostra il tooltip */
- .copy-icon.copy-success::after {
+
+/* Triangolino sotto il tooltip */
+.copy-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--accent-coral) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+/* MOSTRA TOOLTIP quando c'è successo */
+.copy-btn.copy-success::after,
+.copy-btn.copy-success::before {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
+
  .email-link {
     font-size: 4vw;
     text-decoration: none;
@@ -131,56 +169,52 @@
 
 <script>
     function copyEmail() {
-    const email = "hello@micheleocchi.com";
-    const icon = document.querySelector('.copy-icon') as HTMLElement;
-    if (!icon) return;
+        const email = "hello@micheleocchi.com";
+        // CERCHIAMO .copy-btn (non .copy-icon che non esiste più)
+        const btn = document.getElementById('copy-btn');
+        if (!btn) return;
 
-    // Funzione interna per il feedback visivo
-    const showSuccess = () => {
-        icon.innerText = 'check';
-        icon.classList.add('copy-success');
-        setTimeout(() => {
-            icon.innerText = 'content_copy';
-            icon.classList.remove('copy-success');
-        }, 1500);
-    };
+        const showSuccess = () => {
+            btn.classList.add('copy-success');
+            setTimeout(() => {
+                btn.classList.remove('copy-success');
+            }, 1500);
+        };
 
-    // Tentativo 1: Clipboard API (Moderna)
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(email)
-            .then(showSuccess)
-            .catch(() => fallbackCopy(email, showSuccess));
-    } else {
-        // Tentativo 2: Fallback per browser datati o HTTP
-        fallbackCopy(email, showSuccess);
-    }
-}
-
-// Vecchio metodo infallibile (crea un'area di testo invisibile, seleziona e copia)
-type CopyCallback = () => void;
-
-function fallbackCopy(text: string, callback: CopyCallback): void {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    
-    // Assicuriamoci che non sia visibile e non sposti il layout
-    textArea.style.position = "fixed";
-    textArea.style.left = "-9999px";
-    textArea.style.top = "0";
-    
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) callback();
-    } catch (err) {
-        console.error('Fallback: Impossibile copiare', err);
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(email)
+                .then(showSuccess)
+                .catch(() => fallbackCopy(email, showSuccess));
+        } else {
+            fallbackCopy(email, showSuccess);
+        }
     }
 
-    document.body.removeChild(textArea);
-}
+    function fallbackCopy(text: string, callback: () => void): void {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            callback();
+        } catch (err) {
+            console.error('Errore copia:', err);
+        }
+        document.body.removeChild(textArea);
+    }
 
-document.querySelector('.copy-icon')?.addEventListener('click', copyEmail);
+    function initContactCopy() {
+        const copyBtn = document.getElementById('copy-btn');
+        if (copyBtn) {
+            copyBtn.removeEventListener('click', copyEmail);
+            copyBtn.addEventListener('click', copyEmail);
+        }
+    }
+
+    initContactCopy();
+    document.addEventListener('astro:page-load', initContactCopy);
 </script>

@@ -1,30 +1,31 @@
 ---
-const base = import.meta.env.BASE_URL;
+import { Image } from 'astro:assets';
+
 const { 
-  type,          
+  moduleType,          // Dal CMS
+  type: manualType,    // Per eventuali test manuali
   format,        
   variant,       
   url,           
   youtubeId,     
   link,          
   title,
-  showControls = false // Impostiamo un default (es. false per i tuoi video story/loop)
+  showControls = false 
 } = Astro.props;
 
-// 2. Funzione che pulisce i doppi slash
+// 1. NORMALIZZAZIONE TIPO
+// Usiamo moduleType (CMS) o type (manuale)
+const type = moduleType || manualType;
+
+// 2. LOGICA PERCORSO ROBUSTA
 const getPath = (path) => {
-    if (!path) return "";
+    // Se è un oggetto (immagine ottimizzata Astro), non toccarlo
+    if (typeof path === 'object' || !path || path.startsWith('http')) return path;
     
-    // 1. Se è un URL completo (GitHub assets), non toccarlo
-    if (path.startsWith('http')) return path;
-
-    // 2. Puliamo il base: assicuriamoci che NON finisca con /
-    const cleanBase = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-    // 3. Puliamo il path: assicuriamoci che INIZI con /
+    const rawBase = import.meta.env.BASE_URL;
+    const cleanBase = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
 
-    // 4. Uniamo: Risultato garantito /mo/img/...
     return `${cleanBase}${cleanPath}`;
 };
 
@@ -32,26 +33,38 @@ const finalSrc = getPath(url);
 const ytControls = showControls ? '1' : '0';
 const isShort = variant === "short";
 
-// Definiamo la classe dell'iframe in base al formato
+// Classi CSS condizionali per YouTube
 const iframeClass = 
     format === 'vertical' ? 'iframe-contain' : 
     format === 'square' ? 'iframe-square' : 
     'iframe-cover';
 ---
+
 <div class={`module module--${format} type-${type} ${youtubeId ? 'module--video-embed' : ''}`}>
+    
     {/* --- CASO 1: IMMAGINI --- */}
     {type === "image" && (
         link ? (
-            <a href={link} target="_blank" class="module-link"><img src={finalSrc} alt={title} loading="lazy" /></a>
+            <a href={link} target="_blank" class="module-link">
+                {typeof finalSrc === 'object' ? (
+                    <Image src={finalSrc} alt={title || ""} />
+                ) : (
+                    <img src={finalSrc} alt={title} loading="lazy" />
+                )}
+            </a>
         ) : (
-            <img src={finalSrc} alt={title} loading="lazy"/>
+            typeof finalSrc === 'object' ? (
+                <Image src={finalSrc} alt={title || ""} />
+            ) : (
+                <img src={finalSrc} alt={title} loading="lazy"/>
+            )
         )
     )}
 
     {/* --- CASO 2: FILE VIDEO (MP4) --- */}
     {type === "video" && (
         <video 
-            src={url} 
+            src={typeof finalSrc === 'string' ? finalSrc : finalSrc.src} 
             autoplay={isShort} 
             loop={isShort} 
             muted={isShort} 
@@ -65,7 +78,8 @@ const iframeClass =
     {type === "youtube" && (
         <div class="video-container">
             <iframe 
-                src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&controls=${ytControls}${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
+                src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0&modestbranding=1&controls=${ytControls}${isShort ? '&autoplay=1&mute=1&loop=1&playlist=' + youtubeId : ''}`}
+                title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen
                 class={iframeClass}

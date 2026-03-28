@@ -63,17 +63,27 @@
    fill: var(--accent-coral);
 }
 #custom-cursor.is-works-link::after {
-   content: 'visibility'; /* è il testo a cui corrisponde l'icona, google material symbols usa il testo per identificare l'icona da mostrare */
-   font-family: 'Material Symbols Outlined';
-   font-weight: normal;
-   font-style: normal;
-   font-size: 130px; /* Dimensione icona */
-   line-height: 1;
-   color: var(--text-light);
+   content: ''; /* Rimuoviamo la parola 'visibility' */
    position: absolute;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
+   
+   /* Manteniamo la coerenza visiva con la mail */
+   width: 130px; 
+   height: 130px;
+   background-color: var(--text-light);
+
+   /* Puntiamo al nuovo file SVG locale */
+   -webkit-mask-image: url('/icons/visibility.svg');
+   mask-image: url('/icons/visibility.svg');
+   
+   -webkit-mask-repeat: no-repeat;
+   mask-repeat: no-repeat;
+   -webkit-mask-size: contain;
+   mask-size: contain;
+   -webkit-mask-position: center;   
+   mask-position: center;
 }
 /* --- CURSORE EMAIL --- */
 #custom-cursor.is-email {
@@ -84,18 +94,32 @@
    /*display: none; /* Nasconde l'occhio */
    fill: var(--accent-coral);
 }
+
 #custom-cursor.is-email::after {
-   content: 'mail';
-   font-family: 'Material Symbols Outlined';
-   font-weight: normal;
-   font-style: normal;
-   font-size: 130px; /* Dimensione icona */
-   line-height: 1;
-   color: var(--text-light);
+   content: ''; /* Svuotiamo il testo 'mail' */
    position: absolute;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
+   
+   /* Dimensione dell'icona (corrisponde ai vecchi 130px) */
+   width: 130px; 
+   height: 130px;
+
+   /* Colore dell'icona: ora lo decidi con background-color! */
+   background-color: var(--text-light);
+
+   /* La "Maschera": l'SVG definisce dove il colore deve passare */
+   -webkit-mask-image: url('/icons/mail.svg');
+   mask-image: url('/icons/mail.svg');
+   
+   /* Impostazioni per centrare e non ripetere l'icona */
+   -webkit-mask-repeat: no-repeat;
+   mask-repeat: no-repeat;
+   -webkit-mask-size: contain;
+   mask-size: contain;
+   -webkit-mask-position: center;
+   mask-position: center;
 }
  #custom-cursor.expanding {
     width: 75px;

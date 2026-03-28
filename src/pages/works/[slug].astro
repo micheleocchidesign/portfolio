@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import SingleProjLayout from '../../layouts/SingleProjLayout.astro';
+
+// FONDAMENTALE: deve esserci la parola "export" davanti
+export async function getStaticPaths() {
+  const allWorks = await getCollection('works');
+  
+  return allWorks.map(entry => ({
+    params: { slug: entry.id }, // Astro userà questo per l'URL: /works/omino-bianco
+    props: { entry },           // Passiamo i dati completi come props
+  }));
+}
+
+// Recuperiamo i dati passati da getStaticPaths
+const { entry } = Astro.props;
+const { 
+    title, 
+    description, 
+    client, 
+    role,
+    liveUrl, 
+    agency, 
+    agencyUrl, 
+    extraInfo, 
+    modules 
+} = entry.data;
+---
+
+<SingleProjLayout 
+    title={title}
+    description={description}
+    client={client}
+    role={role}
+    agency={agency}
+    agencyUrl={agencyUrl}
+    extraInfo={extraInfo}
+    liveUrl={liveUrl}
+    modules={modules}
+/>

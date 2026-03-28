@@ -1,33 +1,28 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// 1. Importiamo il componente Image di Astro
+import { Image } from 'astro:assets';
+
 const { title, category, agency, agencyUrl, bgImg, previewImg, href } = Astro.props;
 
-// FUNZIONE DEFINITIVA
-const getSmartLink = (path) => {
-    if (!path) return "#";
-    // Se il link è esterno (Ricola/YouTube/Agenzia), non aggiungere la base
-    if (path.startsWith('http')) return path;
-    
-    // Se è interno, aggiungi la base
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return base + cleanPath;
-};
+// Gestiamo il link: se non c'è, mettiamo un cancelletto
+const finalHref = href || "#";
+const isExternal = finalHref.startsWith('http');
 ---
 
 <div class="project-card">
     <a 
-        href={getSmartLink(href)} 
+        href={finalHref} 
         class="project-link-overlay"
-        target={href.startsWith('http') ? "_blank" : "_self"}
-        rel={href.startsWith('http') ? "noopener noreferrer" : ""}
+        target={isExternal ? "_blank" : "_self"}
+        rel={isExternal ? "noopener noreferrer" : ""}
     ></a>
     
     <div class="project-asset">
         <div class="project-bg">
-            <img src={getSmartLink(bgImg)} alt={title} loading="lazy">
+            <Image src={bgImg} alt={`${title} - Background`} />
         </div>
         <div class="project-preview">
-            <img src={getSmartLink(previewImg)} alt={title} loading="lazy">
+            <Image src={previewImg} alt={`${title} - Preview`} />
         </div>
     </div>
     
@@ -46,6 +41,7 @@ const getSmartLink = (path) => {
         )}
     </div>
 </div>
+
 <style>
     /* --- CARD PROGETTO --- */
 .project-card {
@@ -89,6 +85,7 @@ const getSmartLink = (path) => {
    height: 100%;
    object-fit: cover;
    display: block;
+   pointer-events: none;
 }
 
 .project-bg img{

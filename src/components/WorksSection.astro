@@ -1,5 +1,7 @@
 ---
-const base = import.meta.env.BASE_URL;
+const rawBase = import.meta.env.BASE_URL;
+// Puliamo la base per evitare // se rawBase è "/"
+const base = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 ---
 
 <section id="works-section">
@@ -27,7 +29,7 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <div class="mobile-only-section">
-    <a href={`${base}works/`} class="mobile-content-link">
+    <a href={`${base}/works/`} class="mobile-content-link">
         <span class="m-ticker">SCOPRI I MIEI LAVORI</span>
         <span class="m-huge from-left">WoRKS</span>
         <span class="m-huge from-right">WoRKS</span>

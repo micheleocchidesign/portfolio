@@ -1,0 +1,100 @@
+local_backend: true
+backend:
+  name: test-repo
+
+# Dove il CMS scrive fisicamente (percorso relativo alla root del progetto)
+media_folder: "src/img/projects"
+# Come il percorso viene scritto nel file .md
+# Usiamo questo formato perché Astro lo riconosca come riferimento a un file interno
+public_folder: "/src/img/projects"
+
+collections:
+  - name: "works"
+    label: "Progetti Portfolio"
+    folder: "src/content/works"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Titolo Progetto", name: "title", widget: "string" }
+      - { label: "Link Progetto Live (URL)", name: "liveUrl", widget: "string", required: false, hint: "L'indirizzo del sito web o della demo live" }
+      - { 
+            label: "Ordine (Priorità)", 
+            name: "order", 
+            widget: "number", 
+            default: 100, 
+            step: 10, 
+            hint: "Più basso è il numero, più in alto appare (es: 10 è il primo)" 
+          }
+      - { label: "Categoria", name: "category", widget: "string" }
+      - { label: "Cliente", name: "client", widget: "string" }
+      - { label: "Ruolo", name: "role", widget: "string" }
+      - { label: "Agency", name: "agency", widget: "string", required: false }
+      - { label: "Agency URL", name: "agencyUrl", widget: "string", required: false }
+      - { label: "Descrizione Progetto", name: "description", widget: "text", required: false }
+      - { label: "Link Esterno (Opzionale)", name: "externalLink", widget: "string", required: false, hint: "Se inserito, la card punterà qui invece che alla pagina interna" }
+      - label: "Extra Credits (Fotografi, Illustratori, etc.)"
+        name: "extraInfo"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Ruolo/Etichetta", name: "label", widget: "string", hint: "es: Illustrazioni" }
+          - { label: "Nome/Valore", name: "value", widget: "string", hint: "es: Francesco Pittiglio" }
+      - { label: "Immagine Sfondo (Griglia)", name: "bgImg", widget: "image" }
+      - { label: "Immagine Preview (Griglia)", name: "previewImg", widget: "image" }
+
+      # --- QUI DEFINIAMO I MODULI DINAMICI ---
+      - label: "Layout Pagina (Moduli)"
+        name: "modules"
+        widget: "list"
+        types:
+          # CASO 1: IMMAGINE
+          - label: "Modulo Immagine"
+            name: "image_mod" # Questo diventerà type: "image" nel codice
+            widget: "object"
+            fields:
+              - { label: "Tipo", name: "moduleType", widget: "hidden", default: "image" }
+              - { label: "File Immagine", name: "url", widget: "image" }
+              - label: "Formato"
+                name: "format"
+                widget: "select"
+                options:
+                  - { label: "Orizzontale", value: "horizontal" }
+                  - { label: "Verticale", value: "vertical" }
+                  - { label: "Quadrato", value: "square" }
+              - { label: "Link Esterno (opzionale)", name: "link", widget: "string", required: false }
+              - { label: "Titolo Alt", name: "title", widget: "string", required: false }
+
+          # CASO 2: VIDEO (MP4)
+          - label: "Modulo Video (File)"
+            name: "video_mod" # Questo diventerà type: "video" nel codice
+            widget: "object"
+            fields:
+              - { label: "Tipo", name: "moduleType", widget: "hidden", default: "video" }
+              - { label: "File MP4", name: "url", widget: "file" }
+              - label: "Formato"
+                name: "format"
+                widget: "select"
+                options:
+                  - { label: "Orizzontale", value: "horizontal" }
+                  - { label: "Verticale", value: "vertical" }
+                  - { label: "Quadrato", value: "square" }
+              - { label: "Variante", name: "variant", widget: "select", options: [{label: "Short (Loop/No Audio)", value: "short"}, {label: "Case (Con controlli)", value: "case"}] }
+
+          # CASO 3: YOUTUBE
+          - label: "Modulo YouTube"
+            name: "youtube_mod"
+            widget: "object"
+            fields:
+              - { label: "Tipo", name: "moduleType", widget: "hidden", default: "youtube" }
+              - { label: "ID Video YouTube", name: "youtubeId", widget: "string", hint: "Solo il codice dopo v=" }
+              - label: "Formato"
+                name: "format"
+                widget: "select"
+                options:
+                  - { label: "Orizzontale", value: "horizontal" }
+                  - { label: "Verticale", value: "vertical" }
+                  - { label: "Quadrato", value: "square" }
+              - { label: "Variante", name: "variant", widget: "select", options: [{label: "Short (Autoplay/Mute)", value: "short"}, {label: "Case (Standard)", value: "case"}] }
+              - { label: "Mostra Controlli Player", name: "showControls", widget: "boolean", default: false }

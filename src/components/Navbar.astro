@@ -3,7 +3,9 @@ import MoLogo from '../components/MoLogo.astro';
 
 // Astro gestisce già la base. Se sei su GitHub sarà "/portfolio", 
 // se sei in locale sarà "".
-const base = import.meta.env.BASE_URL;
+const rawBase = import.meta.env.BASE_URL;
+// Puliamo la base per evitare // se rawBase è "/"
+const base = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 
 // Creiamo il link alla home pulito. 
 // Se base finisce già con "/", non aggiungiamo nulla.
@@ -91,110 +93,83 @@ const { disableLogoScroll = false } = Astro.props;
 </style>
 
 <script>
-// @ts-ignore
-const gsap = window.gsap;
-const nLog = document.getElementById('nav-logo-wrapper');
-const labelName = document.getElementById('label-name');
-// Inizializza la funzionalità di scroll per il logo e l'etichetta del nome
-function initScrollNav() {
-    const header = document.getElementById('site-header');
-    // Se l'attributo impostato nel tag header è "true", non aggiungiamo l'evento di scroll
-    if (header?.dataset.disable === "true") {
-        return; 
+    // @ts-ignore
+    const gsap = window.gsap;
+
+    function isHomePage(href: string) {
+        const cleanPath = (path: string) => path.replace(/^\/|\/$/g, '');
+        const current = cleanPath(window.location.pathname);
+        const target = cleanPath(href);
+        const base = cleanPath(import.meta.env.BASE_URL);
+
+        // Ritorna true se il target è uguale al path corrente o alla base del sito
+        return target === current || target === base || (target === '' && (current === base || current === ''));
     }
-    //cerchiamo logonav e etichetta nome quando la funzione parte
-    window.addEventListener('scroll', () => {
-        const y = window.scrollY;
-        const isScrolled = y > 100;
 
-        // Toggle aggiunge o rimuove in base al secondo parametro (booleano)
-        if (nLog) nLog.classList.toggle('slide-in', isScrolled);
-        if (labelName) labelName.classList.toggle('scrolled', isScrolled);
-    }, { passive: true }); // 'passive' migliora le performance dello scroll
-}
-// Inizializza la funzionalità del menu
-function initMenu() {
-    const menuBtn = document.getElementById('nav-text-menu');
-    // Selezioniamo gli elementi che il menu deve comandare (anche se sono in altri componenti o parti del DOM)
-    const overlay = document.getElementById('menu-overlay');
+    function initNavbar() {
+        const nLog = document.getElementById('nav-logo-wrapper');
+        const labelName = document.getElementById('label-name');
+        const menuBtn = document.getElementById('nav-text-menu');
+        const overlay = document.getElementById('menu-overlay');
+        const header = document.getElementById('site-header');
 
-    // 1. Funzione Toggle principale (Sposta qui la logica originale)
-    const toggleMenu = () => {
-      const isOpen = document.body.classList.toggle('menu-open');
-      // toggle della classe 'active' sull'overlay per mostrare/nascondere le macchie e il menu
-      overlay?.classList.toggle('active');
-      if (menuBtn) menuBtn.innerText = isOpen ? 'Close —' : 'Menu +';
-    };
-
-    // 2. Click sul bottone Menu
-    menuBtn?.addEventListener('click', toggleMenu);
-
-    // 3. Chiudi se clicchi fuori dal menu (ma solo se è aperto)
-    overlay?.addEventListener('click', (e) => {
-      const isMenuOpen = document.body.classList.contains('menu-open');
-      if (isMenuOpen) {
-        const target = e.target as HTMLElement; // Per TypeScript, o solo e.target in JS
-        if (!target.closest('.spot') && !target.closest('.menu-links') && !target.closest('#menu-content')) {
-          toggleMenu();
+        // 1. GESTIONE SCROLL
+        if (header?.dataset.disable !== "true") {
+            window.addEventListener('scroll', () => {
+                const isScrolled = window.scrollY > 100;
+                nLog?.classList.toggle('slide-in', isScrolled);
+                labelName?.classList.toggle('scrolled', isScrolled);
+            }, { passive: true });
         }
-      }
-    });
 
-    // 4. Chiudi il menu al click sui link e scrolla
-    document.querySelectorAll('.menu-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
+        // 2. LOGICA MENU (Usiamo addEventListener invece di .onclick per evitare errori di target)
+        const toggleMenu = () => {
+            const isOpen = document.body.classList.toggle('menu-open');
+            overlay?.classList.toggle('active');
+            if (menuBtn) menuBtn.innerText = isOpen ? 'Close —' : 'Menu +';
+        };
 
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          
-          toggleMenu();
+        menuBtn?.addEventListener('click', toggleMenu);
 
-          // Usiamo GSAP per lo scroll fluido
-          // Assicurati che ScrollToPlugin sia caricato nel tuo progetto
-          if (gsap) {
-              gsap.to(window, { 
-                duration: 1.5, 
-                scrollTo: href, 
-                ease: "power2.inOut", 
-                delay: 0.2 
-              });
-          } else {
-              // Fallback se GSAP non è ancora pronto
-              document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      });
-    });
-  }
+        // 3. CLICK SUI LINK DEL MENU
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (!href) return;
 
-  if (nLog) {
-    nLog.addEventListener('click', (e) => {
-        const href = nLog.getAttribute('href') || '';
-        const targetPath = href.split('/').pop();
-        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-        // If link points to current page (index.html), prevent navigation and scroll to top
-        if (targetPath === currentPath) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        // Otherwise, allow normal navigation (initPageTransitions will handle transitions)
-    });
-}
+                const isAnchor = href.startsWith('#');
+                const isCurrentPageAnchor = href.includes('#') && isHomePage(href.split('#')[0]);
 
-if (labelName) {
-    labelName.addEventListener('click', (e) => {
-        const href = labelName.getAttribute('href') || '';
-        const targetPath = href.split('/').pop();
-        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-        if (targetPath === currentPath) {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    });
-}
+                if (isAnchor || isCurrentPageAnchor) {
+                    const targetId = href.split('#').pop();
+                    const targetElem = document.getElementById(targetId || '');
 
-// Lanciamo l'inizializzazione
-initMenu();
-initScrollNav();
+                    if (targetElem) {
+                        e.preventDefault();
+                        toggleMenu();
+                        if (gsap) {
+                            gsap.to(window, { duration: 1.5, scrollTo: targetElem, ease: "power2.inOut", delay: 0.2 });
+                        } else {
+                            targetElem.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+            });
+        });
+
+        // 4. CLICK SU LOGO/NOME
+        [nLog, labelName].forEach(el => {
+            el?.addEventListener('click', (e) => {
+                const href = el.getAttribute('href') || '';
+                if (isHomePage(href)) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+    }
+
+    // Inizializzazione sicura
+    initNavbar();
+    document.addEventListener('astro:page-load', initNavbar);
 </script>

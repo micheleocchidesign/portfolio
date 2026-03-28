@@ -6,13 +6,13 @@ const { target } = Astro.props;
 <div class="scroll-hint">
   <a href={target} class="internal-scroll-link">
     <span class="hint-text">KEEEEEEP</span>
-    <span class="material-symbols-outlined">arrow_cool_down</span>
+    <img src="/icons/arrow_cool_down.svg" class="icon-scroll" alt="" aria-hidden="true" />
     <span class="hint-text">SCROLLIN'</span>
   </a>
 </div>
 
 <style>
- /* --- SCROLL HINT ARROW --- */
+/* --- SCROLL HINT ARROW --- */
 .scroll-hint {
     position: absolute;
     bottom: 30px;
@@ -20,43 +20,34 @@ const { target } = Astro.props;
     transform: translateX(-50%);
     z-index: 10;
     animation: scrollBounce 2s infinite;
-    white-space: nowrap; /* Impedisce al testo di andare a capo */
+    white-space: nowrap;
 }
 
-/* Applica il cursore manina a tutto il blocco e ai suoi figli */
-.scroll-hint, 
-.scroll-hint * {
-    cursor: pointer !important;
-}
-
-.internal-scroll-link {
-    display: flex;
-    align-items: center; /* Allinea verticalmente testo e icona */
-    gap: 12px;           /* Spazio tra testo e freccia */
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer !important;
-}
-
+/* Usiamo i font locali che abbiamo configurato */
 .hint-text {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono Variable', monospace;
     font-size: 10px;
     letter-spacing: 0.2em;
     font-weight: 400;
     opacity: 0.8;
 }
 
-/* --- ICONA --- */
-.scroll-hint .material-symbols-outlined {
-    font-size: 28px; /* Ridotta leggermente per bilanciare il testo */
-    font-variation-settings: 'wght' 200;
-    line-height: 1;
-    display: block;
-}
-
-.material-symbols-outlined a{
+.internal-scroll-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     text-decoration: none;
     color: inherit;
+    cursor: pointer !important;
+}
+
+/* Gestione dell'icona SVG locale */
+.icon-scroll {
+    width: 28px;
+    height: 28px;
+    display: block;
+    /* Se il tuo SVG è nero e lo vuoi bianco, usa filter */
+    filter: invert(1); 
 }
 
 @keyframes scrollBounce {
@@ -67,27 +58,18 @@ const { target } = Astro.props;
 
 @media (max-width: 768px) {
     .scroll-hint {
-        /* Se il contenitore padre è alto quanto la sezione, 
-           assicuriamoci che rimanga sopra la barra di Chrome */
         bottom: 15dvh; 
     }
 }
 </style>
 
 <script>
+  // Importiamo GSAP correttamente per Astro
   import { gsap } from "gsap";
   import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-  gsap.registerPlugin(ScrollToPlugin);
-
-  function initScrollHints() {
-    const scrollLinks = document.querySelectorAll('.internal-scroll-link');
-    
-    scrollLinks.forEach(link => {
-      // Rimuoviamo eventuali listener precedenti per evitare duplicati (utile con Astro)
-      link.removeEventListener('click', handleScroll);
-      link.addEventListener('click', handleScroll);
-    });
+  if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollToPlugin);
   }
 
   function handleScroll(e) {
@@ -103,7 +85,15 @@ const { target } = Astro.props;
     }
   }
 
-  // Inizializzazione per Astro
+  function initScrollHints() {
+    const scrollLinks = document.querySelectorAll('.internal-scroll-link');
+    scrollLinks.forEach(link => {
+      link.removeEventListener('click', handleScroll);
+      link.addEventListener('click', handleScroll);
+    });
+  }
+
+  // Supporto per navigazione standard e Astro View Transitions
   initScrollHints();
   document.addEventListener('astro:page-load', initScrollHints);
 </script>

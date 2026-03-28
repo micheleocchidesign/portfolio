@@ -23,8 +23,8 @@
 }
 
 .transition-blob {
-   width: 120vmax; /* Più grande dello schermo per coprire gli angoli */
-   height: 120vmax;
+   width: 140vmax; /* Più grande dello schermo per coprire gli angoli */
+   height: 140vmax;
    will-change: transform;
 }
 
@@ -64,33 +64,48 @@ export function initPageTransitions() {
 
     // --- USCITA ---
     document.addEventListener('click', (e: MouseEvent) => {
-    const target = e.target as Element;
-    const link = target.closest('a');
+        const target = e.target as Element;
+        const link = target.closest('a');
 
-    if (!link) return;
+        if (!link) return;
 
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
 
-    // 1. NUOVA LOGICA ISINTERNAL:
-    // È interno se inizia con / o #, oppure se NON inizia con http
-    const isInternal = href.startsWith('/') || href.startsWith('#') || !href.startsWith('http');
-    
-    // 2. LOGICA ANCORA (Migliorata per evitare conflitti)
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    const targetPath = href.split('#')[0] || currentPath;
-    const isAnchor = href.startsWith('#') || (href.includes('#') && targetPath === currentPath);
+        // 1. Creiamo oggetti URL per un confronto serio
+        const targetURL = new URL(link.href, window.location.origin);
+        const currentURL = new URL(window.location.href, window.location.origin);
 
-    if (isInternal && !isAnchor && !link.hasAttribute('download') && link.target !== '_blank') {
+        // 2. Puliamo i path (rimuoviamo slash finali per il confronto)
+        const targetPath = targetURL.pathname.replace(/\/$/, "") || "/";
+        const currentPath = currentURL.pathname.replace(/\/$/, "") || "/";
+
+        // 3. CONDIZIONE DI BLOCCO: 
+        // Se il path è lo stesso, non vogliamo la transizione "a macchia"
+        if (targetPath === currentPath) {
+            // Se c'è un hash (#), lo scroll è gestito dalla Navbar.
+            // Se NON c'è un hash (es. click sul logo in Home), 
+            // lasciamo che il click faccia il suo corso naturale (o lo scroll to top della Navbar).
+            return; 
+        }
+
+        // 4. Se arriviamo qui, i path sono DIVERSI (cambio pagina reale)
+        const isInternal = targetURL.origin === window.location.origin;
+        const isDownload = link.hasAttribute('download');
+        const isBlank = link.target === '_blank';
+
+        if (isInternal && !isDownload && !isBlank) {
             e.preventDefault();
+            
             sessionStorage.setItem('isNavigating', 'true');
-            // LOGO NAV E LABEL NOME SCORRONO SU
+
+            // Reset UI
             const nLog = document.getElementById('nav-logo-wrapper');
             const labelName = document.getElementById('label-name');
             if (nLog) nLog.classList.remove('slide-in');
             if (labelName) labelName.classList.remove('scrolled');
-            
 
+            // Animazione Blob
             gsap.set(transitionCircle, { visibility: "visible", opacity: 1 });
             gsap.to(transitionCircle, {
                 attr: { r: 250 },
@@ -100,7 +115,6 @@ export function initPageTransitions() {
                     window.location.href = href;
                 }
             });
-        } else {
         }
     });
     //GESTIONE BACK BUTTON E CACHE

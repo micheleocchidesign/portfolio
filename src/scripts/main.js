@@ -19,34 +19,6 @@ function debounce(func, wait) {
         timeout = setTimeout(() => func.apply(this, args), wait);
     };
 }
-// Gestisce link interni alla pagina con scroll dolce tramite GSAP invece del salto immediato
-document.querySelectorAll('.menu-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        const href = link.getAttribute('href');
-
-        // Caso 1: È un'ancora pura (es: "#about-section")
-        if (href && href.startsWith('#')) {
-            e.preventDefault();
-            
-            // Chiudiamo il menu prima di scrollare (se hai la funzione toggleMenu)
-            if (typeof toggleMenu === 'function') toggleMenu();
-
-            gsap.to(window, { 
-                duration: 1.5, 
-                scrollTo: href, 
-                ease: "power2.inOut", 
-                delay: 0.2 
-            });
-        }
-        
-        // Caso 2: È un link a un'altra pagina con ancora (es: "/portfolio/#about")
-        // Non facciamo preventDefault(): lasciamo che il browser carichi la home.
-        // All'arrivo sulla home, se l'URL ha un #, il browser o un piccolo script di init
-        // gestirà lo scroll.
-    });
-});
-
-
 
 /* SEZIONE SINGOLO PROGETTO */
     function initProjectSticky() {

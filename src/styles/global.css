@@ -1,3 +1,32 @@
+/* INTER - Variable (con peso e dimensione ottica) */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations'),
+       url('/fonts/Inter-VariableFont_opsz,wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* JETBRAINS MONO - Variable */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-VariableFont_wght.woff2') format('woff2-variations'),
+       url('/fonts/JetBrainsMono-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+ @font-face {
+    font-family: 'MoFont';
+   /* Il percorso parte da dove si trova index.html */
+    src: url('/fonts/MoFont-ExtraBold.woff2') format('woff2'),
+         url('../fonts/MoFont-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
 :root {
     --bg-color: #f7f7f2;
     --dark-blue: #004f5e;
@@ -17,14 +46,6 @@
     background-color: var(--bg-color);
     font-family: 'MoFont', sans-serif;
     overflow-x: hidden;
-}
- @font-face {
-    font-family: 'MoFont';
-   /* Il percorso parte da dove si trova index.html */
-    src: url('../fonts/MoFont-ExtraBold.woff2') format('woff2'), url('../fonts/MoFont-ExtraBold.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
 }
 
 .jetbrains{

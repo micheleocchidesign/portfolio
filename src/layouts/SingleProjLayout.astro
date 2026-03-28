@@ -7,7 +7,9 @@ import Menu from '../components/Menu.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
 import ProjectModule from '../components/single-work/ProjectModule.astro'; // Controlla che il path sia giusto
-const base = import.meta.env.BASE_URL;
+const rawBase = import.meta.env.BASE_URL;
+// Puliamo la base per evitare // se rawBase è "/"
+const base = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 
 const { 
     title, 
@@ -15,7 +17,8 @@ const {
     client,           // Sempre presente
     role,             // Sempre presente
     agency,           // Opzionale
-    agencyUrl,        // Opzionale
+    agencyUrl,
+    liveUrl,        // Opzionale
     extraInfo = [],   // Array per i campi variabili (Illustrazioni, Foto, ecc.)
     modules = [] 
 } = Astro.props;
@@ -31,6 +34,14 @@ const {
         <div class="project-container">
             <aside class="project-side">
                 <h1 class="project-title">{title}</h1>
+                {liveUrl && (
+                    <a href={liveUrl} target="_blank" rel="noopener noreferrer" class="btn-live">
+                        Guarda il progetto live
+                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 2H13V11.5M13 2L2 13" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </a>
+                )}
                 <p class="project-description">{description}</p>
                 <a href={`${base}/works/#works-grid`} id="back-works">&lt; WoRKS</a>
             </aside>
@@ -146,6 +157,27 @@ const {
     color: var(--dark-text);
     opacity: 0.7;
 }
+
+.btn-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        padding: 12px 24px;
+        color: var(--accent-gold);
+        border: 1px solid currentColor;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        transition: all 0.3s ease;
+        font-family: 'JetBrains Mono';
+    }
+
+    .btn-live:hover {
+        background: var(--accent-gold);
+        color: var(--dark-text); /* o il colore del tuo sfondo */
+    }
 
 /* --- DESCRIZIONE PROGETTO --- */
 .project-description {
