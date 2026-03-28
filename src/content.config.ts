@@ -21,11 +21,13 @@ const works = defineCollection({
     bgImg: image(), 
     previewImg: image(),
     liveUrl: z.string().optional(),
-    // Invece di .any(), potresti definire meglio i moduli, ma per ora va bene così
+    
     modules: z.array(z.object({
       moduleType: z.enum(['image', 'video', 'youtube']),
-      url: z.union([image(), z.string()]).optional(), // Consente sia l'oggetto Image che la stringa (per i video)
+      url: z.union([image(), z.string()]).optional(),
       format: z.string(),
+    })).optional(),
+    
     externalLink: z.string().url().optional(),
   }),
 });
