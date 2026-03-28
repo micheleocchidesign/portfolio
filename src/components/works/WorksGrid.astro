@@ -6,9 +6,10 @@ const { projects = [] } = Astro.props;
 ---
 <section class="works-grid" id="works-grid">
     {projects.map((project) => {
-        // Logica: Se esiste externalLink (dal CMS), usalo. 
-        // Altrimenti costruisci il link interno usando lo slug.
-        const finalHref = project.externalLink || `/works/${project.slug}/`;
+        // Logica: aggiungiamo il 'base' all'inizio del path
+        // Se base è '/', non cambia nulla. Se è '/portfolio', il link diventa '/portfolio/works/slug/'
+        const internalHref = `${base}/works/${project.slug}/`.replace(/\/+/g, '/');
+        const finalHref = project.externalLink || internalHref;
         
         return (
             <ProjectCard {...project} href={finalHref} />
