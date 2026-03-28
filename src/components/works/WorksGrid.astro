@@ -3,6 +3,7 @@ import ProjectCard from '../works/ProjectCard.astro';
 // 1. Riceviamo i progetti dalla pagina madre (works.astro)
 // Se per qualche motivo non arrivano, usiamo un array vuoto [] come paracadute
 const { projects = [] } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 <section class="works-grid" id="works-grid">
     {projects.map((project) => {
