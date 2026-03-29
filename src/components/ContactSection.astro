@@ -1,6 +1,5 @@
 ---
-import copyIcon from '/public/icons/content_copy.svg?url';
-import checkIcon from '/public/icons/check.svg?url';
+import { Icon } from 'astro-icon/components';
 ---
 <section id="contact-section">
     <div class="contact-main">
@@ -18,8 +17,8 @@ import checkIcon from '/public/icons/check.svg?url';
                 <a href="mailto:hello@micheleocchi.com" class="email-link">hello@micheleocchi.com</a>
                 
                 <button class="copy-btn" id="copy-btn" aria-label="Copy email">
-                    <img src={copyIcon} class="icon-copy" alt="" />
-                    <img src={checkIcon} class="icon-check" alt="" />
+                    <Icon name="content_copy" class="icon-copy" />
+                    <Icon name="check" class="icon-check" />
                 </button>
             </div>
         </div>
