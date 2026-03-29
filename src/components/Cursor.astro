@@ -1,125 +1,114 @@
 ---
-
+import { Icon } from 'astro-icon/components';
 ---
+
 <div id="cursor-container">
     <div id="custom-cursor">
-        <svg viewBox="0 0 500 465.69"><path d="M440.18,416.13c-59.25,54.74-144.98,53.73-221.98,45.24-36.38-4.01-73.01-9.15-107.35-22.91-34.33-13.76-66.57-36.95-86.47-70.65C5.82,336.36-.83,297.79.08,260.31,2.95,142.22,85.02,31.92,189.74,5.44c44.07-11.14,95.41-4.61,143.77,14.51,60.76,24.02,111.92,71.39,141.42,134.54,8.1,17.33,14.52,35.57,18.9,54.6,16.91,73.35-.95,158.38-53.65,207.04Z"/></svg>
+        <svg class="cursor-blob" viewBox="0 0 500 465.69">
+            <path d="M440.18,416.13c-59.25,54.74-144.98,53.73-221.98,45.24-36.38-4.01-73.01-9.15-107.35-22.91-34.33-13.76-66.57-36.95-86.47-70.65C5.82,336.36-.83,297.79.08,260.31,2.95,142.22,85.02,31.92,189.74,5.44c44.07-11.14,95.41-4.61,143.77,14.51,60.76,24.02,111.92,71.39,141.42,134.54,8.1,17.33,14.52,35.57,18.9,54.6,16.91,73.35-.95,158.38-53.65,207.04Z"/>
+        </svg>
+        
+        <div class="cursor-icons">
+            <Icon name="visibility" class="icon-visibility" />
+            <Icon name="mail" class="icon-mail" />
+        </div>
     </div>
 </div>
 
 <style>
-   #cursor-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    display: none;
-}
- #custom-cursor {
-    position: fixed;
-   /* o absolute se preferisci, ma fixed è più stabile */
-    top: 0;
-    left: 0;
-    width: 90px;
-   /* Dimensione "reale" per la nitidezza */
-    height: 90px;
-    margin-left: -45px;
-   /* Centramento: -90 / 2 */
-    margin-top: -45px;
-   /* Centramento: -90 / 2 */
-    fill: var(--accent-coral);
-    pointer-events: none;
-    z-index: 9999;
-    will-change: transform;
-    transition: none !important;
-    overflow: visible;
-   /* Per evitare che lo stretch tagli i bordi */
-    opacity: 0; /* Nascosto al load */
-}
- #custom-cursor svg{
-    overflow: visible !important;
-    width:100%;
-    height: 100%;
-}
- #custom-cursor.is-hovering svg path {
-    /* TRASPARENTE CON BORDO SPESSO */
-    fill: transparent;
-    stroke-width: 30px;
-    stroke: var(--accent-coral);
+    #custom-cursor {
+        position: fixed;
+        top: 0; left: 0;
+        width: 90px; height: 90px;
+        margin-left: -45px; margin-top: -45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .cursor-blob {
+        position: absolute;
+        width: 100%; height: 100%;
+        fill: var(--accent-coral);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 1;
+    }
+
+    /* --- LOGICA ICONE --- */
+    .cursor-icons {
+        position: absolute;
+        top:50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 130px; 
+        height: 130px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    /* Target degli SVG generati da Astro-Icon */
+    .cursor-icons :global(svg) {
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--text-light) !important;
+        fill: currentColor !important;
+        
+        /* Stato di riposo */
+        opacity: 0 !important; 
+        transform: scale(0.1); 
+        transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+        align-items: center;      /* Centra verticalmente */
+        justify-content: center;   /* Centra orizzontalmente */
+        pointer-events: none;
+    }
+    #custom-cursor.is-hovering:not(.is-works-link):not(.is-email) .cursor-blob {
     transform: scale(3);
-    transform-origin: center;
-    cursor:pointer !important;
-}
-/* --- CURSORE WORKS HP --- */
-#custom-cursor.is-works-link {
-   /*background-color: rgba(148, 84, 84, 0.75);*/
-   
-}
-#custom-cursor.is-works-link svg path{
-   /*display: none; /* Nasconde l'occhio */
-   fill: var(--accent-coral);
-}
-#custom-cursor.is-works-link::after {
-   content: ''; /* Rimuoviamo la parola 'visibility' */
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   
-   /* Manteniamo la coerenza visiva con la mail */
-   width: 130px; 
-   height: 130px;
-   background-color: var(--text-light);
-
-   /* Puntiamo al nuovo file SVG locale */
-   -webkit-mask-image: url('/icons/visibility.svg');
-   mask-image: url('/icons/visibility.svg');
-   
-   -webkit-mask-repeat: no-repeat;
-   mask-repeat: no-repeat;
-   -webkit-mask-size: contain;
-   mask-size: contain;
-   -webkit-mask-position: center;   
-   mask-position: center;
-}
-/* --- CURSORE EMAIL --- */
-#custom-cursor.is-email {
-   /*background-color: rgba(148, 84, 84, 0.75);*/
-   
-}
-#custom-cursor.is-email svg path{
-   /*display: none; /* Nasconde l'occhio */
-   fill: var(--accent-coral);
+    fill: transparent; 
+    overflow: visible;
 }
 
-#custom-cursor.is-email::after {
-   content: ''; /* Svuotiamo il testo 'mail' */
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   
-   /* Dimensione dell'icona (corrisponde ai vecchi 130px) */
-   width: 130px; 
-   height: 130px;
+#custom-cursor.is-hovering:not(.is-works-link):not(.is-email) .cursor-blob path {
+    stroke: var(--accent-coral);
+    stroke-width: 30px;
+}
+    /* --- STATI ATTIVI --- */
+    /* 1. Il blob si ingrandisce e rimane pieno */
+    #custom-cursor.is-works-link .cursor-blob,
+    #custom-cursor.is-email .cursor-blob {
+        transform: scale(3);
+    }
 
-   /* Colore dell'icona: ora lo decidi con background-color! */
-   background-color: var(--text-light);
+    /* 2. Mostriamo l'icona corrispondente */
+    #custom-cursor.is-works-link :global(.icon-visibility),
+    #custom-cursor.is-email :global(.icon-mail) {
+        opacity: 1 !important;
+        transform: scale(1); /* Ora scala 1 è perfetto perché l'icona è "ritagliata" */
+    }
 
-   /* La "Maschera": l'SVG definisce dove il colore deve passare */
-   -webkit-mask-image: url('/icons/mail.svg');
-   mask-image: url('/icons/mail.svg');
-   
-   /* Impostazioni per centrare e non ripetere l'icona */
-   -webkit-mask-repeat: no-repeat;
-   mask-repeat: no-repeat;
-   -webkit-mask-size: contain;
-   mask-size: contain;
-   -webkit-mask-position: center;
-   mask-position: center;
+    /* Hover generico (cerchio vuoto) - manteniamo la tua logica */
+    /* 1. Applichiamo la trasformazione all'intero SVG .cursor-blob */
+#custom-cursor.is-hovering:not(.is-works-link):not(.is-email) .cursor-blob {
+    transform: scale(3); /* Scaliamo l'SVG, non il path al suo numero */
+    fill: transparent; 
+    overflow: visible;/* Il fill trasparente va bene anche qui */
+}
+
+/* 2. Targettizziamo il path solo per lo stroke */
+#custom-cursor.is-hovering:not(.is-works-link):not(.is-email) .cursor-blob path {
+    /* Rimuovi transform e transform-origin da qui */
+    
+    /* Manteniamo solo lo stroke */
+    stroke: var(--accent-coral);
+    stroke-width: 30px; /* Nota: 30px su una viewBox di 500 è molto spesso. */
 }
  #custom-cursor.expanding {
     width: 75px;

@@ -21,6 +21,9 @@ import { Icon } from 'astro-icon/components';
                     <Icon name="check" class="icon-check" />
                 </button>
             </div>
+            <p class="email-hint">
+                Se non hai un programma di posta configurato, copia l'indirizzo e scrivimi manualmente.
+            </p>
         </div>
     </div>
 </section>
@@ -96,14 +99,19 @@ import { Icon } from 'astro-icon/components';
         position: relative;
     }
 
-    .copy-btn img {
+    .copy-btn :global(svg) {
         width: 24px;
         height: 24px;
         position: absolute;
         transition: opacity 0.2s ease, transform 0.2s ease;
+        /* Assicuriamoci che prendano il colore del testo */
+        fill: currentColor; 
     }
 
-    .icon-check { opacity: 0; transform: scale(0.5); }
+    .icon-check { 
+        opacity: 0; 
+        transform: scale(0.5); 
+    }
 
     /* Quando il genitore ha la classe success, cambiano le immagini */
     .copy-btn.copy-success .icon-copy { opacity: 0; transform: scale(0.5); }
@@ -163,6 +171,17 @@ import { Icon } from 'astro-icon/components';
 }
  .email-link:hover {
     text-decoration: underline;
+}
+
+.email-hint {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--dark-text);
+    opacity: 0.5; /* Lo rende discreto */
+    margin-top: 15px;
+    max-width: 800px;
+    margin-inline: auto;
+    line-height: 1.4;
 }
 </style>
 

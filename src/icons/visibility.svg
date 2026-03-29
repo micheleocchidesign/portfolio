@@ -1,5 +1,127 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Livello_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 1000">
-  <!-- Generator: Adobe Illustrator 30.2.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 1)  -->
-  <path class="st0" d="M645.53,645.53c39.81-39.81,59.72-88.16,59.72-145.03s-19.91-105.22-59.72-145.03c-39.81-39.81-88.16-59.72-145.03-59.72s-105.22,19.91-145.03,59.72c-39.81,39.81-59.72,88.16-59.72,145.03s19.91,105.22,59.72,145.03c39.81,39.81,88.16,59.72,145.03,59.72s105.22-19.91,145.03-59.72ZM413.48,587.52c-23.89-23.89-35.83-52.89-35.83-87.02s11.94-63.13,35.83-87.02c23.89-23.89,52.89-35.83,87.02-35.83s63.13,11.94,87.02,35.83c23.89,23.89,35.83,52.89,35.83,87.02s-11.94,63.13-35.83,87.02c-23.89,23.89-52.89,35.83-87.02,35.83s-63.13-11.94-87.02-35.83ZM197.92,749.04C106.92,687.24,40.95,604.39,0,500.5c40.95-103.89,106.92-186.74,197.92-248.54,91-61.8,191.86-92.71,302.58-92.71s211.58,30.9,302.58,92.71c91,61.8,156.97,144.65,197.92,248.54-40.95,103.89-106.92,186.74-197.92,248.54-91,61.8-191.86,92.71-302.58,92.71s-211.57-30.9-302.58-92.71ZM736.53,683.07c71.66-45.12,126.45-105.98,164.37-182.57-37.92-76.59-92.71-137.45-164.37-182.57-71.66-45.12-150.34-67.68-236.03-67.68s-164.37,22.56-236.03,67.68c-71.66,45.12-126.45,105.98-164.37,182.57,37.92,76.59,92.71,137.45,164.37,182.57s150.34,67.68,236.03,67.68,164.37-22.56,236.03-67.68Z"/>
-</svg>
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div id="cursor-container">
+    <div id="custom-cursor">
+        <svg class="cursor-blob" viewBox="0 0 500 465.69">
+            <path d="M440.18,416.13c-59.25,54.74-144.98,53.73-221.98,45.24-36.38-4.01-73.01-9.15-107.35-22.91-34.33-13.76-66.57-36.95-86.47-70.65C5.82,336.36-.83,297.79.08,260.31,2.95,142.22,85.02,31.92,189.74,5.44c44.07-11.14,95.41-4.61,143.77,14.51,60.76,24.02,111.92,71.39,141.42,134.54,8.1,17.33,14.52,35.57,18.9,54.6,16.91,73.35-.95,158.38-53.65,207.04Z"/>
+        </svg>
+        
+        <div class="cursor-icons">
+            <Icon name="visibility" class="icon-visibility" />
+            <Icon name="mail" class="icon-mail" />
+        </div>
+    </div>
+</div>
+
+<style>
+    #custom-cursor {
+        position: fixed;
+        top: 0; left: 0;
+        width: 90px; height: 90px;
+        margin-left: -45px; margin-top: -45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .cursor-blob {
+        position: absolute;
+        width: 100%; height: 100%;
+        fill: var(--accent-coral);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 1;
+    }
+
+    /* --- LOGICA ICONE --- */
+    .cursor-icons {
+        position: absolute;
+        /* Questa è la tua nuova "maschera": 130px come avevi prima */
+        width: 130px; 
+        height: 130px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Target degli SVG generati da Astro-Icon */
+    .cursor-icons :global(svg) {
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--text-light) !important;
+        fill: currentColor !important;
+        
+        /* Stato di riposo */
+        opacity: 0 !important; 
+        transform: scale(0.1); 
+        transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+    }
+
+    /* --- STATI ATTIVI --- */
+    
+    /* 1. Il blob si ingrandisce e rimane pieno */
+    #custom-cursor.is-works-link .cursor-blob,
+    #custom-cursor.is-email .cursor-blob {
+        transform: scale(3);
+    }
+
+    /* 2. Mostriamo l'icona corrispondente */
+    #custom-cursor.is-works-link :global(.icon-visibility),
+    #custom-cursor.is-email :global(.icon-mail) {
+        opacity: 1 !important;
+        transform: scale(1); /* Ora scala 1 è perfetto perché l'icona è "ritagliata" */
+    }
+
+    /* Hover generico (cerchio vuoto) - manteniamo la tua logica */
+    #custom-cursor.is-hovering:not(.is-works-link):not(.is-email) .cursor-blob path {
+        fill: transparent;
+        stroke: var(--accent-coral);
+        stroke-width: 30px;
+        transform: scale(3);
+        transform-origin: center;
+    }
+ #custom-cursor.expanding {
+    width: 75px;
+}
+:global(.drop) {
+    position: absolute;
+    width: 12px;
+    height: 12px; /* Dobbiamo aggiungere l'altezza per fare un cerchio */
+    background-color: var(--accent-coral); /* Sostituisce fill */
+    border-radius: 50%; /* Rende il div un cerchio perfetto */
+    opacity: 0.6;
+    pointer-events: none;
+    will-change: transform, opacity; /* Ottimizza le prestazioni dell'animazione */
+}
+/* --- MEDIA QUERIES --- */
+/* --- per dispositivi con puntatore fine (es. mouse) mostriamo il cursore personalizzato --- */
+@media (pointer: fine) {
+    #cursor-container {
+        display: block;
+    }
+}
+/* --- per dispositivi touch nascondiamo il cursore personalizzato --- */
+/* --- MOSTRA solo se c'è un mouse (puntatore fine) --- */
+@media (pointer: fine) {
+    #cursor-container {
+        display: block;
+    }
+}
+
+/* --- NASCONDI solo se è veramente un dispositivo touch --- */
+@media (pointer: coarse) {
+    #cursor-container, 
+    #custom-cursor {
+        display: none !important;
+    }
+}
+</style>
