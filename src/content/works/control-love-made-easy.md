@@ -27,11 +27,11 @@ modules:
   - type: video_mod
     moduleType: video
     url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/control-love-made-easy-products.mp4
-    format: Quadrato
+    format: quadrato
     variant: short
   - type: image_mod
     moduleType: image
     url: /src/img/projects/control-love-made-easy-bozzetto-1080x1080.jpg
-    format: Quadrato
+    format: quadrato
     title: Schizzi progetti
 ---

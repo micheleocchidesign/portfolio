@@ -60,9 +60,9 @@ collections:
                 name: "format"
                 widget: "select"
                 options:
-                  - { label: "Orizzontale", value: "horizontal" }
-                  - { label: "Verticale", value: "vertical" }
-                  - { label: "Quadrato", value: "square" }
+                  - { label: "orizzontale", value: "horizontal" }
+                  - { label: "verticale", value: "vertical" }
+                  - { label: "quadrato", value: "square" }
               - { label: "Link Esterno (opzionale)", name: "link", widget: "string", required: false }
               - { label: "Titolo Alt", name: "title", widget: "string", required: false }
 
@@ -77,10 +77,18 @@ collections:
                 name: "format"
                 widget: "select"
                 options:
-                  - { label: "Orizzontale", value: "horizontal" }
-                  - { label: "Verticale", value: "vertical" }
-                  - { label: "Quadrato", value: "square" }
-              - { label: "Variante", name: "variant", widget: "select", options: [{label: "Short (Loop/No Audio)", value: "short"}, {label: "Case (Con controlli)", value: "case"}] }
+                  - { label: "orizzontale", value: "horizontal" }
+                  - { label: "verticale", value: "vertical" }
+                  - { label: "quadrato", value: "square" }
+              - { label: "Variante", name: "variant", widget: "select", options: [{label: "short (Loop/No Audio)", value: "short"}, {label: "case (Con controlli)", value: "case"}] }
+              # --- NUOVO CAMPO LINK AGGIUNTO QUI ---
+              - { 
+                  label: "Link Esterno (opzionale)", 
+                  name: "link", 
+                  widget: "string", 
+                  required: false, 
+                  hint: "ATTENZIONE: Funziona solo se la Variante è impostata su 'short'" 
+                }
 
           # CASO 3: YOUTUBE
           - label: "Modulo YouTube"
@@ -93,8 +101,8 @@ collections:
                 name: "format"
                 widget: "select"
                 options:
-                  - { label: "Orizzontale", value: "horizontal" }
-                  - { label: "Verticale", value: "vertical" }
-                  - { label: "Quadrato", value: "square" }
-              - { label: "Variante", name: "variant", widget: "select", options: [{label: "Short (Autoplay/Mute)", value: "short"}, {label: "Case (Standard)", value: "case"}] }
+                  - { label: "orizzontale", value: "horizontal" }
+                  - { label: "verticale", value: "vertical" }
+                  - { label: "quadrato", value: "square" }
+              - { label: "Variante", name: "variant", widget: "select", options: [{label: "short (Autoplay/Mute)", value: "short"}, {label: "case (Standard)", value: "case"}] }
               - { label: "Mostra Controlli Player", name: "showControls", widget: "boolean", default: false }

@@ -22,12 +22,18 @@ modules:
     title: Michele Occhi Logo
   - type: video_mod
     moduleType: video
-    url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/2026-02-16_MOC_animazione-logo-palette_v01.mp4
+    url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/MOC_logo-animation.mp4
     format: square
     variant: short
   - type: video_mod
     moduleType: video
-    url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/2026-02-16_MOC_presentazione-mofont_v01.mp4
+    url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/MOC_mofont.mp4
+    format: square
+    variant: short
+    link: /mofont/
+  - type: video_mod
+    moduleType: video
+    url: https://github.com/micheleocchidesign/video-gif-assets/raw/refs/heads/main/MOC_logo-palette.mp4
     format: square
     variant: short
 ---

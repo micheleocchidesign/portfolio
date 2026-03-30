@@ -186,53 +186,80 @@ import { Icon } from 'astro-icon/components';
 </style>
 
 <script>
-    function copyEmail() {
-        const email = "hello@micheleocchi.com";
-        // CERCHIAMO .copy-btn (non .copy-icon che non esiste più)
+    // 1. Funzione pura per mostrare il feedback visivo
+    function showCopyFeedback() {
         const btn = document.getElementById('copy-btn');
+        const hint = document.querySelector('.email-hint');
         if (!btn) return;
 
-        const showSuccess = () => {
-            btn.classList.add('copy-success');
-            setTimeout(() => {
-                btn.classList.remove('copy-success');
-            }, 1500);
-        };
+        btn.classList.add('copy-success');
+        if (hint) {
+            hint.style.opacity = "1";
+            hint.style.color = "var(--accent-coral)";
+            hint.textContent = "Indirizzo copiato! Incollalo nella tua mail.";
+        }
+        
+        setTimeout(() => {
+            btn.classList.remove('copy-success');
+            if (hint) {
+                hint.style.opacity = "0.5";
+                hint.style.color = "var(--dark-text)";
+                hint.textContent = "Se non hai un programma di posta configurato, copia l'indirizzo e scrivimi manualmente.";
+            }
+        }, 3000);
+    }
 
+    // 2. Funzione per la copia (chiamata solo dal bottone diretto)
+    function executeCopy() {
+        const email = "hello@micheleocchi.com";
         if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(email)
-                .then(showSuccess)
-                .catch(() => fallbackCopy(email, showSuccess));
+            navigator.clipboard.writeText(email).then(showCopyFeedback);
         } else {
-            fallbackCopy(email, showSuccess);
-        }
-    }
-
-    function fallbackCopy(text: string, callback: () => void): void {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
+            // Fallback manuale se clipboard non disponibile
+            const textArea = document.createElement("textarea");
+            textArea.value = email;
+            document.body.appendChild(textArea);
+            textArea.select();
             document.execCommand('copy');
-            callback();
-        } catch (err) {
-            console.error('Errore copia:', err);
+            document.body.removeChild(textArea);
+            showCopyFeedback();
         }
-        document.body.removeChild(textArea);
     }
 
-    function initContactCopy() {
+    // 3. Il paracadute per il mailto (SENZA copia automatica per evitare popup Chrome)
+    function handleMailtoClick() {
+        const start = Date.now();
+        setTimeout(() => {
+            // Se l'utente è ancora qui, Chrome ha probabilmente ignorato il mailto
+            if (Date.now() - start < 1000 && document.hasFocus()) {
+                const hint = document.querySelector('.email-hint');
+                if (hint) {
+                    hint.style.opacity = "1";
+                    hint.style.color = "var(--accent-coral)";
+                    hint.textContent = "Sembra che il tuo browser non apra l'email. Copia l'indirizzo qui sopra!";
+                    // Facciamo pulsare il bottone di copia per attirare l'attenzione
+                    document.getElementById('copy-btn')?.animate([
+                        { transform: 'scale(1)' },
+                        { transform: 'scale(1.2)' },
+                        { transform: 'scale(1)' }
+                    ], { duration: 500, iterations: 2 });
+                }
+            }
+        }, 500);
+    }
+
+    function initContactLogic() {
         const copyBtn = document.getElementById('copy-btn');
         if (copyBtn) {
-            copyBtn.removeEventListener('click', copyEmail);
-            copyBtn.addEventListener('click', copyEmail);
+            copyBtn.addEventListener('click', executeCopy);
         }
+
+        const mailLinks = document.querySelectorAll('.email-link, .scrivimi-link');
+        mailLinks.forEach(link => {
+            link.addEventListener('click', handleMailtoClick);
+        });
     }
 
-    initContactCopy();
-    document.addEventListener('astro:page-load', initContactCopy);
+    initContactLogic();
+    document.addEventListener('astro:page-load', initContactLogic);
 </script>

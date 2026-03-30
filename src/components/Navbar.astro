@@ -23,25 +23,38 @@ const { disableLogoScroll = false } = Astro.props;
 </header>
 
 <style>
+    /* 1. REGOLA NUCLEARE: Forza la manina su tutti gli elementi della nav */
+    /* Usiamo :global(html:not(...) body) per avere una specificità imbattibile */
+    :global(html:not(.use-standard-cursor) body) #nav-logo-wrapper,
+    :global(html:not(.use-standard-cursor) body) #label-name,
+    :global(html:not(.use-standard-cursor) body) #nav-text-menu {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+
     .ui-label {
-    position: fixed;
-    z-index: 10001;
-    font-family: 'JetBrains Mono';
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #fff;
-    mix-blend-mode: difference;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
-    line-height: 1;
-}
- #label-name {
-    top: 45px;
-    left: 35px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor:pointer !important;
-}
+        position: fixed;
+        z-index: 10001;
+        font-family: 'JetBrains Mono';
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #fff;
+        mix-blend-mode: difference;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+        line-height: 1;
+        /* Assicuriamoci che non erediti il cursor: none */
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+
+    #label-name {
+        top: 45px;
+        left: 35px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer !important;
+    }
  #label-name.scrolled {
     transform: translateY(60px);
 }
@@ -52,7 +65,7 @@ const { disableLogoScroll = false } = Astro.props;
    /* Espande l'area sensibile in ogni direzione */
     margin: -30px;
    /* Annulla lo spostamento visivo causato dal padding */
-    cursor: pointer;
+    cursor: pointer !important;
    /* Aggiungi queste due righe per sicurezza */
     display: flex;
     align-items: center;

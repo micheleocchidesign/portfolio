@@ -2,13 +2,13 @@
 // 1. Importiamo il componente Icon
 import { Icon } from 'astro-icon/components';
 // Riceviamo l'ID della sezione di destinazione del click (es. "#beyond-section")
-const { target } = Astro.props;
+const { target, color = "var(--dark-text)" } = Astro.props;
 ---
 
-<div class="scroll-hint">
+<div class="scroll-hint" style={`--hint-color: ${color};`}>
   <a href={target} class="internal-scroll-link">
     <span class="hint-text">KEEEEEEP</span>
-    <Icon name="arrow_cool_down" class="icon-scroll" aria-hidden="true" />
+    <Icon name="arrow_scroll" class="icon-scroll" aria-hidden="true" />
     <span class="hint-text">SCROLLIN'</span>
   </a>
 </div>
@@ -17,12 +17,13 @@ const { target } = Astro.props;
 /* --- SCROLL HINT ARROW --- */
 .scroll-hint {
     position: absolute;
-    bottom: 30px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     animation: scrollBounce 2s infinite;
     white-space: nowrap;
+    color: var(--hint-color) !important;
 }
 
 /* Usiamo i font locali che abbiamo configurato */
@@ -31,7 +32,8 @@ const { target } = Astro.props;
     font-size: 10px;
     letter-spacing: 0.2em;
     font-weight: 400;
-    opacity: 0.8;
+    opacity: 1;
+    color: inherit; /* Segue il colore di .scroll-hint */
 }
 
 .internal-scroll-link {
@@ -41,6 +43,7 @@ const { target } = Astro.props;
     text-decoration: none;
     color: inherit;
     cursor: pointer !important;
+    color: inherit; /* Segue il colore di .scroll-hint */
 }
 
 /* Gestione dell'icona SVG locale */
@@ -48,8 +51,8 @@ const { target } = Astro.props;
     width: 28px;
     height: 28px;
     display: block;
-    /* Se il tuo SVG è nero e lo vuoi bianco, usa filter */
-    filter: invert(1); 
+    color: inherit;
+    fill: currentColor !important;
 }
 
 @keyframes scrollBounce {

@@ -14,11 +14,26 @@ const base = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
         </svg>
     </div>
     <div id="menu-content">
-        {page !== "home" && <a href={base || "/"} class="menu-link">HoME</a>}    
-        <a href={page === "home" ? "#beyond-section" : `${base}/#beyond-section`} class="menu-link">SKILLS</a>
-        <a href={page === "home" ? "#about-section" : `${base}/#about-section`} class="menu-link">ABoUT</a>    
-        {page !== "works" && <a href={`${base}/works/`} class="menu-link">WoRKS</a>}    
-        <a href={page === "home" ? "#contact-section" : `${base}/#contact-section`} class="menu-link">CoNTACT</a>
+    {/* 1. HOME: la mostriamo sempre, tranne quando siamo già in home */}
+    {page !== "home" && (
+        <a href={base || "/"} class="menu-link">HoME</a>
+    )}
+
+    {/* 2. SKILLS e ABOUT: li mostriamo SOLO se NON siamo in mofont */}
+    {page !== "mofont" && (
+        <>
+            <a href={page === "home" ? "#beyond-section" : `${base}/#beyond-section`} class="menu-link">SKILLS</a>
+            <a href={page === "home" ? "#about-section" : `${base}/#about-section`} class="menu-link">ABoUT</a>
+        </>
+    )}
+
+    {/* 3. WORKS: lo mostriamo se non siamo già nella sezione works */}
+    {page !== "works" && (
+        <a href={`${base}/works/`} class="menu-link">WoRKS</a>
+    )}
+
+    {/* 4. CONTACT: lo mostriamo sempre (cambia solo il percorso) */}
+    <a href={page === "home" ? "#contact-section" : `${base}/#contact-section`} class="menu-link">CoNTACT</a>
 </div>
 </div>
 

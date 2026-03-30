@@ -124,13 +124,6 @@ import { Icon } from 'astro-icon/components';
     will-change: transform, opacity; /* Ottimizza le prestazioni dell'animazione */
 }
 /* --- MEDIA QUERIES --- */
-/* --- per dispositivi con puntatore fine (es. mouse) mostriamo il cursore personalizzato --- */
-@media (pointer: fine) {
-    #cursor-container {
-        display: block;
-    }
-}
-/* --- per dispositivi touch nascondiamo il cursore personalizzato --- */
 /* --- MOSTRA solo se c'è un mouse (puntatore fine) --- */
 @media (pointer: fine) {
     #cursor-container {

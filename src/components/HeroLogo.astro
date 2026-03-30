@@ -5,11 +5,15 @@ import ScrollHint from "../components/ScrollHint.astro"
 <section class="hero-container">
     <div id="hero-logo-wrapper">
         <MoLogo MaskId="m-hero"/> 
+        <div class="hero-text">
+                <h1 class="hero-title">Michele Occhi</h1>
+                <p class="hero-subtitle jetbrains">Full-Stack Creative</p>
+            </div>
     </div>
     <div id="gyro-cta">
         <div class="phone-icon"></div><span></span>
     </div>
-    <ScrollHint target="#beyond-section" />
+    <ScrollHint target="#beyond-section" color="var(--dark-text)" />
 </section>
 
 <style>
@@ -29,7 +33,27 @@ import ScrollHint from "../components/ScrollHint.astro"
     transition: transform 0.9s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-.scroll-hint {
-    color: var(dark-text);
+.hero-text {
+    margin-top: 40px; /* Spazio tra logo e testi */
+    text-align: center;
+}
+
+.hero-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark-text);
+    margin: 0;
+    letter-spacing: .1em;
+    line-height: 1;
+}
+
+.hero-subtitle {
+    /* La classe .jetbrains è già definita nel tuo global.css */
+    font-size: 14px;
+    color: var(--dark-text);
+    font-weight: 400;
+    letter-spacing: .08em;
+    margin-top: 8px;
 }
 </style>

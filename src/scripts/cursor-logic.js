@@ -83,24 +83,24 @@ export function initCursorLogic() {
 
             if ((hasPointer || isLink) && !isMenuElement) {
                 cursor.classList.add('is-hovering');
-                document.body.style.cursor = 'pointer';
+                //document.body.style.cursor = 'pointer';
             }
             // Check specifico per vedere i lavori
             if (target.closest('.big-works-link')){
                 cursor.classList.add('is-works-link');
-                document.body.style.cursor = 'pointer';
+                //document.body.style.cursor = 'pointer';
             }
             // Check specifico per email
             if (target.closest('.scrivimi-link') || target.closest('.email-link')) {
                 cursor.classList.add('is-email');
-                document.body.style.cursor = 'pointer';
+                //document.body.style.cursor = 'pointer';
 
             }
         });
 
         document.addEventListener('mouseout', (e) => {
             cursor.classList.remove('is-hovering', 'is-works-link', 'is-email');
-            document.body.style.cursor = 'default';
+            //document.body.style.cursor = 'default';
         });
         // --- //MODIFICA CURSORE SE HOVER SU VIDEO O IFRAME (YouTube) ---
         const videoModules = document.querySelectorAll('.type-youtube, .module video[controls]');        console.log("Moduli YouTube trovati:", videoModules.length); // Deve essere > 0

@@ -35,6 +35,6 @@ modules:
   - type: image_mod
     moduleType: image
     url: /src/img/projects/ominobianco-perfectmatch-stand.jpg
-    format: Quadrato
+    format: quadrato
     title: Una parte dello stand dell'evento in piazza Gae Aulenti
 ---

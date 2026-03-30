@@ -61,25 +61,27 @@
 }
 
 /* --- MEDIA QUERY: POINTER FINE (Desktop/Mouse) --- */
-    @media (pointer: fine) {
-    /* 1. Nascondi il cursore ovunque di base */
+@media (pointer: fine) {
+    /* 1. Invece di nascondere sul body, nascondiamo sull'HTML */
+    /* Ma permettiamo ai figli di sovrascrivere */
+    html:not(.use-standard-cursor), 
     html:not(.use-standard-cursor) body {
         cursor: none !important;
     }
 
-    /* 2. NASCONDI la manina sui link speciali (così vedi solo l'icona custom) */
-    html:not(.use-standard-cursor) .scrivimi-link, 
-    html:not(.use-standard-cursor) .email-link, 
-    html:not(.use-standard-cursor) .big-works-link{
+    /* 2. RIPRISTINO MANINA: La regola atomica */
+    /* Usiamo un selettore universale per "bucare" il comando sopra */
+    html:not(.use-standard-cursor) a, 
+    html:not(.use-standard-cursor) button, 
+    html:not(.use-standard-cursor) #nav-text-menu,
+    html:not(.use-standard-cursor) #nav-logo-wrapper,
+    html:not(.use-standard-cursor) .ui-label {
         cursor: pointer !important;
     }
 
-    /* 3. MOSTRA la manina solo sui link standard o bottoni generici */
-    /* Questo sovrascrive il "cursor: none" generale solo per questi elementi */
-    html:not(.use-standard-cursor) a:not(.scrivimi-link):not(.email-link):not(.big-works-link), 
-    html:not(.use-standard-cursor) button:not(#nav-text-menu) {
-        cursor: pointer !important;
-    }
+    /* 3. Se hai elementi che devono restare senza manina (icone custom) 
+       li elenchiamo qui sotto per nasconderli di nuovo */
+    /* html:not(.use-standard-cursor) .scrivimi-link { cursor: none !important; } */
 
     #gyro-cta {
        display: none !important;

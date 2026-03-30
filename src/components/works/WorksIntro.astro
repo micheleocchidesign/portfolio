@@ -9,9 +9,9 @@ import ScrollHint from "../ScrollHint.astro";
     </h1>
     <div class="works-description description">
         Ogni progetto è un'occasione per <span class="highlight-text"></span>sperimentare, imparare e divertirsi.</span>
-        Con creatività e metodo, anche le sfide apparentamente più complesse si sciolgono
+        Con creatività e metodo, anche le sfide apparentamente più complesse si semplificano e magicamente tutti i pezzi del puzzle si incastrano perfettamente.
     </div>
-    <ScrollHint target="#works-grid" />
+    <ScrollHint target="#works-grid" color="var(--text-light)" />
 </section>
 <style>
 
@@ -53,10 +53,6 @@ import ScrollHint from "../ScrollHint.astro";
     //line-height: 0.8; /* Stringiamo l'interlinea per un look più bold */
     display: block;   /* Assicura che si comporti come un blocco */
     word-break: break-all; /* Sicurezza estrema per non rompere il layout */
-}
-
-#works-intro :global(.scroll-hint) {
-    color: var(--text-light) !important;
 }
 
 .works-description {
