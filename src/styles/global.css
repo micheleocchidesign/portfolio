@@ -206,6 +206,28 @@ html.use-standard-cursor {
        max-width: 100%;
        font-size: 1rem;
    }
+}
+/* --- IL CODICE BUONO PER IL BANNER --- */
 
+/* 1. Forza il cursore a riapparire sopra il banner e l'oscuramento */
+#cookieyes-banner, 
+.cky-consent-container, 
+.cky-overlay,
+.cky-banner-parent {
+    cursor: auto !important;
+}
 
+/* 2. Forza la manina sui tasti del banner */
+.cky-btn, 
+.cky-button,
+.cky-policy,
+.cky-revisit-consent {
+    cursor: pointer !important;
+}
+
+/* 3. Cambia il font MoFont (troppo Bold) con Inter per la leggibilità */
+.cky-consent-container *,
+#cookieyes-banner * {
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    letter-spacing: normal !important;
 }

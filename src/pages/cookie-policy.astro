@@ -1,0 +1,110 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageTransition from '../components/PageTransition.astro';
+import Cursor from '../components/Cursor.astro';
+import Navbar from '../components/Navbar.astro';
+import CursorToggle from '../components/CursorToggle.astro';
+import Menu from '../components/Menu.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout title="Cookie Policy | Michele Occhi">
+
+    <Cursor />
+    <Navbar />
+    <CursorToggle />
+    <Menu page="cookie-policy"/>
+
+    <header id="policy-intro">
+        <h1 class="headline" id="policy-title">
+            <span id="cookie-static">COOKIE</span><br> 
+            <span class="no-wrap">POLICY</span>
+        </h1>
+    </header>
+
+    <main class="policy-body">
+        <div class="container">
+            <div class="cky-wrapper">
+                <script id="cky-cookie-policy" is:inline type="text/javascript" src="https://cdn-cookieyes.com/client_data/068be98cdd46d76ea7d729f29cfac8ca/cookie-policy/script.js"></script>
+            </div>
+        </div>
+    </main>
+
+    <Footer />    
+</MainLayout>
+
+<style>
+    body {
+        background-color: var(--dark-text);
+        margin: 0;
+    }
+
+    /* Header più basso (40-50vh invece di 100vh) */
+    #policy-intro {
+        position: relative;
+        z-index: 2;
+        background-color: var(--dark-text);
+        height: 50vh; 
+        padding: 0 40px;
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        align-items: center; /* Centra il titolo verticalmente nella fascia */
+    }
+
+    #policy-title {
+        color: var(--text-light);
+    }
+
+    #cookie-static {
+        color: var(--accent-coral);
+        display: inline-block;
+        font-family: 'Inter', sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+    }
+
+    /* Body Section */
+    .policy-body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--text-light);
+        color: var(--dark-text);
+        padding: 80px 0 120px 0;
+        min-height: 60vh;
+        position: relative;
+        z-index: 5;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+
+    /* Reset stili CookieYes per Inter */
+    .cky-wrapper :global(.cky-cookie-policy-container),
+    .cky-wrapper :global(.cky-cookie-policy-container *) {
+        font-family: 'Inter', sans-serif !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
+        line-height: 1.6 !important;
+    }
+
+    .cky-wrapper :global(h1), 
+    .cky-wrapper :global(h2) {
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 800 !important;
+        color: var(--accent-coral) !important;
+        text-transform: uppercase !important;
+        margin-top: 2.5rem !important;
+    }
+
+    @media (max-width: 768px) {
+        #policy-intro { 
+            height: 40vh;
+            padding: 0 20px; 
+        }
+        .container { padding: 0 20px; }
+    }
+</style>

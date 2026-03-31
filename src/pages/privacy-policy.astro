@@ -1,0 +1,144 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Cursor from '../components/Cursor.astro';
+import Navbar from '../components/Navbar.astro';
+import CursorToggle from '../components/CursorToggle.astro';
+import Menu from '../components/Menu.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout title="Privacy Policy | Michele Occhi">
+
+    <Cursor />
+    <Navbar />
+    <CursorToggle />
+    <Menu page="privacy-policy"/>
+
+    <header id="policy-intro">
+        <h1 class="headline" id="policy-title">
+            <span id="privacy-static">PRIVACY</span><br> 
+            <span class="no-wrap">POLICY</span>
+        </h1>
+    </header>
+
+    <main class="policy-body">
+        <div class="container">
+            <div class="privacy-content">
+                <section>
+                    <h2>1. Titolare del Trattamento</h2>
+                    <p>Il titolare del trattamento è <strong>Michele Occhi</strong>, P.IVA 14570940966, con sede in Largo Promessi Sposi, 4 - 20142 - Milano. Email di contatto: hello@micheleocchi.com.</p>
+                </section>
+
+                <section>
+                    <h2>2. Dati Raccolti</h2>
+                    <p>Questo sito raccoglie dati tecnici di navigazione (tramite cookie) e dati forniti volontariamente dall'utente tramite email o moduli di contatto (nome, indirizzo email).</p>
+                </section>
+
+                <section>
+                    <h2>3. Finalità e Base Giuridica</h2>
+                    <p>I dati sono trattati per rispondere alle richieste degli utenti e per l'analisi statistica del traffico (in forma anonima). La base giuridica è il consenso dell'interessato o l'esecuzione di misure pre-contrattuali.</p>
+                </section>
+                <section>
+                    <h2>4. Hosting e Infrastruttura</h2>
+                    <p>Il sito web è ospitato sulla piattaforma di cloud computing <strong>Netlify, Inc.</strong>, che garantisce standard di sicurezza conformi al GDPR. I dati tecnici di navigazione necessari per l'erogazione del servizio vengono gestiti attraverso la loro infrastruttura globale.</p>
+                </section>
+
+                <section>
+                    <h2>5. Gestione del Dominio</h2>
+                    <p>Il nome a dominio <strong>micheleocchi.com</strong> è registrato presso <strong>OVH SAS (OVHcloud)</strong>, con sede in Francia. OVH agisce come registrar e fornisce i servizi DNS necessari al corretto funzionamento del sito all'interno dell'Unione Europea.</p>
+                </section>
+
+                <section>
+                    <h2>6. Conservazione e Diritti</h2>
+                    <p>I dati vengono conservati per il tempo necessario a gestire le richieste. In ogni momento, l'utente può richiedere l'accesso, la rettifica o la cancellazione dei propri dati scrivendo all'indirizzo email indicato sopra.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <Footer />    
+</MainLayout>
+
+<style>
+    body {
+        background-color: var(--dark-text);
+        margin: 0;
+    }
+
+    #policy-intro {
+        position: relative;
+        z-index: 2;
+        background-color: var(--dark-text);
+        height: 50vh; 
+        padding: 0 40px;
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        align-items: center;
+    }
+
+    #policy-title {
+        color: var(--text-light);
+        line-height: 0.9;
+    }
+
+    #privacy-static {
+        color: var(--accent-coral);
+        display: inline-block;
+        font-family: 'Inter', sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        font-size: clamp(20px, 4vw, 30px);
+    }
+
+    .no-wrap {
+        font-family: 'MoFont', sans-serif; /* Assicurati che MoFont sia caricato globalmente */
+        font-size: clamp(70px, 20vw, 220px);
+        display: block;
+    }
+
+    .policy-body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--text-light);
+        color: var(--dark-text);
+        padding: 80px 0 120px 0;
+        min-height: 60vh;
+        position: relative;
+        z-index: 5;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+
+    /* Stile testo Privacy */
+    .privacy-content section {
+        margin-bottom: 3rem;
+        max-width: 900px; /* Per una lettura più confortevole */
+    }
+
+    .privacy-content h2 {
+        font-weight: 800;
+        color: var(--accent-coral);
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-content p {
+        line-height: 1.7;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+        #policy-intro { 
+            height: 40vh;
+            padding: 0 20px; 
+        }
+        .container { padding: 0 20px; }
+    }
+</style>
