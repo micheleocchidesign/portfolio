@@ -1,6 +1,9 @@
-local_backend: true
+#local_backend: true
+#backend:
+#  name: test-repo
 backend:
-  name: test-repo
+  name: git-gateway
+  branch: main
 
 # Dove il CMS scrive fisicamente (percorso relativo alla root del progetto)
 media_folder: "src/img/projects"
