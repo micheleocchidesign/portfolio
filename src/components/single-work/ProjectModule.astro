@@ -53,7 +53,12 @@ const iframeClass =
     {/* --- CASO 1: IMMAGINI --- */}
     {type === "image" && (
         link ? (
-            <a href={link} target="_blank" class="module-link">
+            <a 
+                href={link} 
+                target={link.startsWith('http') ? "_blank" : "_self"} 
+                rel={link.startsWith('http') ? "noopener noreferrer" : ""}
+                class="module-link"
+            >
                 {typeof finalSrc === 'object' ? (
                     <Image src={finalSrc} alt={title || ""} width={1600} height={1200} />
                 ) : (
@@ -73,7 +78,12 @@ const iframeClass =
     {type === "video" && (
         /* Applichiamo il link SOLO se è short E c'è un link */
         (isShort && link) ? (
-            <a href={link} target="_blank" class="module-link video-short-link">
+            <a 
+                href={link} 
+                target={link.startsWith('http') ? "_blank" : "_self"} 
+                rel={link.startsWith('http') ? "noopener noreferrer" : ""}
+                class="module-link video-short-link"
+            >
                 <video 
                     src={typeof finalSrc === 'string' ? finalSrc : finalSrc.src} 
                     autoplay 

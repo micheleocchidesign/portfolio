@@ -103,9 +103,6 @@
         line-height: 1.7;
         color: var(--text-light);
     }
-     .highlight-text {
-        color: var(--accent-gold);
-    }
     /* Container della griglia: deve essere un blocco solido */
     .skills-container {
         margin-top: 80px;
@@ -265,8 +262,6 @@
         if (targets[key]) lastHeights[key] = targets[key].offsetHeight;
     });
 
-    console.log("🕵️ Detective attivo. Altezze iniziali:", lastHeights);
-
     window.addEventListener('scroll', () => {
         let changed = false;
         let report = {};
@@ -288,12 +283,9 @@
         });
 
         if (changed) {
-            console.warn("🚨 SALTO RILEVATO NEI FIGLI!");
-            console.table(report); // Crea una bellissima tabella con i colpevoli
-            
             // Verifichiamo anche se c'è un cambio di parola nel decoder
             const currentWord = document.getElementById('dynamic-word')?.innerText;
-            console.log(`Parola attuale nel decoder: "${currentWord}"`);
+    
         }
     }, { passive: true });
 }

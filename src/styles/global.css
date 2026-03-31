@@ -165,6 +165,10 @@ html.use-standard-cursor {
    }
 }
 
+    .highlight-text {
+    color: var(--accent-gold) !important;
+}
+
 /* --- UNIFIED MOBILE MEDIA QUERIES (Max Width 768px) --- */
 @media (max-width: 768px) {
    /* Headline & Typography */
@@ -202,4 +206,6 @@ html.use-standard-cursor {
        max-width: 100%;
        font-size: 1rem;
    }
+
+
 }

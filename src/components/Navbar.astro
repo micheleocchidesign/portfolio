@@ -173,11 +173,20 @@ const { disableLogoScroll = false } = Astro.props;
         // 4. CLICK SU LOGO/NOME
         [nLog, labelName].forEach(el => {
             el?.addEventListener('click', (e) => {
-                const href = el.getAttribute('href') || '';
-                if (isHomePage(href)) {
+                const rawBase = import.meta.env.BASE_URL;
+                const cleanBase = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
+                
+                // Verifichiamo se siamo effettivamente nella ROOT (Home)
+                // Il path della home può essere "" o "/" o "/portfolio"
+                const currentPath = window.location.pathname.replace(/\/$/, ""); // Rimuove slash finale
+                const isActuallyInHome = currentPath === cleanBase || currentPath === (cleanBase || "/");
+
+                if (isActuallyInHome) {
+                    // Se siamo già in Home, scorri solo su
                     e.preventDefault();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                } 
+                // Altrimenti, NON fare nulla: lascia che il browser segua l'href del link
             });
         });
     }

@@ -103,14 +103,13 @@ export function initCursorLogic() {
             //document.body.style.cursor = 'default';
         });
         // --- //MODIFICA CURSORE SE HOVER SU VIDEO O IFRAME (YouTube) ---
-        const videoModules = document.querySelectorAll('.type-youtube, .module video[controls]');        console.log("Moduli YouTube trovati:", videoModules.length); // Deve essere > 0
+        const videoModules = document.querySelectorAll('.type-youtube, .module video[controls]');
         videoModules.forEach((mod, index) => {
             mod.addEventListener('mouseenter', () => {
                 if (cursor) cursor.style.display = "none";
             });
 
             mod.addEventListener('mouseleave', () => {
-                console.log(`MOUSE LEAVE dal modulo ${index}`);
                 if (cursor) cursor.style.display = "block";
             });
         });
