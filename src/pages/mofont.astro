@@ -67,7 +67,8 @@ const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
   /* --- SETUP FONT --- */
   @font-face {
     font-family: 'MoFont';
-    src: url('/fonts/MoFont.woff2') format('woff2'); /* Assicurati che sia in public/fonts/ */
+    /* Usando l'url relativo partendo dalla root */
+    src: url('/fonts/MoFont.woff2') format('woff2'); 
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -128,18 +129,28 @@ const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
   }
 
   #typeTester {
-    width: 100%;
-    min-height: 400px;
-    background: transparent;
-    border: none;
-    color: var(--text-light);
-    font-family: 'MoFont', sans-serif;
-    font-size: 180px;
-    text-align: center;
-    outline: none;
-    resize: none;
-    padding: 60px 0;
-    line-height: 1;
+      width: 100%;
+      min-height: 400px;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      
+      /* FIX DEFINITIVO PER MOBILE */
+      font-family: 'MoFont', sans-serif !important; 
+      -webkit-appearance: none; /* Rimuove stili iOS */
+      appearance: none;
+      
+      font-size: 180px;
+      text-align: center;
+      outline: none;
+      resize: none;
+      padding: 60px 0;
+      line-height: 1;
+      overflow: hidden; /* Evita scrollbar brutte su mobile */
+  }
+  /* Fix per quando ci clicchi dentro (Focus) */
+  #typeTester:focus {
+      font-family: 'MoFont', sans-serif !important;
   }
 
   /* --- CONTROLLI --- */
@@ -198,6 +209,10 @@ const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
     .slider-group, .btn-download {
       justify-self: center;
     }
+    #typeTester {
+    font-size: 50px; /* Dimensione di partenza più umana per il mobile */
+    min-height: 250px;
+  }
   }
 </style>
 

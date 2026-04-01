@@ -207,7 +207,33 @@ html.use-standard-cursor {
        font-size: 1rem;
    }
 }
-/* --- IL CODICE BUONO PER IL BANNER --- */
+/* --- IL CODICE BUONO PER IL BANNER COOKIE --- */
+/* --- FIX ESTETICO COOKIEYES (Inter Font) --- */
+
+/* Applica Inter a tutti i contenitori, bottoni, testi e modal di CookieYes */
+.cky-consent-container, 
+.cky-consent-container *,
+.cky-modal,
+.cky-modal *,
+.cky-btn-revisit-wrapper,
+.cky-btn-revisit-wrapper * {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* Fix specifico per i bottoni (spesso hanno font-family inline) */
+.cky-btn {
+    font-family: 'Inter', sans-serif !important;
+    text-transform: none !important; /* Opzionale: mantiene il testo pulito */
+    letter-spacing: normal !important;
+}
+
+/* Fix per le descrizioni e le tabelle nel pannello preferenze */
+.cky-preference-content-wrapper p,
+.cky-accordion-header-des p,
+.cky-cookie-des-table li div {
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.5 !important;
+}
 
 /* 1. Forza il cursore a riapparire sopra il banner e l'oscuramento */
 #cookieyes-banner, 
