@@ -1,9 +1,12 @@
-#local_backend: true
+
 #backend:
 #  name: test-repo
 backend:
   name: git-gateway
   branch: main
+  publish_mode: editorial_workflow
+
+#local_backend: true
 
 publish_mode: editorial_workflow
 # Dove il CMS scrive fisicamente (percorso relativo alla root del progetto)
