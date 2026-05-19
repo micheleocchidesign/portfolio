@@ -1,4 +1,3 @@
-
 #backend:
 #  name: test-repo
 backend:
@@ -6,7 +5,7 @@ backend:
   branch: main
   publish_mode: editorial_workflow
 
-#local_backend: true
+local_backend: true
 
 publish_mode: editorial_workflow
 # Dove il CMS scrive fisicamente (percorso relativo alla root del progetto)
@@ -63,13 +62,14 @@ collections:
             fields:
               - { label: "Tipo", name: "moduleType", widget: "hidden", default: "image" }
               - { label: "File Immagine", name: "url", widget: "image" }
-              - label: "Formato"
+              - label: "Formato / Proporzioni"
                 name: "format"
                 widget: "select"
+                hint: "Orizzontale occupa tutta la colonna e mantiene le proporzioni native (16:9, 16:3, ecc.). Verticale e Quadrato ritagliano in 'cover'."
                 options:
-                  - { label: "orizzontale", value: "horizontal" }
-                  - { label: "verticale", value: "vertical" }
-                  - { label: "quadrato", value: "square" }
+                  - { label: "orizzontale (proporzioni libere / intero)", value: "horizontal" }
+                  - { label: "verticale (4:5 ritagliato)", value: "vertical" }
+                  - { label: "quadrato (1:1 ritagliato)", value: "square" }
               - { label: "Link Esterno (opzionale)", name: "link", widget: "string", required: false }
               - { label: "Titolo Alt", name: "title", widget: "string", required: false }
 
@@ -80,15 +80,15 @@ collections:
             fields:
               - { label: "Tipo", name: "moduleType", widget: "hidden", default: "video" }
               - { label: "File MP4", name: "url", widget: "file" }
-              - label: "Formato"
+              - label: "Formato / Proporzioni"
                 name: "format"
                 widget: "select"
+                hint: "Orizzontale mantiene le proporzioni native del video senza tagliarlo."
                 options:
-                  - { label: "orizzontale", value: "horizontal" }
-                  - { label: "verticale", value: "vertical" }
-                  - { label: "quadrato", value: "square" }
+                  - { label: "orizzontale (proporzioni libere / intero)", value: "horizontal" }
+                  - { label: "verticale (4:5)", value: "vertical" }
+                  - { label: "quadrato (1:1)", value: "square" }
               - { label: "Variante", name: "variant", widget: "select", options: [{label: "short (Loop/No Audio)", value: "short"}, {label: "case (Con controlli)", value: "case"}] }
-              # --- NUOVO CAMPO LINK AGGIUNTO QUI ---
               - { 
                   label: "Link Esterno (opzionale)", 
                   name: "link", 
@@ -104,12 +104,13 @@ collections:
             fields:
               - { label: "Tipo", name: "moduleType", widget: "hidden", default: "youtube" }
               - { label: "ID Video YouTube", name: "youtubeId", widget: "string", hint: "Solo il codice dopo v=" }
-              - label: "Formato"
+              - label: "Formato / Proporzioni"
                 name: "format"
                 widget: "select"
+                hint: "Nota: Per i video YouTube in formato orizzontale verrà applicato un fallback standard in 16:9."
                 options:
-                  - { label: "orizzontale", value: "horizontal" }
-                  - { label: "verticale", value: "vertical" }
-                  - { label: "quadrato", value: "square" }
+                  - { label: "orizzontale (16:9 standard)", value: "horizontal" }
+                  - { label: "verticale (story / 9:16)", value: "vertical" }
+                  - { label: "quadrato (1:1)", value: "square" }
               - { label: "Variante", name: "variant", widget: "select", options: [{label: "short (Autoplay/Mute)", value: "short"}, {label: "case (Standard)", value: "case"}] }
               - { label: "Mostra Controlli Player", name: "showControls", widget: "boolean", default: false }

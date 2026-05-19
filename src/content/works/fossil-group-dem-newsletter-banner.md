@@ -1,6 +1,6 @@
 ---
 title: "Fossil Group: Digital Assets"
-order: 100
+order: 400
 category: Newsletter, Dem, Banner, Social Media, Website
 client: Fossil Group
 role: Digital Execution Team Leader

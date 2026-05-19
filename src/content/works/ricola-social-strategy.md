@@ -1,6 +1,7 @@
 ---
 title: "Ricola: Social Strategy"
-order: 100
+liveUrl: https://www.instagram.com/ricola_it/
+order: 350
 category: Social Media, Art Direction
 client: Ricola
 role: In-house Art Director @Wave
@@ -10,5 +11,4 @@ description: ""
 externalLink: https://www.waveteam.it/progetti/ricola-social-strategy-2/
 bgImg: /src/img/projects/cover-ricola-social-background.png
 previewImg: /src/img/projects/cover-ricola-social-preview.png
-liveUrl: https://www.instagram.com/ricola_it/
 ---

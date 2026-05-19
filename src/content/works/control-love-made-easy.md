@@ -1,6 +1,6 @@
 ---
 title: "Control: Love Made Easy"
-order: 100
+order: 50
 category: Digital Campaign, Social Media, Art Direction
 client: Control
 role: In-house Art Director @B-Fluid

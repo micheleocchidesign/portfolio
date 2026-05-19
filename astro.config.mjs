@@ -3,13 +3,13 @@ import { defineConfig } from 'astro/config';
 // 1. Importa l'integrazione
 import icon from 'astro-icon';
 
+import sitemap from '@astrojs/sitemap';
+
 const isGithubPages = process.env.GITHUB_ACTIONS === 'true';
 
 export default defineConfig({
   // 2. Aggiungila all'array integrations
-  integrations: [
-    icon(),
-  ],
+  integrations: [icon(), sitemap()],
   // URL finale su Netlify o quello di GitHub
   site: isGithubPages 
     ? 'https://micheleocchidesign.github.io' 

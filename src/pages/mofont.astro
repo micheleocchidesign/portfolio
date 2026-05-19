@@ -71,7 +71,7 @@ const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
     src: url('/fonts/MoFont.woff2') format('woff2'); 
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    font-display: block; 
   }
 
   body{
@@ -136,9 +136,15 @@ const cleanBase = base.endsWith('/') ? base.slice(0, -1) : base;
       color: var(--text-light);
       
       /* FIX DEFINITIVO PER MOBILE */
-      font-family: 'MoFont', sans-serif !important; 
+      font-family: 'MoFont', 'Inter', sans-serif !important; 
       -webkit-appearance: none; /* Rimuove stili iOS */
       appearance: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -webkit-user-modify: read-write-plaintext-only;
+    
+      /* Forza il font anche durante l'editing su Android */
+      font-variant-ligatures: normal;
       
       font-size: 180px;
       text-align: center;

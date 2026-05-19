@@ -1,5 +1,6 @@
 ---
 title: "Omino Bianco: The Perfect Match"
+order: 200
 category: Creative Concept, Art Direction, Event, Social
 client: Omino Bianco
 role: In-house Digital Art Director @ Wave

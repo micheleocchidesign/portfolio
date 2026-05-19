@@ -1,6 +1,6 @@
 ---
 title: "Fanta: Fun Generation"
-order: 100
+order: 300
 category: Digital Campaign, Social Media, Art Direction
 client: Fanta
 role: In-house Art Director @Wave

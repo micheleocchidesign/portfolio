@@ -132,8 +132,27 @@ const iframeClass =
 
 /* Formati del Container */
 .module--square { aspect-ratio: 1 / 1; }
-.module--horizontal { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
 .module--vertical { aspect-ratio: 4 / 5; }
+.module--horizontal { 
+    grid-column: 1 / -1; 
+    width: 100%;
+    aspect-ratio: unset; 
+    height: auto;        
+}
+
+/* AGGIUNGI QUESTO: Forza YouTube a 16:9 solo nel formato orizzontale */
+.module--horizontal .video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Fallback necessario per gli iframe */
+    height: auto;
+}
+
+/* Mantieni il comportamento libero per immagini e video file */
+.module--horizontal img,
+.module--horizontal video {
+    height: auto;
+    object-fit: contain;
+}
 
 /* Comportamento Media standard */
 .module img, 

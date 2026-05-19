@@ -11,7 +11,7 @@
       client: z.string(),
       role: z.string(),
       agency: z.string().optional(),
-      agencyUrl: z.string().url().optional(), // <--- AGGIUNTO QUI!
+      agencyUrl: z.string().url().optional().or(z.literal('')),
       
       extraInfo: z.array(z.object({
         label: z.string(),
@@ -32,7 +32,7 @@
         link: z.string().optional(),
       })).optional(),
       
-      externalLink: z.string().url().optional(),
+      externalLink: z.string().url().optional().or(z.literal('')),
     }),
   });
 

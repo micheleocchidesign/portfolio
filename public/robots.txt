@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Proteggi la tua area admin
+Disallow: /admin/
+Disallow: /admin
+
+# Indica la strada per la sitemap
+Sitemap: https://micheleocchi.com/sitemap-index.xml
